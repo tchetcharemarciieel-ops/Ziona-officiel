@@ -25,7 +25,8 @@ Des pièces sobres, modernes et intemporelles, pensées pour s’exprimer sans e
 Créer des marques qui vont à l’essentiel :
 moins de bruit, plus de sens, plus d’impact.
 
----
+---<a href="j/index.html">Visiter la boutique J</a>
+
 
 ## Contact
 📩 Email : tchetcharemarciieel@gmail.com  
