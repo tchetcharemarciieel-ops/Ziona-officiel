@@ -1,119 +1,242 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>ZIONA — Entreprise multifonction</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body { margin: 0; font-family: Arial, sans-serif; background: #f5f5f5; color: #333; }
-    header { background: #000; color: #fff; padding: 40px 20px; text-align: center; }
-    header h1 { margin: 0; font-size: 48px; letter-spacing: 6px; }
-    header p { font-size: 18px; max-width: 600px; margin: 10px auto 0; }
+<meta charset="UTF-8">
+<title>Boutique J — ZIONA</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    h2 { text-align: center; margin: 40px 0 20px 0; font-size: 32px; }
-    .products { display: flex; flex-wrap: wrap; justify-content: center; padding: 0 20px 20px 20px; gap: 20px; }
-    .product { background: #fff; padding: 15px; border-radius: 10px; width: 220px; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: transform 0.2s; }
-    .product:hover { transform: translateY(-5px); }
-    .product img { width: 100%; border-radius: 8px; }
-    .product h3 { margin: 10px 0 5px 0; }
-    .product p { margin: 5px 0; font-weight: bold; }
-    .product button { margin-top: 10px; padding: 10px 15px; background: #000; color: #fff; border: none; cursor: pointer; border-radius: 5px; transition: background 0.2s; }
-    .product button:hover { background: #444; }
-
-    #cart { position: fixed; top: 20px; right: 20px; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); width: 280px; max-height: 80vh; overflow-y: auto; }
-    #cart h2 { margin-top: 0; font-size: 22px; text-align: center; }
-    .cart-item { display: flex; justify-content: space-between; margin-bottom: 10px; }
-    .cart-item button { background: red; border: none; color: #fff; cursor: pointer; padding: 2px 6px; border-radius: 3px; }
-    #cart p { font-weight: bold; text-align: center; margin-top: 10px; }
-
-    footer { text-align: center; padding: 20px; background: #000; color: #fff; margin-top: 50px; }
-
-    @media (max-width: 600px) {
-      .products { flex-direction: column; align-items: center; }
-      #cart { width: 90%; right: 5%; }
-    }
-  </style>
+<style>
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:#f6f6f6;
+  color:#111;
+}
+header{
+  background:#000;
+  color:#fff;
+  padding:15px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+header h1{
+  margin:0;
+  font-size:22px;
+}
+.cart{
+  background:#fff;
+  color:#000;
+  padding:6px 14px;
+  border-radius:20px;
+  font-weight:bold;
+}
+.container{
+  padding:20px;
+}
+.products{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+.product{
+  background:#fff;
+  border-radius:10px;
+  padding:15px;
+  text-align:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+.product img{
+  width:100%;
+  border-radius:8px;
+}
+.product h3{
+  margin:10px 0 5px;
+}
+.product p{
+  margin:0;
+  color:#555;
+}
+button{
+  margin-top:10px;
+  padding:10px;
+  width:100%;
+  border:none;
+  background:#000;
+  color:#fff;
+  font-weight:bold;
+  border-radius:6px;
+  cursor:pointer;
+  transition:0.2s;
+}
+button:hover{
+  background:#444;
+}
+section{
+  margin-top:40px;
+}
+.review{
+  background:#fff;
+  padding:15px;
+  border-radius:8px;
+  margin-bottom:10px;
+}
+#cart{
+  position:fixed;
+  top:20px;
+  right:20px;
+  background:#fff;
+  padding:20px;
+  border-radius:10px;
+  box-shadow:0 4px 12px rgba(0,0,0,.2);
+  width:280px;
+  max-height:80vh;
+  overflow-y:auto;
+}
+#cart h2{
+  margin-top:0;
+  text-align:center;
+}
+.cart-item{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:10px;
+}
+.cart-item button{
+  background:red;
+  border:none;
+  color:#fff;
+  cursor:pointer;
+  padding:2px 6px;
+  border-radius:3px;
+}
+#cart p{
+  font-weight:bold;
+  text-align:center;
+  margin-top:10px;
+}
+footer{
+  background:#000;
+  color:#fff;
+  padding:20px;
+  margin-top:40px;
+  text-align:center;
+}
+@media(max-width:600px){
+  .products{
+    grid-template-columns:1fr;
+  }
+  #cart{
+    width:90%;
+    right:5%;
+  }
+}
+</style>
 </head>
+
 <body>
 
 <header>
-  <h1>ZIONA</h1>
-  <p>ZIONA est une entreprise multifonction qui développe des marques modernes dans différents domaines : mode, digital et création.</p>
+  <h1>Boutique J — ZIONA</h1>
+  <div class="cart">🛒 Panier (0)</div>
 </header>
 
-<h2>Boutique J — Vêtements minimalistes</h2>
+<div class="container">
+
+<h2>Nos produits</h2>
 <div class="products">
   <div class="product">
-    <img src="https://i.ibb.co/2sYQjP0/tshirt1.png" alt="T-shirt Blanc">
+    <img src="https://via.placeholder.com/300x300?text=T-shirt+Blanc" alt="T-shirt Blanc">
     <h3>T-shirt Blanc</h3>
-    <p>25€</p>
-    <button onclick="addToCart('T-shirt Blanc', 25)">Ajouter au panier</button>
+    <p>15 000 FCFA</p>
+    <button onclick="addToCart('T-shirt Blanc',15000)">Ajouter au panier</button>
   </div>
   <div class="product">
-    <img src="https://i.ibb.co/6bD2n8B/tshirt2.png" alt="T-shirt Noir">
-    <h3>T-shirt Noir</h3>
-    <p>25€</p>
-    <button onclick="addToCart('T-shirt Noir', 25)">Ajouter au panier</button>
+    <img src="https://via.placeholder.com/300x300?text=Hoodie+Noir" alt="Hoodie Noir">
+    <h3>Hoodie Noir</h3>
+    <p>30 000 FCFA</p>
+    <button onclick="addToCart('Hoodie Noir',30000)">Ajouter au panier</button>
   </div>
   <div class="product">
-    <img src="https://i.ibb.co/6W7Hc5L/cap.png" alt="Casquette">
+    <img src="https://via.placeholder.com/300x300?text=Casquette" alt="Casquette">
     <h3>Casquette</h3>
-    <p>15€</p>
-    <button onclick="addToCart('Casquette', 15)">Ajouter au panier</button>
+    <p>10 000 FCFA</p>
+    <button onclick="addToCart('Casquette',10000)">Ajouter au panier</button>
   </div>
   <div class="product">
-    <img src="https://i.ibb.co/wzR6q5C/hoodie.png" alt="Hoodie">
-    <h3>Hoodie</h3>
-    <p>40€</p>
-    <button onclick="addToCart('Hoodie', 40)">Ajouter au panier</button>
-  </div>
-  <div class="product">
-    <img src="https://i.ibb.co/7vYzJ1v/socks.png" alt="Chaussettes">
+    <img src="https://via.placeholder.com/300x300?text=Chaussettes" alt="Chaussettes">
     <h3>Chaussettes</h3>
-    <p>10€</p>
-    <button onclick="addToCart('Chaussettes', 10)">Ajouter au panier</button>
+    <p>5 000 FCFA</p>
+    <button onclick="addToCart('Chaussettes',5000)">Ajouter au panier</button>
   </div>
+</div>
+
+<section>
+<h2>Avis clients ⭐⭐⭐⭐⭐</h2>
+<div class="review"><b>Jean M.</b><br>Super qualité, livraison rapide, je recommande !</div>
+<div class="review"><b>Amina K.</b><br>Hoodie parfait, confortable et stylé 😍</div>
+<div class="review"><b>Chris D.</b><br>Service client très réactif, je rachèterai !</div>
+</section>
+
+<section>
+<h2>Nous contacter</h2>
+<p>📧 Email : tchetcharemarciieel@gmail.com</p>
+<p>📱 WhatsApp : 72947165</p>
+<p>📍 ZIONA — Entreprise multifonction</p>
+</section>
+
 </div>
 
 <div id="cart">
   <h2>Panier</h2>
   <div id="cart-items"></div>
-  <p>Total : €<span id="cart-total">0</span></p>
+  <p>Total : FCFA <span id="cart-total">0</span></p>
+  <button onclick="payOM()">Payer avec Orange Money</button>
 </div>
 
 <footer>
-  ZIONA © 2026 — Tous droits réservés | Contact : tchetcharemarciieel@gmail.com
+© 2026 ZIONA — Boutique J
 </footer>
 
 <script>
-  let cart = [];
-  function addToCart(name, price) {
-    cart.push({name, price});
-    updateCart();
+let cart=[];
+function addToCart(name,price){
+  cart.push({name,price});
+  updateCart();
+}
+function removeFromCart(index){
+  cart.splice(index,1);
+  updateCart();
+}
+function updateCart(){
+  const cartItems=document.getElementById('cart-items');
+  const cartTotal=document.getElementById('cart-total');
+  cartItems.innerHTML='';
+  let total=0;
+  cart.forEach((item,index)=>{
+    total+=item.price;
+    const div=document.createElement('div');
+    div.className='cart-item';
+    div.innerHTML=`${item.name} - FCFA ${item.price} <button onclick="removeFromCart(${index})">X</button>`;
+    cartItems.appendChild(div);
+  });
+  cartTotal.innerText=total;
+  document.querySelector('.cart').innerText=`🛒 Panier (${cart.length})`;
+}
+function payOM(){
+  if(cart.length===0){
+    alert('Votre panier est vide');
+    return;
   }
-  function removeFromCart(index) {
-    cart.splice(index,1);
-    updateCart();
-  }
-  function updateCart() {
-    const cartItems = document.getElementById('cart-items');
-    const cartTotal = document.getElementById('cart-total');
-    cartItems.innerHTML = '';
-    let total=0;
-    cart.forEach((item,index)=>{
-      total+=item.price;
-      const div=document.createElement('div');
-      div.className='cart-item';
-      div.innerHTML=`${item.name} - €${item.price} <button onclick="removeFromCart(${index})">X</button>`;
-      cartItems.appendChild(div);
-    });
-    cartTotal.innerText=total;
-  }
+  let total=cart.reduce((s,i)=>s+i.price,0);
+  let products=cart.map(i=>i.name).join(',');
+  // Remplace ce lien par ton lien OM officiel marchand
+  window.location.href=`https://om-payment.com/pay?amount=${total}&products=${encodeURIComponent(products)}`;
+}
 </script>
 
 </body>
 </html>
-
 
 
     
