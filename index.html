@@ -8,7 +8,7 @@
 body{margin:0;font-family:Arial, Helvetica, sans-serif;background:#f6f6f6;color:#111;}
 header{background:#000;color:#fff;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;}
 header h1{margin:0;font-size:22px;}
-.cart{background:#fff;color:#000;padding:6px 14px;border-radius:20px;font-weight:bold;cursor:pointer;}
+.cart, .account-btn{background:#fff;color:#000;padding:6px 14px;border-radius:20px;font-weight:bold;cursor:pointer;margin-left:10px;}
 nav{margin-top:10px;text-align:center;}
 nav button{margin:0 5px;padding:8px 12px;border:none;background:#000;color:#fff;border-radius:6px;cursor:pointer;}
 .container{padding:20px;}
@@ -22,22 +22,18 @@ button.add{margin-top:10px;padding:10px;width:100%;border:none;background:#000;c
 button.add:hover{background:#444;}
 section{margin-top:40px;}
 .review{background:#fff;padding:15px;border-radius:8px;margin-bottom:10px;}
-#cart{position:fixed;top:20px;right:20px;background:#fff;padding:20px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,.2);width:300px;max-height:80vh;overflow-y:auto;display:none;z-index:1000;}
-#cart h2{margin-top:0;text-align:center;}
-.cart-item{display:flex;justify-content:space-between;margin-bottom:10px;}
-.cart-item button{background:red;border:none;color:#fff;cursor:pointer;padding:2px 6px;border-radius:3px;}
-#cart p{text-align:center;font-weight:bold;margin-top:10px;}
-footer{background:#000;color:#fff;padding:20px;margin-top:40px;text-align:center;}
+#cart,#accountModal,#authModal,#verifyModal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);display:flex;justify-content:center;align-items:center;z-index:9999;}
+.modal-content{background:#fff;padding:25px;border-radius:10px;width:320px;text-align:center;}
+#cartContent,#ordersList{max-height:300px;overflow-y:auto;margin-top:10px;text-align:left;}
 input, select{padding:10px;margin:6px 0;width:100%;border-radius:6px;border:1px solid #ccc;}
 button{cursor:pointer;}
-#authModal, #verifyModal, #paymentModal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);display:flex;justify-content:center;align-items:center;z-index:9999;}
-.modal-content{background:#fff;padding:25px;border-radius:10px;width:320px;text-align:center;}
+#cart{display:none;z-index:1000;width:300px;top:80px;right:20px;position:fixed;}
 @media(max-width:600px){.products{grid-template-columns:1fr;}#cart{width:90%;right:5%;}}
 </style>
 </head>
 <body>
 
-<!-- MODAL AUTH -->
+<!-- MODAL CREATION COMPTE -->
 <div id="authModal">
   <div class="modal-content">
     <h2>Créer un compte</h2>
@@ -54,7 +50,7 @@ button{cursor:pointer;}
   </div>
 </div>
 
-<!-- MODAL VERIFICATION CODE -->
+<!-- MODAL VERIFICATION -->
 <div id="verifyModal" style="display:none;">
   <div class="modal-content">
     <h2>Vérification</h2>
@@ -64,9 +60,46 @@ button{cursor:pointer;}
   </div>
 </div>
 
+<!-- MODAL PANIER -->
+<div id="cart">
+  <div class="modal-content">
+    <h2>Panier</h2>
+    <div id="cartContent"></div>
+    <p>Total : FCFA <span id="cart-total">0</span></p>
+    <label>Mode de livraison :
+      <select id="deliveryMode">
+        <option value="standard">Standard</option>
+        <option value="express">Express +2 000 FCFA</option>
+      </select>
+    </label>
+    <br><br>
+    <button onclick="payOM()">Payer avec Orange Money</button>
+    <br><br>
+    <button onclick="toggleCart()">Fermer</button>
+  </div>
+</div>
+
+<!-- MODAL ESPACE CLIENT -->
+<div id="accountModal" style="display:none;">
+  <div class="modal-content">
+    <h2>Mon compte</h2>
+    <p><b>Nom :</b> <span id="accName"></span></p>
+    <p><b>WhatsApp :</b> <span id="accPhone"></span></p>
+    <p><b>Ville :</b> <span id="accCity"></span></p>
+    <h3>Historique commandes</h3>
+    <div id="ordersList">Aucune commande pour le moment</div>
+    <br>
+    <button onclick="logout()">Se déconnecter</button>
+    <button onclick="closeAccount()">Fermer</button>
+  </div>
+</div>
+
 <header>
   <h1>Boutique J — ZIONA</h1>
-  <div class="cart" onclick="toggleCart()">🛒 Panier (0)</div>
+  <div>
+    <span class="account-btn" onclick="openAccount()">Mon compte</span>
+    <span class="cart" onclick="toggleCart()">🛒 Panier (0)</span>
+  </div>
 </header>
 
 <nav>
@@ -84,9 +117,9 @@ button{cursor:pointer;}
 <section>
 <h2>Avis clients ⭐⭐⭐⭐⭐</h2>
 <div id="reviews">
-  <div class="review"><b>Jean M. (Bangui)</b><br>Super qualité, livraison rapide en 2 jours. Je recommande vivement !</div>
-  <div class="review"><b>Amina K. (Yaoundé)</b><br>Hoodie parfait, confortable et stylé 😍. Livraison en 3 jours.</div>
-  <div class="review"><b>Chris D. (Douala)</b><br>Service client très réactif, j’ai reçu ma commande rapidement !</div>
+  <div class="review"><b>Jean M. (Bangui)</b><br>Super qualité, livraison rapide en 2 jours. Je recommande !</div>
+  <div class="review"><b>Amina K. (Yaoundé)</b><br>Hoodie parfait, confortable et stylé 😍.</div>
+  <div class="review"><b>Chris D. (Douala)</b><br>Service client réactif, commande reçue rapidement !</div>
 </div>
 </section>
 
@@ -104,28 +137,15 @@ button{cursor:pointer;}
 </section>
 </div>
 
-<div id="cart">
-  <h2>Panier</h2>
-  <div id="cart-items"></div>
-  <p>Total : FCFA <span id="cart-total">0</span></p>
-  <label>Mode de livraison :
-    <select id="deliveryMode">
-      <option value="standard">Standard</option>
-      <option value="express">Express</option>
-    </select>
-  </label>
-  <br><br>
-  <button onclick="payOM()">Payer avec Orange Money</button>
-</div>
-
 <footer>
 © 2026 ZIONA — Boutique J
 </footer>
 
 <script>
-/* ======= AUTH + CODE SMS ======= */
+// ----------------- CLIENT -----------------
 let client = JSON.parse(localStorage.getItem("clientZIONA"));
 let codeGenerated;
+let orders = JSON.parse(localStorage.getItem("ordersZIONA")) || [];
 
 if(client){document.getElementById("authModal").style.display="none";}
 
@@ -134,8 +154,8 @@ function sendCode(){
   const phone = document.getElementById("clientPhone").value.trim();
   const city = document.getElementById("clientCity").value;
   if(!name||!phone||!city){alert("Remplissez tous les champs");return;}
-  codeGenerated = Math.floor(100000+Math.random()*900000); // code à 6 chiffres
-  alert("Code envoyé sur votre WhatsApp : "+codeGenerated); // simulation SMS
+  codeGenerated = Math.floor(100000+Math.random()*900000);
+  alert("Code envoyé sur WhatsApp : "+codeGenerated);
   localStorage.setItem("pendingClient", JSON.stringify({name,phone,city}));
   document.getElementById("authModal").style.display="none";
   document.getElementById("verifyModal").style.display="flex";
@@ -148,16 +168,54 @@ function verifyCode(){
     localStorage.setItem("clientZIONA", JSON.stringify(client));
     document.getElementById("verifyModal").style.display="none";
     alert("Compte validé ✅ Bienvenue "+client.name);
-  }else{alert("Code incorrect, réessayez");}
+  }else{alert("Code incorrect");}
 }
 
-/* ======= PRODUITS ======= */
+function openAccount(){
+  if(!client){alert("Veuillez créer un compte");return;}
+  document.getElementById("accountModal").style.display="flex";
+  document.getElementById("accName").innerText = client.name;
+  document.getElementById("accPhone").innerText = client.phone;
+  document.getElementById("accCity").innerText = client.city;
+  updateOrdersList();
+}
+
+function closeAccount(){document.getElementById("accountModal").style.display="none";}
+function logout(){localStorage.removeItem("clientZIONA");client=null;alert("Vous êtes déconnecté");location.reload();}
+
+function updateOrdersList(){
+  const div = document.getElementById("ordersList");
+  if(orders.length===0){div.innerHTML="Aucune commande pour le moment";}
+  else{div.innerHTML="";orders.forEach((o,i)=>{
+    const p=document.createElement("p");
+    p.innerText=`${i+1}. ${o.products} - FCFA ${o.total} - ${o.delivery}`;
+    div.appendChild(p);
+  });}
+}
+
+// ----------------- PRODUITS -----------------
 const products=[
 {name:'T-shirt Blanc',price:15000,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Blanc',details:'Taille: S/M/L, 100% coton'},
+{name:'T-shirt Noir',price:16000,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Noir',details:'Taille: S/M/L, 100% coton'},
+{name:'T-shirt Rouge',price:15500,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Rouge',details:'Taille: S/M/L, 100% coton'},
+{name:'T-shirt Bleu',price:15500,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Bleu',details:'Taille: S/M/L, 100% coton'},
 {name:'Hoodie Noir',price:30000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Noir',details:'Taille: M/L, molleton'},
-{name:'Casquette Rouge',price:10000,category:'casquette',img:'https://via.placeholder.com/300x300?text=Casquette+Rouge',details:'Taille unique'},
+{name:'Hoodie Gris',price:29000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Gris',details:'Taille: M/L, molleton'},
+{name:'Hoodie Rouge',price:31000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Rouge',details:'Taille: M/L, molleton'},
+{name:'Hoodie Bleu',price:32000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Bleu',details:'Taille: M/L, molleton'},
+{name:'Casquette Noire',price:10000,category:'casquette',img:'https://via.placeholder.com/300x300?text=Casquette+Noire',details:'Taille unique'},
+{name:'Casquette Blanche',price:10500,category:'casquette',img:'https://via.placeholder.com/300x300?text=Casquette+Blanche',details:'Taille unique'},
+{name:'Casquette Rouge',price:11000,category:'casquette',img:'https://via.placeholder.com/300x300?text=Casquette+Rouge',details:'Taille unique'},
+{name:'Casquette Bleue',price:11500,category:'casquette',img:'https://via.placeholder.com/300x300?text=Casquette+Bleue',details:'Taille unique'},
 {name:'Chaussettes Courtes',price:5000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Courtes',details:'Pack de 3 paires'},
-{name:'Casque Audio',price:20000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Casque+Audio',details:'Couleur noire'}];
+{name:'Chaussettes Longues',price:6000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Longues',details:'Pack de 3 paires'},
+{name:'Chaussettes Colorées',price:7000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Colorées',details:'Pack de 3 paires'},
+{name:'Chaussettes Noires',price:5000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Noires',details:'Pack de 3 paires'},
+{name:'Casque Audio',price:20000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Casque+Audio',details:'Couleur noire'},
+{name:'Sac à dos',price:25000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Sac+à+dos',details:'20L, noir'},
+{name:'Montre Sport',price:18000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Montre+Sport',details:'Résistante à l’eau'},
+{name:'Lunettes Soleil',price:15000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Lunettes+Soleil',details:'UV400 protection')}
+];
 
 let cart=[];
 function displayProducts(category='all'){
@@ -179,10 +237,14 @@ function displayProducts(category='all'){
 function filterCategory(cat){displayProducts(cat);}
 displayProducts();
 
-function addToCart(name,price){if(!client){alert("Veuillez créer un compte");return;}cart.push({name,price});updateCart();}
+function addToCart(name,price){
+  if(!client){alert("Veuillez créer un compte");return;}
+  cart.push({name,price});
+  updateCart();
+}
 function removeFromCart(i){cart.splice(i,1);updateCart();}
 function updateCart(){
-  const items=document.getElementById('cart-items');
+  const items=document.getElementById('cartContent');
   const totalSpan=document.getElementById('cart-total');
   items.innerHTML='';
   let total=0;
@@ -196,35 +258,25 @@ function updateCart(){
   totalSpan.innerText=total;
   document.querySelector('.cart').innerText=`🛒 Panier (${cart.length})`;
 }
-function toggleCart(){const c=document.getElementById('cart');c.style.display=(c.style.display==='none'?'block':'none');}
+function toggleCart(){const c=document.getElementById('cart');c.style.display=(c.style.display==='none'?'flex':'none');}
 
-/* ======= PAIEMENT ======= */
+// Paiement OM simulé
 function payOM(){
   if(!client){alert("Veuillez créer un compte");return;}
   if(cart.length===0){alert("Votre panier est vide");return;}
   const delivery = document.getElementById("deliveryMode").value;
   let total = cart.reduce((s,i)=>s+i.price,0);
-  if(delivery==="express") total += 2000;
-  let productsList = cart.map(i=>i.name).join(",");
-  window.location.href =
-  `https://om-payment.com/pay?amount=${total}&client=${encodeURIComponent(client.name)}&phone=${encodeURIComponent(client.phone)}&city=${encodeURIComponent(client.city)}&delivery=${delivery}&products=${encodeURIComponent(productsList)}`;
+  if(delivery==="express") total+=2000;
+  let productsList = cart.map(i=>i.name).join(", ");
+  alert(`Paiement Orange Money simulé ✅\nMontant : FCFA ${total}\nProduits : ${productsList}\nClient : ${client.name}`);
+  // Sauvegarde commande
+  orders.push({products:productsList,total,delivery});
+  localStorage.setItem("ordersZIONA",JSON.stringify(orders));
+  cart=[];updateCart();
 }
 </script>
 </body>
 </html>
-
-
-
-
-
- 
-
-
-
-
-
-
-
 
 
 
