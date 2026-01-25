@@ -2,27 +2,80 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Tchetchare Shop</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boutique J — ZIONA</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-body{font-family:Arial;background:#f5f5f5;margin:0}
-header{background:#111;color:#fff;padding:15px;text-align:center}
-section{padding:15px}
-.card{background:#fff;border-radius:8px;padding:10px;margin-bottom:12px}
-.btn{background:#ff7900;color:#fff;padding:10px;border:none;border-radius:6px;width:100%;font-size:16px}
-input,select{width:100%;padding:10px;margin:6px 0;border-radius:6px;border:1px solid #ccc}
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
-.product{background:#fff;padding:10px;border-radius:8px;text-align:center}
-footer{background:#111;color:#fff;padding:15px;text-align:center;font-size:14px}
-.hidden{display:none}
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background: linear-gradient(135deg, #ffb347, #ffcc33);
+    color:#111;
+}
+header{
+    background:rgba(0,0,0,0.8);
+    color:#fff;
+    padding:20px;
+    text-align:center;
+}
+header h1{
+    margin:0;
+    font-size:36px;
+    letter-spacing:3px;
+}
+section{
+    padding:20px;
+}
+.card{
+    background:#fff;
+    border-radius:10px;
+    padding:15px;
+    margin-bottom:15px;
+    box-shadow:0 4px 6px rgba(0,0,0,0.1);
+}
+input, select, button{
+    width:100%;
+    padding:10px;
+    margin:6px 0;
+    border-radius:6px;
+    border:1px solid #ccc;
+}
+button{
+    background:#ff7900;
+    color:#fff;
+    border:none;
+    cursor:pointer;
+    font-weight:bold;
+}
+.products{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:15px;
+}
+.product{
+    background:#fff;
+    border-radius:10px;
+    padding:10px;
+    text-align:center;
+    box-shadow:0 3px 6px rgba(0,0,0,0.1);
+}
+.product img{
+    width:100%;
+    border-radius:6px;
+}
+footer{
+    text-align:center;
+    background:rgba(0,0,0,0.8);
+    color:#fff;
+    padding:15px;
+}
+.hidden{display:none;}
 </style>
 </head>
-
 <body>
 
 <header>
-<h2>TCHETCHARE SHOP</h2>
-<p>Mode urbaine – Bangui | Douala | Yaoundé</p>
+<h1>Boutique J</h1>
+<p>ZIONA — Mode urbaine • Livraison Bangui | Douala | Yaoundé</p>
 </header>
 
 <!-- INSCRIPTION RAPIDE -->
@@ -34,7 +87,7 @@ footer{background:#111;color:#fff;padding:15px;text-align:center;font-size:14px}
 <option value="+237">🇨🇲 +237</option>
 </select>
 <input type="tel" id="phone" placeholder="Numéro Orange Money">
-<button class="btn" onclick="login()">Continuer</button>
+<button onclick="login()">Entrer dans la boutique</button>
 <p style="font-size:13px;color:#555">Aucun mot de passe • Inscription instantanée</p>
 </div>
 </section>
@@ -44,8 +97,7 @@ footer{background:#111;color:#fff;padding:15px;text-align:center;font-size:14px}
 <div class="card">
 <h3>Espace client</h3>
 <p>Connecté avec : <b id="clientNum"></b></p>
-<p>📦 Livraison : 24–48h</p>
-<p>🕒 Horaires : Lun–Sam 8h–19h</p>
+<p>Nombre de commandes : <b id="orderCount">0</b></p>
 </div>
 </section>
 
@@ -66,22 +118,16 @@ footer{background:#111;color:#fff;padding:15px;text-align:center;font-size:14px}
 <!-- PRODUITS -->
 <section>
 <h3>Produits populaires</h3>
-<div class="products">
-<script>
-const products = [
-"T‑shirt Noir","T‑shirt Blanc","T‑shirt Oversize","Hoodie Noir","Hoodie Gris",
-"Casquette Logo","Casquette Street","Jean Slim","Pantalon Cargo","Sac Urbain",
-"T‑shirt Graphique","Hoodie Street","Casquette Premium","Pantalon Jogging",
-"Sac Banane","T‑shirt Rouge","T‑shirt Bleu","Hoodie Blanc","Casquette Classique","Accessoire Mode"
-];
-products.forEach(p=>{
-document.write(`<div class="product">
-<p><b>${p}</b></p>
-<p>Prix : 7 500 FCFA</p>
-<button class="btn" onclick="order('${p}')">Commander</button>
-</div>`);
-});
-</script>
+<div class="products" id="products"></div>
+</section>
+
+<!-- PANIER -->
+<section>
+<div class="card">
+<h3>Panier</h3>
+<div id="cartItems"></div>
+<p>Total : <b><span id="total">0</span> FCFA</b></p>
+<button onclick="pay()">Payer via WhatsApp</button>
 </div>
 </section>
 
@@ -95,46 +141,110 @@ document.write(`<div class="product">
 </div>
 </section>
 
-<!-- PAIEMENT -->
-<section>
-<div class="card">
-<h3>Paiement</h3>
-<p>✔ Orange Money accepté</p>
-<p>Le paiement se fait directement avec notre équipe sur WhatsApp</p>
-</div>
-</section>
-
 <footer>
-<p>📲 WhatsApp commande : <b>+237 72 94 71 65</b></p>
-<p>© 2026 Tchetchare Shop</p>
+<p>📲 Commande WhatsApp : <b>+236 72947165</b></p>
+<p>© 2026 J — ZIONA</p>
 </footer>
 
 <script>
+let client = localStorage.getItem("client") || "";
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let orderCount = parseInt(localStorage.getItem("orderCount")) || 0;
+
+const products = [
+{name:"T-shirt Noir",price:15000},
+{name:"T-shirt Blanc",price:15000},
+{name:"T-shirt Rouge",price:15500},
+{name:"T-shirt Bleu",price:15500},
+{name:"Hoodie Noir",price:30000},
+{name:"Hoodie Gris",price:29000},
+{name:"Hoodie Rouge",price:31000},
+{name:"Hoodie Bleu",price:32000},
+{name:"Casquette Noire",price:10000},
+{name:"Casquette Blanche",price:10500},
+{name:"Casquette Rouge",price:11000},
+{name:"Casquette Bleue",price:11500},
+{name:"Chaussettes Noires",price:5000},
+{name:"Chaussettes Blanches",price:5000},
+{name:"Chaussettes Longues",price:6000},
+{name:"Chaussettes Colorées",price:7000},
+{name:"Pack T-shirt J",price:28000},
+{name:"Pack Hoodie J",price:58000},
+{name:"Casquette Premium",price:15000},
+{name:"Pack Chaussettes J",price:12000},
+];
+
+const productsDiv = document.getElementById("products");
+function showProducts(){
+    productsDiv.innerHTML="";
+    products.forEach(p=>{
+        productsDiv.innerHTML+=`
+        <div class="product">
+            <img src="https://via.placeholder.com/150?text=${encodeURIComponent(p.name)}">
+            <p><b>${p.name}</b></p>
+            <p>${p.price} FCFA</p>
+            <button onclick="addToCart('${p.name}',${p.price})">Ajouter</button>
+        </div>`;
+    });
+}
+showProducts();
+
+// LOGIN SIMPLE
 function login(){
-const code=document.getElementById("code").value;
-const phone=document.getElementById("phone").value;
-if(phone.length<6){alert("Numéro invalide");return;}
-localStorage.setItem("client",code+phone);
-document.getElementById("clientNum").innerText=code+phone;
-document.getElementById("register").style.display="none";
-document.getElementById("client").classList.remove("hidden");
+    const code=document.getElementById("code").value;
+    const phone=document.getElementById("phone").value;
+    if(phone.length<6){alert("Numéro invalide"); return;}
+    client=code+phone;
+    localStorage.setItem("client",client);
+    document.getElementById("clientNum").innerText=client;
+    document.getElementById("register").style.display="none";
+    document.getElementById("client").classList.remove("hidden");
+    updateCart();
 }
 
-function order(product){
-const num=localStorage.getItem("client") || "";
-window.location.href=`https://wa.me/23772947165?text=Bonjour%20je%20veux%20commander%20${product}%20-%20Numéro:%20${num}`;
+// PANIER
+function addToCart(name,price){
+    cart.push({name,price});
+    localStorage.setItem("cart",JSON.stringify(cart));
+    updateCart();
+}
+function updateCart(){
+    const cartDiv=document.getElementById("cartItems");
+    cartDiv.innerHTML="";
+    let total=0;
+    cart.forEach(item=>{
+        total+=item.price;
+        cartDiv.innerHTML+=`<p>${item.name} - ${item.price} FCFA</p>`;
+    });
+    document.getElementById("total").innerText=total;
 }
 
+// COMMANDER WHATSAPP
+function pay(){
+    if(cart.length===0){alert("Panier vide");return;}
+    orderCount++;
+    localStorage.setItem("orderCount",orderCount);
+    document.getElementById("orderCount").innerText=orderCount;
+
+    let msg=`Bonjour, je souhaite commander :%0A`;
+    cart.forEach(i=>msg+=`- ${i.name} (${i.price} FCFA)%0A`);
+    msg+=`Total : ${document.getElementById("total").innerText} FCFA%0AClient : ${client}`;
+    window.location.href=`https://wa.me/23672947165?text=${msg}`;
+}
+
+// RESTAURATION PANIER ET ESPACE CLIENT
 window.onload=()=>{
-const num=localStorage.getItem("client");
-if(num){
-document.getElementById("clientNum").innerText=num;
-document.getElementById("register").style.display="none";
-document.getElementById("client").classList.remove("hidden");
-}
+    if(client){
+        document.getElementById("clientNum").innerText=client;
+        document.getElementById("register").style.display="none";
+        document.getElementById("client").classList.remove("hidden");
+    }
+    updateCart();
+    document.getElementById("orderCount").innerText=orderCount;
 }
 </script>
 
 </body>
 </html>
+
 
