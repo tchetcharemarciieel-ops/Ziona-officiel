@@ -30,18 +30,18 @@ section{margin-top:40px;}
 footer{background:#000;color:#fff;padding:20px;margin-top:40px;text-align:center;}
 input, select{padding:10px;margin:6px 0;width:100%;border-radius:6px;border:1px solid #ccc;}
 button{cursor:pointer;}
-#authModal, #paymentModal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);display:flex;justify-content:center;align-items:center;z-index:9999;}
+#authModal, #verifyModal, #paymentModal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);display:flex;justify-content:center;align-items:center;z-index:9999;}
 .modal-content{background:#fff;padding:25px;border-radius:10px;width:320px;text-align:center;}
 @media(max-width:600px){.products{grid-template-columns:1fr;}#cart{width:90%;right:5%;}}
 </style>
 </head>
 <body>
 
-<!-- MODAL AUTHENTIFICATION -->
+<!-- MODAL AUTH -->
 <div id="authModal">
   <div class="modal-content">
-    <h2>Accès Boutique J</h2>
-    <p>Veuillez créer un compte pour continuer</p>
+    <h2>Créer un compte</h2>
+    <p>Entrez vos informations pour accéder à la boutique</p>
     <input id="clientName" placeholder="Nom complet">
     <input id="clientPhone" placeholder="WhatsApp (+236...)">
     <select id="clientCity">
@@ -50,7 +50,17 @@ button{cursor:pointer;}
       <option>Yaoundé</option>
       <option>Douala</option>
     </select>
-    <button onclick="saveClient()">Continuer vers la boutique</button>
+    <button onclick="sendCode()">Recevoir le code</button>
+  </div>
+</div>
+
+<!-- MODAL VERIFICATION CODE -->
+<div id="verifyModal" style="display:none;">
+  <div class="modal-content">
+    <h2>Vérification</h2>
+    <p>Entrez le code envoyé sur votre numéro</p>
+    <input id="smsCode" placeholder="Code à 6 chiffres">
+    <button onclick="verifyCode()">Valider</button>
   </div>
 </div>
 
@@ -84,11 +94,11 @@ button{cursor:pointer;}
 <h2>Contact & Livraison</h2>
 <p>📧 Email : tchetcharemarciieel@gmail.com</p>
 <p>📱 WhatsApp : 72947165</p>
-<p>📍 Livraisons disponibles :</p>
+<p>📍 Livraisons :</p>
 <ul>
-<li>Bangui : Livraison standard 24-48h, express 12-24h, frais 2 000 - 3 500 FCFA</li>
-<li>Yaoundé : Livraison standard 2-3 jours, express 1-2 jours, frais 3 000 - 5 000 FCFA</li>
-<li>Douala : Livraison standard 2-3 jours, express 1-2 jours, frais 3 000 - 5 000 FCFA</li>
+<li>Bangui : Standard 24-48h, Express 12-24h, 2 000-3 500 FCFA</li>
+<li>Yaoundé : Standard 2-3 jours, Express 1-2 jours, 3 000-5 000 FCFA</li>
+<li>Douala : Standard 2-3 jours, Express 1-2 jours, 3 000-5 000 FCFA</li>
 </ul>
 <p>🕒 Horaires : Lun-Ven 9h-18h, Samedi 10h-16h</p>
 </section>
@@ -113,17 +123,32 @@ button{cursor:pointer;}
 </footer>
 
 <script>
-/* ======= AUTH ======= */
+/* ======= AUTH + CODE SMS ======= */
 let client = JSON.parse(localStorage.getItem("clientZIONA"));
-if(client) document.getElementById("authModal").style.display="none";
-function saveClient(){
+let codeGenerated;
+
+if(client){document.getElementById("authModal").style.display="none";}
+
+function sendCode(){
   const name = document.getElementById("clientName").value.trim();
   const phone = document.getElementById("clientPhone").value.trim();
   const city = document.getElementById("clientCity").value;
-  if(!name||!phone||!city){alert("Veuillez remplir tous les champs");return;}
-  client = {name, phone, city};
-  localStorage.setItem("clientZIONA", JSON.stringify(client));
+  if(!name||!phone||!city){alert("Remplissez tous les champs");return;}
+  codeGenerated = Math.floor(100000+Math.random()*900000); // code à 6 chiffres
+  alert("Code envoyé sur votre WhatsApp : "+codeGenerated); // simulation SMS
+  localStorage.setItem("pendingClient", JSON.stringify({name,phone,city}));
   document.getElementById("authModal").style.display="none";
+  document.getElementById("verifyModal").style.display="flex";
+}
+
+function verifyCode(){
+  const code = document.getElementById("smsCode").value.trim();
+  if(code==codeGenerated){
+    client = JSON.parse(localStorage.getItem("pendingClient"));
+    localStorage.setItem("clientZIONA", JSON.stringify(client));
+    document.getElementById("verifyModal").style.display="none";
+    alert("Compte validé ✅ Bienvenue "+client.name);
+  }else{alert("Code incorrect, réessayez");}
 }
 
 /* ======= PRODUITS ======= */
@@ -131,7 +156,8 @@ const products=[
 {name:'T-shirt Blanc',price:15000,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Blanc',details:'Taille: S/M/L, 100% coton'},
 {name:'Hoodie Noir',price:30000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Noir',details:'Taille: M/L, molleton'},
 {name:'Casquette Rouge',price:10000,category:'casquette',img:'https://via.placeholder.com/300x300?text=Casquette+Rouge',details:'Taille unique'},
-{name:'Chaussettes Courtes',price:5000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Courtes',details:'Pack de 3 paires'}];
+{name:'Chaussettes Courtes',price:5000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Courtes',details:'Pack de 3 paires'},
+{name:'Casque Audio',price:20000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Casque+Audio',details:'Couleur noire'}];
 
 let cart=[];
 function displayProducts(category='all'){
@@ -153,7 +179,7 @@ function displayProducts(category='all'){
 function filterCategory(cat){displayProducts(cat);}
 displayProducts();
 
-function addToCart(name,price){if(!client){alert("Veuillez créer un compte pour ajouter au panier");return;}cart.push({name,price});updateCart();}
+function addToCart(name,price){if(!client){alert("Veuillez créer un compte");return;}cart.push({name,price});updateCart();}
 function removeFromCart(i){cart.splice(i,1);updateCart();}
 function updateCart(){
   const items=document.getElementById('cart-items');
@@ -178,778 +204,27 @@ function payOM(){
   if(cart.length===0){alert("Votre panier est vide");return;}
   const delivery = document.getElementById("deliveryMode").value;
   let total = cart.reduce((s,i)=>s+i.price,0);
-  if(delivery==="express") total += 2000; // frais express
+  if(delivery==="express") total += 2000;
   let productsList = cart.map(i=>i.name).join(",");
   window.location.href =
   `https://om-payment.com/pay?amount=${total}&client=${encodeURIComponent(client.name)}&phone=${encodeURIComponent(client.phone)}&city=${encodeURIComponent(client.city)}&delivery=${delivery}&products=${encodeURIComponent(productsList)}`;
 }
 </script>
-
 </body>
 </html>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>Boutique J — ZIONA</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-body{margin:0;font-family:Arial, Helvetica, sans-serif;background:#f6f6f6;color:#111;}
-header{background:#000;color:#fff;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;}
-header h1{margin:0;font-size:22px;}
-.cart{background:#fff;color:#000;padding:6px 14px;border-radius:20px;font-weight:bold;cursor:pointer;}
-nav{margin-top:10px;text-align:center;}
-nav button{margin:0 5px;padding:8px 12px;border:none;background:#000;color:#fff;border-radius:6px;cursor:pointer;}
-.container{padding:20px;}
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;}
-.product{background:#fff;border-radius:10px;padding:15px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.1);}
-.product img{width:100%;border-radius:8px;}
-.product h3{margin:10px 0 5px;}
-.product p{margin:0;color:#555;}
-.product .details{font-size:14px;color:#333;margin:5px 0;}
-button.add{margin-top:10px;padding:10px;width:100%;border:none;background:#000;color:#fff;font-weight:bold;border-radius:6px;cursor:pointer;transition:0.2s;}
-button.add:hover{background:#444;}
-section{margin-top:40px;}
-.review{background:#fff;padding:15px;border-radius:8px;margin-bottom:10px;}
-#cart{position:fixed;top:20px;right:20px;background:#fff;padding:20px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,.2);width:300px;max-height:80vh;overflow-y:auto;display:none;z-index:1000;}
-#cart h2{margin-top:0;text-align:center;}
-.cart-item{display:flex;justify-content:space-between;margin-bottom:10px;}
-.cart-item button{background:red;border:none;color:#fff;cursor:pointer;padding:2px 6px;border-radius:3px;}
-#cart p{text-align:center;font-weight:bold;margin-top:10px;}
-footer{background:#000;color:#fff;padding:20px;margin-top:40px;text-align:center;}
-input, select{padding:10px;margin:6px 0;width:100%;border-radius:6px;border:1px solid #ccc;}
-button{cursor:pointer;}
-#authModal, #paymentModal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);display:flex;justify-content:center;align-items:center;z-index:9999;}
-.modal-content{background:#fff;padding:25px;border-radius:10px;width:320px;text-align:center;}
-@media(max-width:600px){.products{grid-template-columns:1fr;}#cart{width:90%;right:5%;}}
-</style>
-</head>
-<body>
 
-<!-- MODAL AUTHENTIFICATION -->
-<div id="authModal">
-  <div class="modal-content">
-    <h2>Accès Boutique J</h2>
-    <p>Veuillez créer un compte pour continuer</p>
-    <input id="clientName" placeholder="Nom complet">
-    <input id="clientPhone" placeholder="WhatsApp (+236...)">
-    <select id="clientCity">
-      <option value="">Choisir votre ville</option>
-      <option>Bangui</option>
-      <option>Yaoundé</option>
-      <option>Douala</option>
-    </select>
-    <button onclick="saveClient()">Continuer vers la boutique</button>
-  </div>
-</div>
 
-<header>
-  <h1>Boutique J — ZIONA</h1>
-  <div class="cart" onclick="toggleCart()">🛒 Panier (0)</div>
-</header>
 
-<nav>
-  <button onclick="filterCategory('all')">Tout</button>
-  <button onclick="filterCategory('tshirt')">T-shirts</button>
-  <button onclick="filterCategory('hoodie')">Hoodies</button>
-  <button onclick="filterCategory('casquette')">Casquettes</button>
-  <button onclick="filterCategory('chaussettes')">Chaussettes</button>
-  <button onclick="filterCategory('accessoire')">Accessoires</button>
-</nav>
 
-<div class="container">
-<div class="products" id="product-list"></div>
-
-<section>
-<h2>Avis clients ⭐⭐⭐⭐⭐</h2>
-<div id="reviews">
-  <div class="review"><b>Jean M. (Bangui)</b><br>Super qualité, livraison rapide en 2 jours. Je recommande vivement !</div>
-  <div class="review"><b>Amina K. (Yaoundé)</b><br>Hoodie parfait, confortable et stylé 😍. Livraison en 3 jours.</div>
-  <div class="review"><b>Chris D. (Douala)</b><br>Service client très réactif, j’ai reçu ma commande rapidement !</div>
-</div>
-</section>
-
-<section>
-<h2>Contact & Livraison</h2>
-<p>📧 Email : tchetcharemarciieel@gmail.com</p>
-<p>📱 WhatsApp : 72947165</p>
-<p>📍 Livraisons disponibles :</p>
-<ul>
-<li>Bangui : Livraison standard 24-48h, express 12-24h, frais 2 000 - 3 500 FCFA</li>
-<li>Yaoundé : Livraison standard 2-3 jours, express 1-2 jours, frais 3 000 - 5 000 FCFA</li>
-<li>Douala : Livraison standard 2-3 jours, express 1-2 jours, frais 3 000 - 5 000 FCFA</li>
-</ul>
-<p>🕒 Horaires : Lun-Ven 9h-18h, Samedi 10h-16h</p>
-</section>
-</div>
-
-<div id="cart">
-  <h2>Panier</h2>
-  <div id="cart-items"></div>
-  <p>Total : FCFA <span id="cart-total">0</span></p>
-  <label>Mode de livraison :
-    <select id="deliveryMode">
-      <option value="standard">Standard</option>
-      <option value="express">Express</option>
-    </select>
-  </label>
-  <br><br>
-  <button onclick="payOM()">Payer avec Orange Money</button>
-</div>
-
-<footer>
-© 2026 ZIONA — Boutique J
-</footer>
-
-<script>
-/* ======= AUTH ======= */
-let client = JSON.parse(localStorage.getItem("clientZIONA"));
-if(client) document.getElementById("authModal").style.display="none";
-function saveClient(){
-  const name = document.getElementById("clientName").value.trim();
-  const phone = document.getElementById("clientPhone").value.trim();
-  const city = document.getElementById("clientCity").value;
-  if(!name||!phone||!city){alert("Veuillez remplir tous les champs");return;}
-  client = {name, phone, city};
-  localStorage.setItem("clientZIONA", JSON.stringify(client));
-  document.getElementById("authModal").style.display="none";
-}
-
-/* ======= PRODUITS ======= */
-const products=[
-{name:'T-shirt Blanc',price:15000,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Blanc',details:'Taille: S/M/L, 100% coton'},
-{name:'Hoodie Noir',price:30000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Noir',details:'Taille: M/L, molleton'},
-{name:'Casquette Rouge',price:10000,category:'casquette',img:'https://via.placeholder.com/300x300?text=Casquette+Rouge',details:'Taille unique'},
-{name:'Chaussettes Courtes',price:5000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Courtes',details:'Pack de 3 paires'}];
-
-let cart=[];
-function displayProducts(category='all'){
-  const list=document.getElementById('product-list');
-  list.innerHTML='';
-  products.forEach(p=>{
-    if(category==='all'||p.category===category){
-      const div=document.createElement('div');
-      div.className='product';
-      div.innerHTML=`<img src="${p.img}" alt="${p.name}">
-        <h3>${p.name}</h3>
-        <div class="details">${p.details}</div>
-        <p>FCFA ${p.price}</p>
-        <button class="add" onclick="addToCart('${p.name}',${p.price})">Ajouter au panier</button>`;
-      list.appendChild(div);
-    }
-  });
-}
-function filterCategory(cat){displayProducts(cat);}
-displayProducts();
-
-function addToCart(name,price){if(!client){alert("Veuillez créer un compte pour ajouter au panier");return;}cart.push({name,price});updateCart();}
-function removeFromCart(i){cart.splice(i,1);updateCart();}
-function updateCart(){
-  const items=document.getElementById('cart-items');
-  const totalSpan=document.getElementById('cart-total');
-  items.innerHTML='';
-  let total=0;
-  cart.forEach((item,i)=>{
-    total+=item.price;
-    const div=document.createElement('div');
-    div.className='cart-item';
-    div.innerHTML=`${item.name} - FCFA ${item.price} <button onclick="removeFromCart(${i})">X</button>`;
-    items.appendChild(div);
-  });
-  totalSpan.innerText=total;
-  document.querySelector('.cart').innerText=`🛒 Panier (${cart.length})`;
-}
-function toggleCart(){const c=document.getElementById('cart');c.style.display=(c.style.display==='none'?'block':'none');}
-
-/* ======= PAIEMENT ======= */
-function payOM(){
-  if(!client){alert("Veuillez créer un compte");return;}
-  if(cart.length===0){alert("Votre panier est vide");return;}
-  const delivery = document.getElementById("deliveryMode").value;
-  let total = cart.reduce((s,i)=>s+i.price,0);
-  if(delivery==="express") total += 2000; // frais express
-  let productsList = cart.map(i=>i.name).join(",");
-  window.location.href =
-  `https://om-payment.com/pay?amount=${total}&client=${encodeURIComponent(client.name)}&phone=${encodeURIComponent(client.phone)}&city=${encodeURIComponent(client.city)}&delivery=${delivery}&products=${encodeURIComponent(productsList)}`;
-}
-</script>
-
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>Boutique J — ZIONA</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-body{margin:0;font-family:Arial, Helvetica, sans-serif;background:#f6f6f6;color:#111;}
-header{background:#000;color:#fff;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;}
-header h1{margin:0;font-size:22px;}
-.cart{background:#fff;color:#000;padding:6px 14px;border-radius:20px;font-weight:bold;cursor:pointer;}
-nav{margin-top:10px;text-align:center;}
-nav button{margin:0 5px;padding:8px 12px;border:none;background:#000;color:#fff;border-radius:6px;cursor:pointer;}
-.container{padding:20px;}
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;}
-.product{background:#fff;border-radius:10px;padding:15px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.1);}
-.product img{width:100%;border-radius:8px;}
-.product h3{margin:10px 0 5px;}
-.product p{margin:0;color:#555;}
-.product .details{font-size:14px;color:#333;margin:5px 0;}
-button.add{margin-top:10px;padding:10px;width:100%;border:none;background:#000;color:#fff;font-weight:bold;border-radius:6px;cursor:pointer;transition:0.2s;}
-button.add:hover{background:#444;}
-section{margin-top:40px;}
-.review{background:#fff;padding:15px;border-radius:8px;margin-bottom:10px;}
-#cart{position:fixed;top:20px;right:20px;background:#fff;padding:20px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,.2);width:300px;max-height:80vh;overflow-y:auto;display:none;z-index:1000;}
-#cart h2{margin-top:0;text-align:center;}
-.cart-item{display:flex;justify-content:space-between;margin-bottom:10px;}
-.cart-item button{background:red;border:none;color:#fff;cursor:pointer;padding:2px 6px;border-radius:3px;}
-#cart p{text-align:center;font-weight:bold;margin-top:10px;}
-footer{background:#000;color:#fff;padding:20px;margin-top:40px;text-align:center;}
-input, select{padding:10px;margin:6px 0;width:100%;border-radius:6px;border:1px solid #ccc;}
-button{cursor:pointer;}
-#authModal, #paymentModal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);display:flex;justify-content:center;align-items:center;z-index:9999;}
-.modal-content{background:#fff;padding:25px;border-radius:10px;width:320px;text-align:center;}
-@media(max-width:600px){.products{grid-template-columns:1fr;}#cart{width:90%;right:5%;}}
-</style>
-</head>
-<body>
-
-<!-- MODAL AUTHENTIFICATION -->
-<div id="authModal">
-  <div class="modal-content">
-    <h2>Accès Boutique J</h2>
-    <p>Veuillez créer un compte pour continuer</p>
-    <input id="clientName" placeholder="Nom complet">
-    <input id="clientPhone" placeholder="WhatsApp (+236...)">
-    <select id="clientCity">
-      <option value="">Choisir votre ville</option>
-      <option>Bangui</option>
-      <option>Yaoundé</option>
-      <option>Douala</option>
-    </select>
-    <button onclick="saveClient()">Continuer vers la boutique</button>
-  </div>
-</div>
-
-<header>
-  <h1>Boutique J — ZIONA</h1>
-  <div class="cart" onclick="toggleCart()">🛒 Panier (0)</div>
-</header>
-
-<nav>
-  <button onclick="filterCategory('all')">Tout</button>
-  <button onclick="filterCategory('tshirt')">T-shirts</button>
-  <button onclick="filterCategory('hoodie')">Hoodies</button>
-  <button onclick="filterCategory('casquette')">Casquettes</button>
-  <button onclick="filterCategory('chaussettes')">Chaussettes</button>
-  <button onclick="filterCategory('accessoire')">Accessoires</button>
-</nav>
-
-<div class="container">
-<div class="products" id="product-list"></div>
-
-<section>
-<h2>Avis clients ⭐⭐⭐⭐⭐</h2>
-<div id="reviews">
-  <div class="review"><b>Jean M. (Bangui)</b><br>Super qualité, livraison rapide en 2 jours. Je recommande vivement !</div>
-  <div class="review"><b>Amina K. (Yaoundé)</b><br>Hoodie parfait, confortable et stylé 😍. Livraison en 3 jours.</div>
-  <div class="review"><b>Chris D. (Douala)</b><br>Service client très réactif, j’ai reçu ma commande rapidement !</div>
-</div>
-</section>
-
-<section>
-<h2>Contact & Livraison</h2>
-<p>📧 Email : tchetcharemarciieel@gmail.com</p>
-<p>📱 WhatsApp : 72947165</p>
-<p>📍 Livraisons disponibles :</p>
-<ul>
-<li>Bangui : Livraison standard 24-48h, express 12-24h, frais 2 000 - 3 500 FCFA</li>
-<li>Yaoundé : Livraison standard 2-3 jours, express 1-2 jours, frais 3 000 - 5 000 FCFA</li>
-<li>Douala : Livraison standard 2-3 jours, express 1-2 jours, frais 3 000 - 5 000 FCFA</li>
-</ul>
-<p>🕒 Horaires : Lun-Ven 9h-18h, Samedi 10h-16h</p>
-</section>
-</div>
-
-<div id="cart">
-  <h2>Panier</h2>
-  <div id="cart-items"></div>
-  <p>Total : FCFA <span id="cart-total">0</span></p>
-  <label>Mode de livraison :
-    <select id="deliveryMode">
-      <option value="standard">Standard</option>
-      <option value="express">Express</option>
-    </select>
-  </label>
-  <br><br>
-  <button onclick="payOM()">Payer avec Orange Money</button>
-</div>
-
-<footer>
-© 2026 ZIONA — Boutique J
-</footer>
-
-<script>
-/* ======= AUTH ======= */
-let client = JSON.parse(localStorage.getItem("clientZIONA"));
-if(client) document.getElementById("authModal").style.display="none";
-function saveClient(){
-  const name = document.getElementById("clientName").value.trim();
-  const phone = document.getElementById("clientPhone").value.trim();
-  const city = document.getElementById("clientCity").value;
-  if(!name||!phone||!city){alert("Veuillez remplir tous les champs");return;}
-  client = {name, phone, city};
-  localStorage.setItem("clientZIONA", JSON.stringify(client));
-  document.getElementById("authModal").style.display="none";
-}
-
-/* ======= PRODUITS ======= */
-const products=[
-{name:'T-shirt Blanc',price:15000,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Blanc',details:'Taille: S/M/L, 100% coton'},
-{name:'Hoodie Noir',price:30000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Noir',details:'Taille: M/L, molleton'},
-{name:'Casquette Rouge',price:10000,category:'casquette',img:'https://via.placeholder.com/300x300?text=Casquette+Rouge',details:'Taille unique'},
-{name:'Chaussettes Courtes',price:5000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Courtes',details:'Pack de 3 paires'}];
-
-let cart=[];
-function displayProducts(category='all'){
-  const list=document.getElementById('product-list');
-  list.innerHTML='';
-  products.forEach(p=>{
-    if(category==='all'||p.category===category){
-      const div=document.createElement('div');
-      div.className='product';
-      div.innerHTML=`<img src="${p.img}" alt="${p.name}">
-        <h3>${p.name}</h3>
-        <div class="details">${p.details}</div>
-        <p>FCFA ${p.price}</p>
-        <button class="add" onclick="addToCart('${p.name}',${p.price})">Ajouter au panier</button>`;
-      list.appendChild(div);
-    }
-  });
-}
-function filterCategory(cat){displayProducts(cat);}
-displayProducts();
-
-function addToCart(name,price){if(!client){alert("Veuillez créer un compte pour ajouter au panier");return;}cart.push({name,price});updateCart();}
-function removeFromCart(i){cart.splice(i,1);updateCart();}
-function updateCart(){
-  const items=document.getElementById('cart-items');
-  const totalSpan=document.getElementById('cart-total');
-  items.innerHTML='';
-  let total=0;
-  cart.forEach((item,i)=>{
-    total+=item.price;
-    const div=document.createElement('div');
-    div.className='cart-item';
-    div.innerHTML=`${item.name} - FCFA ${item.price} <button onclick="removeFromCart(${i})">X</button>`;
-    items.appendChild(div);
-  });
-  totalSpan.innerText=total;
-  document.querySelector('.cart').innerText=`🛒 Panier (${cart.length})`;
-}
-function toggleCart(){const c=document.getElementById('cart');c.style.display=(c.style.display==='none'?'block':'none');}
-
-/* ======= PAIEMENT ======= */
-function payOM(){
-  if(!client){alert("Veuillez créer un compte");return;}
-  if(cart.length===0){alert("Votre panier est vide");return;}
-  const delivery = document.getElementById("deliveryMode").value;
-  let total = cart.reduce((s,i)=>s+i.price,0);
-  if(delivery==="express") total += 2000; // frais express
-  let productsList = cart.map(i=>i.name).join(",");
-  window.location.href =
-  `https://om-payment.com/pay?amount=${total}&client=${encodeURIComponent(client.name)}&phone=${encodeURIComponent(client.phone)}&city=${encodeURIComponent(client.city)}&delivery=${delivery}&products=${encodeURIComponent(productsList)}`;
-}
-</script>
-
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>Boutique J — ZIONA</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-body{margin:0;font-family:Arial, Helvetica, sans-serif;background:#f6f6f6;color:#111;}
-header{background:#000;color:#fff;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;}
-header h1{margin:0;font-size:22px;}
-.cart{background:#fff;color:#000;padding:6px 14px;border-radius:20px;font-weight:bold;cursor:pointer;}
-nav{margin-top:10px;text-align:center;}
-nav button{margin:0 5px;padding:8px 12px;border:none;background:#000;color:#fff;border-radius:6px;cursor:pointer;}
-.container{padding:20px;}
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;}
-.product{background:#fff;border-radius:10px;padding:15px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.1);}
-.product img{width:100%;border-radius:8px;}
-.product h3{margin:10px 0 5px;}
-.product p{margin:0;color:#555;}
-.product .details{font-size:14px;color:#333;margin:5px 0;}
-button.add{margin-top:10px;padding:10px;width:100%;border:none;background:#000;color:#fff;font-weight:bold;border-radius:6px;cursor:pointer;transition:0.2s;}
-button.add:hover{background:#444;}
-section{margin-top:40px;}
-.review{background:#fff;padding:15px;border-radius:8px;margin-bottom:10px;}
-#cart{position:fixed;top:20px;right:20px;background:#fff;padding:20px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,.2);width:300px;max-height:80vh;overflow-y:auto;display:none;z-index:1000;}
-#cart h2{margin-top:0;text-align:center;}
-.cart-item{display:flex;justify-content:space-between;margin-bottom:10px;}
-.cart-item button{background:red;border:none;color:#fff;cursor:pointer;padding:2px 6px;border-radius:3px;}
-#cart p{text-align:center;font-weight:bold;margin-top:10px;}
-footer{background:#000;color:#fff;padding:20px;margin-top:40px;text-align:center;}
-input, select{padding:10px;margin:6px 0;width:100%;border-radius:6px;border:1px solid #ccc;}
-button{cursor:pointer;}
-#authModal, #paymentModal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);display:flex;justify-content:center;align-items:center;z-index:9999;}
-.modal-content{background:#fff;padding:25px;border-radius:10px;width:320px;text-align:center;}
-@media(max-width:600px){.products{grid-template-columns:1fr;}#cart{width:90%;right:5%;}}
-</style>
-</head>
-<body>
-
-<!-- MODAL AUTHENTIFICATION -->
-<div id="authModal">
-  <div class="modal-content">
-    <h2>Accès Boutique J</h2>
-    <p>Veuillez créer un compte pour continuer</p>
-    <input id="clientName" placeholder="Nom complet">
-    <input id="clientPhone" placeholder="WhatsApp (+236...)">
-    <select id="clientCity">
-      <option value="">Choisir votre ville</option>
-      <option>Bangui</option>
-      <option>Yaoundé</option>
-      <option>Douala</option>
-    </select>
-    <button onclick="saveClient()">Continuer vers la boutique</button>
-  </div>
-</div>
-
-<header>
-  <h1>Boutique J — ZIONA</h1>
-  <div class="cart" onclick="toggleCart()">🛒 Panier (0)</div>
-</header>
-
-<nav>
-  <button onclick="filterCategory('all')">Tout</button>
-  <button onclick="filterCategory('tshirt')">T-shirts</button>
-  <button onclick="filterCategory('hoodie')">Hoodies</button>
-  <button onclick="filterCategory('casquette')">Casquettes</button>
-  <button onclick="filterCategory('chaussettes')">Chaussettes</button>
-  <button onclick="filterCategory('accessoire')">Accessoires</button>
-</nav>
-
-<div class="container">
-<div class="products" id="product-list"></div>
-
-<section>
-<h2>Avis clients ⭐⭐⭐⭐⭐</h2>
-<div id="reviews">
-  <div class="review"><b>Jean M. (Bangui)</b><br>Super qualité, livraison rapide en 2 jours. Je recommande vivement !</div>
-  <div class="review"><b>Amina K. (Yaoundé)</b><br>Hoodie parfait, confortable et stylé 😍. Livraison en 3 jours.</div>
-  <div class="review"><b>Chris D. (Douala)</b><br>Service client très réactif, j’ai reçu ma commande rapidement !</div>
-</div>
-</section>
-
-<section>
-<h2>Contact & Livraison</h2>
-<p>📧 Email : tchetcharemarciieel@gmail.com</p>
-<p>📱 WhatsApp : 72947165</p>
-<p>📍 Livraisons disponibles :</p>
-<ul>
-<li>Bangui : Livraison standard 24-48h, express 12-24h, frais 2 000 - 3 500 FCFA</li>
-<li>Yaoundé : Livraison standard 2-3 jours, express 1-2 jours, frais 3 000 - 5 000 FCFA</li>
-<li>Douala : Livraison standard 2-3 jours, express 1-2 jours, frais 3 000 - 5 000 FCFA</li>
-</ul>
-<p>🕒 Horaires : Lun-Ven 9h-18h, Samedi 10h-16h</p>
-</section>
-</div>
-
-<div id="cart">
-  <h2>Panier</h2>
-  <div id="cart-items"></div>
-  <p>Total : FCFA <span id="cart-total">0</span></p>
-  <label>Mode de livraison :
-    <select id="deliveryMode">
-      <option value="standard">Standard</option>
-      <option value="express">Express</option>
-    </select>
-  </label>
-  <br><br>
-  <button onclick="payOM()">Payer avec Orange Money</button>
-</div>
-
-<footer>
-© 2026 ZIONA — Boutique J
-</footer>
-
-<script>
-/* ======= AUTH ======= */
-let client = JSON.parse(localStorage.getItem("clientZIONA"));
-if(client) document.getElementById("authModal").style.display="none";
-function saveClient(){
-  const name = document.getElementById("clientName").value.trim();
-  const phone = document.getElementById("clientPhone").value.trim();
-  const city = document.getElementById("clientCity").value;
-  if(!name||!phone||!city){alert("Veuillez remplir tous les champs");return;}
-  client = {name, phone, city};
-  localStorage.setItem("clientZIONA", JSON.stringify(client));
-  document.getElementById("authModal").style.display="none";
-}
-
-/* ======= PRODUITS ======= */
-const products=[
-{name:'T-shirt Blanc',price:15000,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Blanc',details:'Taille: S/M/L, 100% coton'},
-{name:'Hoodie Noir',price:30000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Noir',details:'Taille: M/L, molleton'},
-{name:'Casquette Rouge',price:10000,category:'casquette',img:'https://via.placeholder.com/300x300?text=Casquette+Rouge',details:'Taille unique'},
-{name:'Chaussettes Courtes',price:5000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Courtes',details:'Pack de 3 paires'}];
-
-let cart=[];
-function displayProducts(category='all'){
-  const list=document.getElementById('product-list');
-  list.innerHTML='';
-  products.forEach(p=>{
-    if(category==='all'||p.category===category){
-      const div=document.createElement('div');
-      div.className='product';
-      div.innerHTML=`<img src="${p.img}" alt="${p.name}">
-        <h3>${p.name}</h3>
-        <div class="details">${p.details}</div>
-        <p>FCFA ${p.price}</p>
-        <button class="add" onclick="addToCart('${p.name}',${p.price})">Ajouter au panier</button>`;
-      list.appendChild(div);
-    }
-  });
-}
-function filterCategory(cat){displayProducts(cat);}
-displayProducts();
-
-function addToCart(name,price){if(!client){alert("Veuillez créer un compte pour ajouter au panier");return;}cart.push({name,price});updateCart();}
-function removeFromCart(i){cart.splice(i,1);updateCart();}
-function updateCart(){
-  const items=document.getElementById('cart-items');
-  const totalSpan=document.getElementById('cart-total');
-  items.innerHTML='';
-  let total=0;
-  cart.forEach((item,i)=>{
-    total+=item.price;
-    const div=document.createElement('div');
-    div.className='cart-item';
-    div.innerHTML=`${item.name} - FCFA ${item.price} <button onclick="removeFromCart(${i})">X</button>`;
-    items.appendChild(div);
-  });
-  totalSpan.innerText=total;
-  document.querySelector('.cart').innerText=`🛒 Panier (${cart.length})`;
-}
-function toggleCart(){const c=document.getElementById('cart');c.style.display=(c.style.display==='none'?'block':'none');}
-
-/* ======= PAIEMENT ======= */
-function payOM(){
-  if(!client){alert("Veuillez créer un compte");return;}
-  if(cart.length===0){alert("Votre panier est vide");return;}
-  const delivery = document.getElementById("deliveryMode").value;
-  let total = cart.reduce((s,i)=>s+i.price,0);
-  if(delivery==="express") total += 2000; // frais express
-  let productsList = cart.map(i=>i.name).join(",");
-  window.location.href =
-  `https://om-payment.com/pay?amount=${total}&client=${encodeURIComponent(client.name)}&phone=${encodeURIComponent(client.phone)}&city=${encodeURIComponent(client.city)}&delivery=${delivery}&products=${encodeURIComponent(productsList)}`;
-}
-</script>
-
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>Boutique J — ZIONA</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-body{margin:0;font-family:Arial, Helvetica, sans-serif;background:#f6f6f6;color:#111;}
-header{background:#000;color:#fff;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;}
-header h1{margin:0;font-size:22px;}
-.cart{background:#fff;color:#000;padding:6px 14px;border-radius:20px;font-weight:bold;cursor:pointer;}
-nav{margin-top:10px;text-align:center;}
-nav button{margin:0 5px;padding:8px 12px;border:none;background:#000;color:#fff;border-radius:6px;cursor:pointer;}
-.container{padding:20px;}
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;}
-.product{background:#fff;border-radius:10px;padding:15px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.1);}
-.product img{width:100%;border-radius:8px;}
-.product h3{margin:10px 0 5px;}
-.product p{margin:0;color:#555;}
-.product .details{font-size:14px;color:#333;margin:5px 0;}
-button.add{margin-top:10px;padding:10px;width:100%;border:none;background:#000;color:#fff;font-weight:bold;border-radius:6px;cursor:pointer;transition:0.2s;}
-button.add:hover{background:#444;}
-section{margin-top:40px;}
-.review{background:#fff;padding:15px;border-radius:8px;margin-bottom:10px;}
-#cart{position:fixed;top:20px;right:20px;background:#fff;padding:20px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,.2);width:300px;max-height:80vh;overflow-y:auto;display:none;z-index:1000;}
-#cart h2{margin-top:0;text-align:center;}
-.cart-item{display:flex;justify-content:space-between;margin-bottom:10px;}
-.cart-item button{background:red;border:none;color:#fff;cursor:pointer;padding:2px 6px;border-radius:3px;}
-#cart p{text-align:center;font-weight:bold;margin-top:10px;}
-footer{background:#000;color:#fff;padding:20px;margin-top:40px;text-align:center;}
-input, select{padding:10px;margin:6px 0;width:100%;border-radius:6px;border:1px solid #ccc;}
-button{cursor:pointer;}
-#authModal, #paymentModal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);display:flex;justify-content:center;align-items:center;z-index:9999;}
-.modal-content{background:#fff;padding:25px;border-radius:10px;width:320px;text-align:center;}
-@media(max-width:600px){.products{grid-template-columns:1fr;}#cart{width:90%;right:5%;}}
-</style>
-</head>
-<body>
-
-<!-- MODAL AUTHENTIFICATION -->
-<div id="authModal">
-  <div class="modal-content">
-    <h2>Accès Boutique J</h2>
-    <p>Veuillez créer un compte pour continuer</p>
-    <input id="clientName" placeholder="Nom complet">
-    <input id="clientPhone" placeholder="WhatsApp (+236...)">
-    <select id="clientCity">
-      <option value="">Choisir votre ville</option>
-      <option>Bangui</option>
-      <option>Yaoundé</option>
-      <option>Douala</option>
-    </select>
-    <button onclick="saveClient()">Continuer vers la boutique</button>
-  </div>
-</div>
-
-<header>
-  <h1>Boutique J — ZIONA</h1>
-  <div class="cart" onclick="toggleCart()">🛒 Panier (0)</div>
-</header>
-
-<nav>
-  <button onclick="filterCategory('all')">Tout</button>
-  <button onclick="filterCategory('tshirt')">T-shirts</button>
-  <button onclick="filterCategory('hoodie')">Hoodies</button>
-  <button onclick="filterCategory('casquette')">Casquettes</button>
-  <button onclick="filterCategory('chaussettes')">Chaussettes</button>
-  <button onclick="filterCategory('accessoire')">Accessoires</button>
-</nav>
-
-<div class="container">
-<div class="products" id="product-list"></div>
-
-<section>
-<h2>Avis clients ⭐⭐⭐⭐⭐</h2>
-<div id="reviews">
-  <div class="review"><b>Jean M. (Bangui)</b><br>Super qualité, livraison rapide en 2 jours. Je recommande vivement !</div>
-  <div class="review"><b>Amina K. (Yaoundé)</b><br>Hoodie parfait, confortable et stylé 😍. Livraison en 3 jours.</div>
-  <div class="review"><b>Chris D. (Douala)</b><br>Service client très réactif, j’ai reçu ma commande rapidement !</div>
-</div>
-</section>
-
-<section>
-<h2>Contact & Livraison</h2>
-<p>📧 Email : tchetcharemarciieel@gmail.com</p>
-<p>📱 WhatsApp : 72947165</p>
-<p>📍 Livraisons disponibles :</p>
-<ul>
-<li>Bangui : Livraison standard 24-48h, express 12-24h, frais 2 000 - 3 500 FCFA</li>
-<li>Yaoundé : Livraison standard 2-3 jours, express 1-2 jours, frais 3 000 - 5 000 FCFA</li>
-<li>Douala : Livraison standard 2-3 jours, express 1-2 jours, frais 3 000 - 5 000 FCFA</li>
-</ul>
-<p>🕒 Horaires : Lun-Ven 9h-18h, Samedi 10h-16h</p>
-</section>
-</div>
-
-<div id="cart">
-  <h2>Panier</h2>
-  <div id="cart-items"></div>
-  <p>Total : FCFA <span id="cart-total">0</span></p>
-  <label>Mode de livraison :
-    <select id="deliveryMode">
-      <option value="standard">Standard</option>
-      <option value="express">Express</option>
-    </select>
-  </label>
-  <br><br>
-  <button onclick="payOM()">Payer avec Orange Money</button>
-</div>
-
-<footer>
-© 2026 ZIONA — Boutique J
-</footer>
-
-<script>
-/* ======= AUTH ======= */
-let client = JSON.parse(localStorage.getItem("clientZIONA"));
-if(client) document.getElementById("authModal").style.display="none";
-function saveClient(){
-  const name = document.getElementById("clientName").value.trim();
-  const phone = document.getElementById("clientPhone").value.trim();
-  const city = document.getElementById("clientCity").value;
-  if(!name||!phone||!city){alert("Veuillez remplir tous les champs");return;}
-  client = {name, phone, city};
-  localStorage.setItem("clientZIONA", JSON.stringify(client));
-  document.getElementById("authModal").style.display="none";
-}
-
-/* ======= PRODUITS ======= */
-const products=[
-{name:'T-shirt Blanc',price:15000,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Blanc',details:'Taille: S/M/L, 100% coton'},
-{name:'Hoodie Noir',price:30000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Noir',details:'Taille: M/L, molleton'},
-{name:'Casquette Rouge',price:10000,category:'casquette',img:'https://via.placeholder.com/300x300?text=Casquette+Rouge',details:'Taille unique'},
-{name:'Chaussettes Courtes',price:5000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Courtes',details:'Pack de 3 paires'}];
-
-let cart=[];
-function displayProducts(category='all'){
-  const list=document.getElementById('product-list');
-  list.innerHTML='';
-  products.forEach(p=>{
-    if(category==='all'||p.category===category){
-      const div=document.createElement('div');
-      div.className='product';
-      div.innerHTML=`<img src="${p.img}" alt="${p.name}">
-        <h3>${p.name}</h3>
-        <div class="details">${p.details}</div>
-        <p>FCFA ${p.price}</p>
-        <button class="add" onclick="addToCart('${p.name}',${p.price})">Ajouter au panier</button>`;
-      list.appendChild(div);
-    }
-  });
-}
-function filterCategory(cat){displayProducts(cat);}
-displayProducts();
-
-function addToCart(name,price){if(!client){alert("Veuillez créer un compte pour ajouter au panier");return;}cart.push({name,price});updateCart();}
-function removeFromCart(i){cart.splice(i,1);updateCart();}
-function updateCart(){
-  const items=document.getElementById('cart-items');
-  const totalSpan=document.getElementById('cart-total');
-  items.innerHTML='';
-  let total=0;
-  cart.forEach((item,i)=>{
-    total+=item.price;
-    const div=document.createElement('div');
-    div.className='cart-item';
-    div.innerHTML=`${item.name} - FCFA ${item.price} <button onclick="removeFromCart(${i})">X</button>`;
-    items.appendChild(div);
-  });
-  totalSpan.innerText=total;
-  document.querySelector('.cart').innerText=`🛒 Panier (${cart.length})`;
-}
-function toggleCart(){const c=document.getElementById('cart');c.style.display=(c.style.display==='none'?'block':'none');}
-
-/* ======= PAIEMENT ======= */
-function payOM(){
-  if(!client){alert("Veuillez créer un compte");return;}
-  if(cart.length===0){alert("Votre panier est vide");return;}
-  const delivery = document.getElementById("deliveryMode").value;
-  let total = cart.reduce((s,i)=>s+i.price,0);
-  if(delivery==="express") total += 2000; // frais express
-  let productsList = cart.map(i=>i.name).join(",");
-  window.location.href =
-  `https://om-payment.com/pay?amount=${total}&client=${encodeURIComponent(client.name)}&phone=${encodeURIComponent(client.phone)}&city=${encodeURIComponent(client.city)}&delivery=${delivery}&products=${encodeURIComponent(productsList)}`;
-}
-</script>
-
-</body>
-</html>
 
  
 
 
 
- 
-  
-  
 
-   
+
+
+
+
+
+
