@@ -4,171 +4,51 @@
 <meta charset="UTF-8">
 <title>Boutique J — ZIONA</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
-body{
-  margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:#f6f6f6;
-  color:#111;
-}
-header{
-  background:#000;
-  color:#fff;
-  padding:15px 20px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-header h1{
-  margin:0;
-  font-size:22px;
-}
-.cart{
-  background:#fff;
-  color:#000;
-  padding:6px 14px;
-  border-radius:20px;
-  font-weight:bold;
-}
-.container{
-  padding:20px;
-}
-.products{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:20px;
-}
-.product{
-  background:#fff;
-  border-radius:10px;
-  padding:15px;
-  text-align:center;
-  box-shadow:0 2px 8px rgba(0,0,0,.1);
-}
-.product img{
-  width:100%;
-  border-radius:8px;
-}
-.product h3{
-  margin:10px 0 5px;
-}
-.product p{
-  margin:0;
-  color:#555;
-}
-button{
-  margin-top:10px;
-  padding:10px;
-  width:100%;
-  border:none;
-  background:#000;
-  color:#fff;
-  font-weight:bold;
-  border-radius:6px;
-  cursor:pointer;
-  transition:0.2s;
-}
-button:hover{
-  background:#444;
-}
-section{
-  margin-top:40px;
-}
-.review{
-  background:#fff;
-  padding:15px;
-  border-radius:8px;
-  margin-bottom:10px;
-}
-#cart{
-  position:fixed;
-  top:20px;
-  right:20px;
-  background:#fff;
-  padding:20px;
-  border-radius:10px;
-  box-shadow:0 4px 12px rgba(0,0,0,.2);
-  width:280px;
-  max-height:80vh;
-  overflow-y:auto;
-}
-#cart h2{
-  margin-top:0;
-  text-align:center;
-}
-.cart-item{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:10px;
-}
-.cart-item button{
-  background:red;
-  border:none;
-  color:#fff;
-  cursor:pointer;
-  padding:2px 6px;
-  border-radius:3px;
-}
-#cart p{
-  font-weight:bold;
-  text-align:center;
-  margin-top:10px;
-}
-footer{
-  background:#000;
-  color:#fff;
-  padding:20px;
-  margin-top:40px;
-  text-align:center;
-}
-@media(max-width:600px){
-  .products{
-    grid-template-columns:1fr;
-  }
-  #cart{
-    width:90%;
-    right:5%;
-  }
-}
+body{margin:0;font-family:Arial, Helvetica, sans-serif;background:#f6f6f6;color:#111;}
+header{background:#000;color:#fff;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;}
+header h1{margin:0;font-size:22px;}
+.cart{background:#fff;color:#000;padding:6px 14px;border-radius:20px;font-weight:bold;cursor:pointer;}
+nav{margin-top:10px;text-align:center;}
+nav button{margin:0 5px;padding:8px 12px;border:none;background:#000;color:#fff;border-radius:6px;cursor:pointer;}
+.container{padding:20px;}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;}
+.product{background:#fff;border-radius:10px;padding:15px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.1);}
+.product img{width:100%;border-radius:8px;}
+.product h3{margin:10px 0 5px;}
+.product p{margin:0;color:#555;}
+button.add{margin-top:10px;padding:10px;width:100%;border:none;background:#000;color:#fff;font-weight:bold;border-radius:6px;cursor:pointer;transition:0.2s;}
+button.add:hover{background:#444;}
+section{margin-top:40px;}
+.review{background:#fff;padding:15px;border-radius:8px;margin-bottom:10px;}
+#cart{position:fixed;top:20px;right:20px;background:#fff;padding:20px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,.2);width:280px;max-height:80vh;overflow-y:auto;display:none;}
+#cart h2{margin-top:0;text-align:center;}
+.cart-item{display:flex;justify-content:space-between;margin-bottom:10px;}
+.cart-item button{background:red;border:none;color:#fff;cursor:pointer;padding:2px 6px;border-radius:3px;}
+#cart p{text-align:center;font-weight:bold;margin-top:10px;}
+footer{background:#000;color:#fff;padding:20px;margin-top:40px;text-align:center;}
+@media(max-width:600px){.products{grid-template-columns:1fr;}#cart{width:90%;right:5%;}}
 </style>
 </head>
-
 <body>
 
 <header>
   <h1>Boutique J — ZIONA</h1>
-  <div class="cart">🛒 Panier (0)</div>
+  <div class="cart" onclick="toggleCart()">🛒 Panier (0)</div>
 </header>
 
-<div class="container">
+<nav>
+  <button onclick="filterCategory('all')">Tout</button>
+  <button onclick="filterCategory('tshirt')">T-shirts</button>
+  <button onclick="filterCategory('hoodie')">Hoodies</button>
+  <button onclick="filterCategory('casquette')">Casquettes</button>
+  <button onclick="filterCategory('chaussettes')">Chaussettes</button>
+  <button onclick="filterCategory('accessoire')">Accessoires</button>
+</nav>
 
-<h2>Nos produits</h2>
-<div class="products">
-  <div class="product">
-    <img src="https://via.placeholder.com/300x300?text=T-shirt+Blanc" alt="T-shirt Blanc">
-    <h3>T-shirt Blanc</h3>
-    <p>15 000 FCFA</p>
-    <button onclick="addToCart('T-shirt Blanc',15000)">Ajouter au panier</button>
-  </div>
-  <div class="product">
-    <img src="https://via.placeholder.com/300x300?text=Hoodie+Noir" alt="Hoodie Noir">
-    <h3>Hoodie Noir</h3>
-    <p>30 000 FCFA</p>
-    <button onclick="addToCart('Hoodie Noir',30000)">Ajouter au panier</button>
-  </div>
-  <div class="product">
-    <img src="https://via.placeholder.com/300x300?text=Casquette" alt="Casquette">
-    <h3>Casquette</h3>
-    <p>10 000 FCFA</p>
-    <button onclick="addToCart('Casquette',10000)">Ajouter au panier</button>
-  </div>
-  <div class="product">
-    <img src="https://via.placeholder.com/300x300?text=Chaussettes" alt="Chaussettes">
-    <h3>Chaussettes</h3>
-    <p>5 000 FCFA</p>
-    <button onclick="addToCart('Chaussettes',5000)">Ajouter au panier</button>
-  </div>
+<div class="container">
+<div class="products" id="product-list">
+  <!-- Produits générés par JS -->
 </div>
 
 <section>
@@ -182,9 +62,8 @@ footer{
 <h2>Nous contacter</h2>
 <p>📧 Email : tchetcharemarciieel@gmail.com</p>
 <p>📱 WhatsApp : 72947165</p>
-<p>📍 ZIONA — Entreprise multifonction</p>
+<p>📍 ZIONA — BANGUI </p>
 </section>
-
 </div>
 
 <div id="cart">
@@ -194,49 +73,80 @@ footer{
   <button onclick="payOM()">Payer avec Orange Money</button>
 </div>
 
-<footer>
-© 2026 ZIONA — Boutique J
-</footer>
-
 <script>
+const products=[
+  {name:'T-shirt Blanc',price:15000,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Blanc'},
+  {name:'T-shirt Noir',price:15000,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Noir'},
+  {name:'Hoodie Noir',price:30000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Noir'},
+  {name:'Hoodie Gris',price:30000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Gris'},
+  {name:'Casquette Rouge',price:10000,category:'casquette',img:'https://via.placeholder.com/300x300?text=Casquette+Rouge'},
+  {name:'Casquette Noire',price:10000,category:'casquette',img:'https://via.placeholder.com/300x300?text=Casquette+Noire'},
+  {name:'Chaussettes Courtes',price:5000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Courtes'},
+  {name:'Chaussettes Longues',price:7000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Longues'},
+  {name:'Sac Bandoulière',price:12000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Sac+Bandoulière'},
+  {name:'Ceinture',price:8000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Ceinture'},
+  {name:'Porte-clés',price:3000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Porte-clés'},
+  {name:'Bonnet',price:9000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Bonnet'},
+  {name:'T-shirt Rouge',price:15000,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Rouge'},
+  {name:'T-shirt Bleu',price:15000,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Bleu'},
+  {name:'Hoodie Bleu',price:30000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Bleu'},
+  {name:'Hoodie Rouge',price:30000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Rouge'},
+  {name:'Casquette Bleue',price:10000,category:'casquette',img:'https://via.placeholder.com/300x300?text=Casquette+Bleue'},
+  {name:'Chaussettes Noires',price:5000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Noires'},
+  {name:'Chaussettes Blanches',price:5000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Blanches'},
+  {name:'Sac à dos',price:20000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Sac+à+dos'}
+];
+
 let cart=[];
-function addToCart(name,price){
-  cart.push({name,price});
-  updateCart();
+
+function displayProducts(category='all'){
+  const list=document.getElementById('product-list');
+  list.innerHTML='';
+  products.forEach(p=>{
+    if(category==='all'||p.category===category){
+      const div=document.createElement('div');
+      div.className='product';
+      div.innerHTML=`<img src="${p.img}" alt="${p.name}">
+        <h3>${p.name}</h3>
+        <p>FCFA ${p.price}</p>
+        <button class="add" onclick="addToCart('${p.name}',${p.price})">Ajouter au panier</button>`;
+      list.appendChild(div);
+    }
+  });
 }
-function removeFromCart(index){
-  cart.splice(index,1);
-  updateCart();
-}
+function filterCategory(cat){displayProducts(cat);}
+displayProducts();
+
+function addToCart(name,price){cart.push({name,price});updateCart();}
+function removeFromCart(i){cart.splice(i,1);updateCart();}
 function updateCart(){
-  const cartItems=document.getElementById('cart-items');
-  const cartTotal=document.getElementById('cart-total');
-  cartItems.innerHTML='';
+  const items=document.getElementById('cart-items');
+  const totalSpan=document.getElementById('cart-total');
+  items.innerHTML='';
   let total=0;
-  cart.forEach((item,index)=>{
+  cart.forEach((item,i)=>{
     total+=item.price;
     const div=document.createElement('div');
     div.className='cart-item';
-    div.innerHTML=`${item.name} - FCFA ${item.price} <button onclick="removeFromCart(${index})">X</button>`;
-    cartItems.appendChild(div);
+    div.innerHTML=`${item.name} - FCFA ${item.price} <button onclick="removeFromCart(${i})">X</button>`;
+    items.appendChild(div);
   });
-  cartTotal.innerText=total;
+  totalSpan.innerText=total;
   document.querySelector('.cart').innerText=`🛒 Panier (${cart.length})`;
 }
+function toggleCart(){const c=document.getElementById('cart');c.style.display=(c.style.display==='none'?'block':'none');}
 function payOM(){
-  if(cart.length===0){
-    alert('Votre panier est vide');
-    return;
-  }
+  if(cart.length===0){alert('Votre panier est vide'); return;}
   let total=cart.reduce((s,i)=>s+i.price,0);
   let products=cart.map(i=>i.name).join(',');
-  // Remplace ce lien par ton lien OM officiel marchand
+  // LIEN FACTICE OM → à remplacer par ton lien officiel marchand OM
   window.location.href=`https://om-payment.com/pay?amount=${total}&products=${encodeURIComponent(products)}`;
 }
 </script>
 
 </body>
 </html>
+
 
 
     
