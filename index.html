@@ -2,152 +2,136 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>J — Boutique Officielle</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tchetchare Shop</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-body{margin:0;font-family:Arial;background:#f6f6f6}
-header{background:#000;color:#fff;padding:20px;text-align:center}
-nav button{margin:5px;padding:10px;border:none;background:#000;color:#fff;cursor:pointer}
-.container{padding:20px}
-.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px}
-.product{background:#fff;padding:15px;border-radius:8px;text-align:center}
-.product img{width:100%;border-radius:6px}
-.product button{margin-top:10px;padding:10px;width:100%;background:#000;color:#fff;border:none}
-.cart-btn{position:fixed;top:20px;right:20px;background:#000;color:#fff;padding:10px;border-radius:5px;cursor:pointer}
-#cart{display:none;position:fixed;right:0;top:0;width:300px;height:100%;background:#fff;padding:15px;overflow:auto}
-.cart-item{display:flex;justify-content:space-between;margin:5px 0}
-footer{text-align:center;padding:20px;color:#777}
-.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);display:flex;justify-content:center;align-items:center}
-.modal-box{background:#fff;padding:25px;border-radius:8px;width:320px;text-align:center}
-.modal-box input,select{width:100%;padding:10px;margin:6px 0}
+body{font-family:Arial;background:#f5f5f5;margin:0}
+header{background:#111;color:#fff;padding:15px;text-align:center}
+section{padding:15px}
+.card{background:#fff;border-radius:8px;padding:10px;margin-bottom:12px}
+.btn{background:#ff7900;color:#fff;padding:10px;border:none;border-radius:6px;width:100%;font-size:16px}
+input,select{width:100%;padding:10px;margin:6px 0;border-radius:6px;border:1px solid #ccc}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.product{background:#fff;padding:10px;border-radius:8px;text-align:center}
+footer{background:#111;color:#fff;padding:15px;text-align:center;font-size:14px}
+.hidden{display:none}
 </style>
 </head>
+
 <body>
 
-<!-- INSCRIPTION -->
-<div id="auth" class="modal">
-  <div class="modal-box">
-    <h2>Accès Boutique J</h2>
-    <p>Inscription rapide</p>
-    <input id="name" placeholder="Nom complet">
-    <input id="phone" placeholder="WhatsApp">
-    <select id="city">
-      <option value="">Ville</option>
-      <option>Bangui</option>
-      <option>Yaoundé</option>
-      <option>Douala</option>
-    </select>
-    <button onclick="register()">Entrer dans la boutique</button>
-  </div>
-</div>
-
 <header>
-  <h1>J</h1>
-  <p>Boutique officielle — ZIONA</p>
-  <nav>
-    <button onclick="filter('all')">Tout</button>
-    <button onclick="filter('tshirt')">T‑shirts</button>
-    <button onclick="filter('hoodie')">Hoodies</button>
-    <button onclick="filter('casquette')">Casquettes</button>
-    <button onclick="filter('chaussettes')">Chaussettes</button>
-  </nav>
+<h2>TCHETCHARE SHOP</h2>
+<p>Mode urbaine – Bangui | Douala | Yaoundé</p>
 </header>
 
-<div class="cart-btn" onclick="toggleCart()">🛒 Panier</div>
-
-<div class="container">
-  <div class="products" id="products"></div>
+<!-- INSCRIPTION RAPIDE -->
+<section id="register">
+<div class="card">
+<h3>Inscription rapide</h3>
+<select id="code">
+<option value="+236">🇨🇫 +236</option>
+<option value="+237">🇨🇲 +237</option>
+</select>
+<input type="tel" id="phone" placeholder="Numéro Orange Money">
+<button class="btn" onclick="login()">Continuer</button>
+<p style="font-size:13px;color:#555">Aucun mot de passe • Inscription instantanée</p>
 </div>
+</section>
 
-<!-- PANIER -->
-<div id="cart">
-  <h3>Votre panier</h3>
-  <div id="cartItems"></div>
-  <p>Total : <b><span id="total">0</span> FCFA</b></p>
-  <button onclick="pay()">Payer via WhatsApp</button>
+<!-- ESPACE CLIENT -->
+<section id="client" class="hidden">
+<div class="card">
+<h3>Espace client</h3>
+<p>Connecté avec : <b id="clientNum"></b></p>
+<p>📦 Livraison : 24–48h</p>
+<p>🕒 Horaires : Lun–Sam 8h–19h</p>
 </div>
+</section>
+
+<!-- CATEGORIES -->
+<section>
+<div class="card">
+<h3>Catégories</h3>
+<ul>
+<li>T‑shirts</li>
+<li>Hoodies</li>
+<li>Casquettes</li>
+<li>Pantalons</li>
+<li>Accessoires</li>
+</ul>
+</div>
+</section>
+
+<!-- PRODUITS -->
+<section>
+<h3>Produits populaires</h3>
+<div class="products">
+<script>
+const products = [
+"T‑shirt Noir","T‑shirt Blanc","T‑shirt Oversize","Hoodie Noir","Hoodie Gris",
+"Casquette Logo","Casquette Street","Jean Slim","Pantalon Cargo","Sac Urbain",
+"T‑shirt Graphique","Hoodie Street","Casquette Premium","Pantalon Jogging",
+"Sac Banane","T‑shirt Rouge","T‑shirt Bleu","Hoodie Blanc","Casquette Classique","Accessoire Mode"
+];
+products.forEach(p=>{
+document.write(`<div class="product">
+<p><b>${p}</b></p>
+<p>Prix : 7 500 FCFA</p>
+<button class="btn" onclick="order('${p}')">Commander</button>
+</div>`);
+});
+</script>
+</div>
+</section>
+
+<!-- AVIS -->
+<section>
+<div class="card">
+<h3>Avis clients ⭐⭐⭐⭐⭐</h3>
+<p>⭐⭐⭐⭐⭐ Très rapide – Bangui</p>
+<p>⭐⭐⭐⭐⭐ Qualité top – Douala</p>
+<p>⭐⭐⭐⭐ Livraison sérieuse – Yaoundé</p>
+</div>
+</section>
+
+<!-- PAIEMENT -->
+<section>
+<div class="card">
+<h3>Paiement</h3>
+<p>✔ Orange Money accepté</p>
+<p>Le paiement se fait directement avec notre équipe sur WhatsApp</p>
+</div>
+</section>
 
 <footer>
-  Livraison : Bangui • Yaoundé • Douala<br>
-  Support : WhatsApp 72947165<br>
-  © 2026 J — ZIONA
+<p>📲 WhatsApp commande : <b>+237 72 94 71 65</b></p>
+<p>© 2026 Tchetchare Shop</p>
 </footer>
 
 <script>
-let client = JSON.parse(localStorage.getItem("clientJ"));
-let cart = [];
-
-if(client) document.getElementById("auth").style.display="none";
-
-function register(){
-  const n=name.value,p=phone.value,c=city.value;
-  if(!n||!p||!c){alert("Remplis tout");return;}
-  client={n,p,c};
-  localStorage.setItem("clientJ",JSON.stringify(client));
-  auth.style.display="none";
+function login(){
+const code=document.getElementById("code").value;
+const phone=document.getElementById("phone").value;
+if(phone.length<6){alert("Numéro invalide");return;}
+localStorage.setItem("client",code+phone);
+document.getElementById("clientNum").innerText=code+phone;
+document.getElementById("register").style.display="none";
+document.getElementById("client").classList.remove("hidden");
 }
 
-const products=[
-{name:"T-shirt Blanc",price:15000,cat:"tshirt"},
-{name:"T-shirt Noir",price:16000,cat:"tshirt"},
-{name:"T-shirt Rouge",price:15500,cat:"tshirt"},
-{name:"T-shirt Bleu",price:15500,cat:"tshirt"},
-{name:"Hoodie Noir",price:30000,cat:"hoodie"},
-{name:"Hoodie Gris",price:29000,cat:"hoodie"},
-{name:"Hoodie Rouge",price:31000,cat:"hoodie"},
-{name:"Hoodie Bleu",price:32000,cat:"hoodie"},
-{name:"Casquette Noire",price:10000,cat:"casquette"},
-{name:"Casquette Blanche",price:10500,cat:"casquette"},
-{name:"Casquette Rouge",price:11000,cat:"casquette"},
-{name:"Casquette Bleue",price:11500,cat:"casquette"},
-{name:"Chaussettes Noires",price:5000,cat:"chaussettes"},
-{name:"Chaussettes Blanches",price:5000,cat:"chaussettes"},
-{name:"Chaussettes Longues",price:6000,cat:"chaussettes"},
-{name:"Chaussettes Colorées",price:7000,cat:"chaussettes"},
-{name:"Pack T-shirt J",price:28000,cat:"tshirt"},
-{name:"Pack Hoodie J",price:58000,cat:"hoodie"},
-{name:"Casquette Premium",price:15000,cat:"casquette"},
-{name:"Pack Chaussettes J",price:12000,cat:"chaussettes"},
-];
-
-function show(list){
-  productsDiv.innerHTML="";
-  list.forEach(p=>{
-    productsDiv.innerHTML+=`
-    <div class="product">
-      <img src="https://via.placeholder.com/300?text=${p.name}">
-      <h4>${p.name}</h4>
-      <p>${p.price} FCFA</p>
-      <button onclick="add('${p.name}',${p.price})">Ajouter</button>
-    </div>`;
-  });
-}
-const productsDiv=document.getElementById("products");
-show(products);
-
-function filter(cat){
-  if(cat==="all") show(products);
-  else show(products.filter(p=>p.cat===cat));
+function order(product){
+const num=localStorage.getItem("client") || "";
+window.location.href=`https://wa.me/23772947165?text=Bonjour%20je%20veux%20commander%20${product}%20-%20Numéro:%20${num}`;
 }
 
-function add(n,p){cart.push({n,p});updateCart();}
-function updateCart(){
-  cartItems.innerHTML="";
-  let t=0;
-  cart.forEach((i,x)=>{
-    t+=i.p;
-    cartItems.innerHTML+=`<div class="cart-item">${i.n} <span>${i.p}</span></div>`;
-  });
-  total.innerText=t;
+window.onload=()=>{
+const num=localStorage.getItem("client");
+if(num){
+document.getElementById("clientNum").innerText=num;
+document.getElementById("register").style.display="none";
+document.getElementById("client").classList.remove("hidden");
 }
-function toggleCart(){cart.style.display=cart.style.display==="block"?"none":"block";}
-
-function pay(){
-  if(cart.length===0){alert("Panier vide");return;}
-  let msg=`Bonjour J,%0ACommande :%0A`;
-  cart.forEach(i=>msg+=`- ${i.n} (${i.p} FCFA)%0A`);
-  msg+=`%0ATotal : ${total.innerText} FCFA%0AClient : ${client.n}%0AVille : ${client.c}`;
-  window.location.href=`https://wa.me/23672947165?text=${msg}`;
 }
 </script>
 
