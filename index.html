@@ -147,51 +147,59 @@ let client = JSON.parse(localStorage.getItem("clientZIONA"));
 let codeGenerated;
 let orders = JSON.parse(localStorage.getItem("ordersZIONA")) || [];
 
-if(client){document.getElementById("authModal").style.display="none";}
+// Si client déjà connecté, on masque le modal
+if(client){
+    document.getElementById("authModal").style.display="none";
+    alert("Bienvenue de retour, "+client.name);
+}
 
 function sendCode(){
-  const name = document.getElementById("clientName").value.trim();
-  const phone = document.getElementById("clientPhone").value.trim();
-  const city = document.getElementById("clientCity").value;
-  if(!name||!phone||!city){alert("Remplissez tous les champs");return;}
-  codeGenerated = Math.floor(100000+Math.random()*900000);
-  alert("Code envoyé sur WhatsApp : "+codeGenerated);
-  localStorage.setItem("pendingClient", JSON.stringify({name,phone,city}));
-  document.getElementById("authModal").style.display="none";
-  document.getElementById("verifyModal").style.display="flex";
+    const name = document.getElementById("clientName").value.trim();
+    const phone = document.getElementById("clientPhone").value.trim();
+    const city = document.getElementById("clientCity").value;
+    if(!name || !phone || !city){
+        alert("Remplissez tous les champs");
+        return;
+    }
+    // Génération d'un code aléatoire 6 chiffres
+    codeGenerated = Math.floor(100000 + Math.random()*900000);
+    alert("Code envoyé sur WhatsApp : " + codeGenerated);
+    
+    // Stockage temporaire avant vérification
+    localStorage.setItem("pendingClient", JSON.stringify({name,phone,city}));
+    
+    // Affichage modal vérification
+    document.getElementById("authModal").style.display="none";
+    document.getElementById("verifyModal").style.display="flex";
 }
 
 function verifyCode(){
-  const code = document.getElementById("smsCode").value.trim();
-  if(code==codeGenerated){
-    client = JSON.parse(localStorage.getItem("pendingClient"));
-    localStorage.setItem("clientZIONA", JSON.stringify(client));
-    document.getElementById("verifyModal").style.display="none";
-    alert("Compte validé ✅ Bienvenue "+client.name);
-  }else{alert("Code incorrect");}
+    const code = document.getElementById("smsCode").value.trim();
+    if(code == codeGenerated){
+        client = JSON.parse(localStorage.getItem("pendingClient"));
+        // Stockage permanent pour garder le client actif
+        localStorage.setItem("clientZIONA", JSON.stringify(client));
+        document.getElementById("verifyModal").style.display="none";
+        alert("Compte validé ✅ Bienvenue "+client.name);
+    } else {
+        alert("Code incorrect, réessayez");
+    }
 }
 
 function openAccount(){
-  if(!client){alert("Veuillez créer un compte");return;}
-  document.getElementById("accountModal").style.display="flex";
-  document.getElementById("accName").innerText = client.name;
-  document.getElementById("accPhone").innerText = client.phone;
-  document.getElementById("accCity").innerText = client.city;
-  updateOrdersList();
+    if(!client){
+        alert("Veuillez créer un compte");
+        return;
+    }
+    document.getElementById("accountModal").style.display="flex";
+    document.getElementById("accName").innerText = client.name;
+    document.getElementById("accPhone").innerText = client.phone;
+    document.getElementById("accCity").innerText = client.city;
+    updateOrdersList();
 }
 
 function closeAccount(){document.getElementById("accountModal").style.display="none";}
 function logout(){localStorage.removeItem("clientZIONA");client=null;alert("Vous êtes déconnecté");location.reload();}
-
-function updateOrdersList(){
-  const div = document.getElementById("ordersList");
-  if(orders.length===0){div.innerHTML="Aucune commande pour le moment";}
-  else{div.innerHTML="";orders.forEach((o,i)=>{
-    const p=document.createElement("p");
-    p.innerText=`${i+1}. ${o.products} - FCFA ${o.total} - ${o.delivery}`;
-    div.appendChild(p);
-  });}
-}
 
 // ----------------- PRODUITS -----------------
 const products=[
@@ -274,9 +282,17 @@ function payOM(){
   localStorage.setItem("ordersZIONA",JSON.stringify(orders));
   cart=[];updateCart();
 }
+
+// Historique commandes
+function updateOrdersList(){
+  const div = document.getElementById("ordersList");
+  if(orders.length===0){div.innerHTML="Aucune commande pour le moment";}
+  else{div.innerHTML="";orders.forEach((o,i)=>{
+    const p=document.createElement("p");
+    p.innerText=`${i+1}. ${o.products} - FCFA ${o.total} - ${o.delivery}`;
+    div.appendChild(p);
+  });}
+}
 </script>
 </body>
 </html>
-
-
-
