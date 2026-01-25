@@ -1,5 +1,4 @@
 
-ZIONA  est une entreprise 
 # ZIONA
 
 ZIONA est une entreprise multifonction qui développe plusieurs marques et projets
@@ -14,4 +13,21 @@ adaptées à une nouvelle génération.
 
 ### J — Clothing
 **J** est une marque de vêtements issue de ZIONA.  
-Elle incar
+Elle incarne le minimalisme, le style urbain et l’identité personnelle.
+
+Des pièces sobres, modernes et intemporelles, pensées pour s’exprimer sans excès.
+
+👉 Site : https://tonpseudo.github.io/ZIONA/j
+
+---
+
+## Vision
+Créer des marques qui vont à l’essentiel :
+moins de bruit, plus de sens, plus d’impact.
+
+---
+
+## Contact
+📩 Email : tchetcharemarciieel@gmail.com  
+WhatsAPP : 72947165
+© 2026 ZIONA — All rights reserved
