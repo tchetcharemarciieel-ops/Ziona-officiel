@@ -8,29 +8,41 @@
 body{
     margin:0;
     font-family:Arial, sans-serif;
-    background: linear-gradient(135deg, #ffb347, #ffcc33);
-    color:#111;
+    background:#111; /* noir */
+    color:#fff;
 }
 header{
-    background:rgba(0,0,0,0.8);
-    color:#fff;
+    background:#000; /* noir */
     padding:20px;
-    text-align:center;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 header h1{
     margin:0;
-    font-size:36px;
-    letter-spacing:3px;
+    font-size:28px;
+    letter-spacing:2px;
+}
+nav{
+    display:flex;
+    gap:15px;
+}
+nav div{
+    background:#ff7900;
+    padding:8px 15px;
+    border-radius:6px;
+    cursor:pointer;
 }
 section{
     padding:20px;
 }
 .card{
     background:#fff;
+    color:#000;
     border-radius:10px;
     padding:15px;
     margin-bottom:15px;
-    box-shadow:0 4px 6px rgba(0,0,0,0.1);
+    box-shadow:0 4px 6px rgba(0,0,0,0.3);
 }
 input, select, button{
     width:100%;
@@ -48,15 +60,17 @@ button{
 }
 .products{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
     gap:15px;
+    justify-items:center;
 }
 .product{
     background:#fff;
+    color:#000;
     border-radius:10px;
     padding:10px;
     text-align:center;
-    box-shadow:0 3px 6px rgba(0,0,0,0.1);
+    width:100%;
 }
 .product img{
     width:100%;
@@ -64,7 +78,7 @@ button{
 }
 footer{
     text-align:center;
-    background:rgba(0,0,0,0.8);
+    background:#000;
     color:#fff;
     padding:15px;
 }
@@ -75,7 +89,10 @@ footer{
 
 <header>
 <h1>Boutique J</h1>
-<p>ZIONA — Mode urbaine • Livraison Bangui | Douala | Yaoundé</p>
+<nav>
+<div id="clientStatus">Mon compte</div>
+<div id="cartStatus">Panier (0)</div>
+</nav>
 </header>
 
 <!-- INSCRIPTION RAPIDE -->
@@ -101,20 +118,6 @@ footer{
 </div>
 </section>
 
-<!-- CATEGORIES -->
-<section>
-<div class="card">
-<h3>Catégories</h3>
-<ul>
-<li>T‑shirts</li>
-<li>Hoodies</li>
-<li>Casquettes</li>
-<li>Pantalons</li>
-<li>Accessoires</li>
-</ul>
-</div>
-</section>
-
 <!-- PRODUITS -->
 <section>
 <h3>Produits populaires</h3>
@@ -122,7 +125,7 @@ footer{
 </section>
 
 <!-- PANIER -->
-<section>
+<section id="cartSection" class="hidden">
 <div class="card">
 <h3>Panier</h3>
 <div id="cartItems"></div>
@@ -131,18 +134,8 @@ footer{
 </div>
 </section>
 
-<!-- AVIS -->
-<section>
-<div class="card">
-<h3>Avis clients ⭐⭐⭐⭐⭐</h3>
-<p>⭐⭐⭐⭐⭐ Très rapide – Bangui</p>
-<p>⭐⭐⭐⭐⭐ Qualité top – Douala</p>
-<p>⭐⭐⭐⭐ Livraison sérieuse – Yaoundé</p>
-</div>
-</section>
-
 <footer>
-<p>📲 Commande WhatsApp : <b>+236 72947165</b></p>
+<p>📲 WhatsApp commande : <b>+236 72947165</b></p>
 <p>© 2026 J — ZIONA</p>
 </footer>
 
@@ -180,7 +173,7 @@ function showProducts(){
     products.forEach(p=>{
         productsDiv.innerHTML+=`
         <div class="product">
-            <img src="https://via.placeholder.com/150?text=${encodeURIComponent(p.name)}">
+            <img src="https://via.placeholder.com/180?text=${encodeURIComponent(p.name)}">
             <p><b>${p.name}</b></p>
             <p>${p.price} FCFA</p>
             <button onclick="addToCart('${p.name}',${p.price})">Ajouter</button>
@@ -199,6 +192,7 @@ function login(){
     document.getElementById("clientNum").innerText=client;
     document.getElementById("register").style.display="none";
     document.getElementById("client").classList.remove("hidden");
+    document.getElementById("cartSection").classList.remove("hidden");
     updateCart();
 }
 
@@ -217,6 +211,7 @@ function updateCart(){
         cartDiv.innerHTML+=`<p>${item.name} - ${item.price} FCFA</p>`;
     });
     document.getElementById("total").innerText=total;
+    document.getElementById("cartStatus").innerText=`Panier (${cart.length})`;
 }
 
 // COMMANDER WHATSAPP
@@ -229,7 +224,11 @@ function pay(){
     let msg=`Bonjour, je souhaite commander :%0A`;
     cart.forEach(i=>msg+=`- ${i.name} (${i.price} FCFA)%0A`);
     msg+=`Total : ${document.getElementById("total").innerText} FCFA%0AClient : ${client}`;
+    alert("Merci pour votre commande !"); // message après commande
     window.location.href=`https://wa.me/23672947165?text=${msg}`;
+    cart=[];
+    localStorage.setItem("cart",JSON.stringify(cart));
+    updateCart();
 }
 
 // RESTAURATION PANIER ET ESPACE CLIENT
@@ -238,6 +237,7 @@ window.onload=()=>{
         document.getElementById("clientNum").innerText=client;
         document.getElementById("register").style.display="none";
         document.getElementById("client").classList.remove("hidden");
+        document.getElementById("cartSection").classList.remove("hidden");
     }
     updateCart();
     document.getElementById("orderCount").innerText=orderCount;
@@ -246,5 +246,3 @@ window.onload=()=>{
 
 </body>
 </html>
-
-
