@@ -17,11 +17,12 @@ nav button{margin:0 5px;padding:8px 12px;border:none;background:#000;color:#fff;
 .product img{width:100%;border-radius:8px;}
 .product h3{margin:10px 0 5px;}
 .product p{margin:0;color:#555;}
+.product .details{font-size:14px;color:#333;margin:5px 0;}
 button.add{margin-top:10px;padding:10px;width:100%;border:none;background:#000;color:#fff;font-weight:bold;border-radius:6px;cursor:pointer;transition:0.2s;}
 button.add:hover{background:#444;}
 section{margin-top:40px;}
 .review{background:#fff;padding:15px;border-radius:8px;margin-bottom:10px;}
-#cart{position:fixed;top:20px;right:20px;background:#fff;padding:20px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,.2);width:280px;max-height:80vh;overflow-y:auto;display:none;}
+#cart{position:fixed;top:20px;right:20px;background:#fff;padding:20px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,.2);width:300px;max-height:80vh;overflow-y:auto;display:none;}
 #cart h2{margin-top:0;text-align:center;}
 .cart-item{display:flex;justify-content:space-between;margin-bottom:10px;}
 .cart-item button{background:red;border:none;color:#fff;cursor:pointer;padding:2px 6px;border-radius:3px;}
@@ -53,16 +54,24 @@ footer{background:#000;color:#fff;padding:20px;margin-top:40px;text-align:center
 
 <section>
 <h2>Avis clients ⭐⭐⭐⭐⭐</h2>
-<div class="review"><b>Jean M.</b><br>Super qualité, livraison rapide, je recommande !</div>
-<div class="review"><b>Amina K.</b><br>Hoodie parfait, confortable et stylé 😍</div>
-<div class="review"><b>Chris D.</b><br>Service client très réactif, je rachèterai !</div>
+<div class="review"><b>Jean M. (Bangui)</b><br>Super qualité, livraison rapide en 2 jours. Je recommande vivement !</div>
+<div class="review"><b>Amina K. (Yaoundé)</b><br>Hoodie parfait, confortable et stylé 😍. Livraison en 3 jours.</div>
+<div class="review"><b>Chris D. (Douala)</b><br>Service client très réactif, j’ai reçu ma commande rapidement !</div>
+<div class="review"><b>Sarah L. (Bangui)</b><br>Les t-shirts sont de très bonne qualité, je suis satisfaite 😁</div>
+<div class="review"><b>Marc T. (Yaoundé)</b><br>Les accessoires sont top, reçu en 2 jours. Très sérieux !</div>
 </section>
 
 <section>
-<h2>Nous contacter</h2>
+<h2>Contact & Livraison</h2>
 <p>📧 Email : tchetcharemarciieel@gmail.com</p>
 <p>📱 WhatsApp : 72947165</p>
-<p>📍 ZIONA — BANGUI </p>
+<p>📍 Livraisons disponibles :</p>
+<ul>
+<li>Bangui : Livraison 24-48h, frais 2 000 FCFA</li>
+<li>Yaoundé : Livraison 2-3 jours, frais 3 000 FCFA</li>
+<li>Douala : Livraison 2-3 jours, frais 3 000 FCFA</li>
+</ul>
+<p>🕒 Horaires : Lun-Ven 9h-18h, Samedi 10h-16h</p>
 </section>
 </div>
 
@@ -73,32 +82,35 @@ footer{background:#000;color:#fff;padding:20px;margin-top:40px;text-align:center
   <button onclick="payOM()">Payer avec Orange Money</button>
 </div>
 
+<footer>
+© 2026 ZIONA — Boutique J
+</footer>
+
 <script>
 const products=[
-  {name:'T-shirt Blanc',price:15000,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Blanc'},
-  {name:'T-shirt Noir',price:15000,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Noir'},
-  {name:'Hoodie Noir',price:30000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Noir'},
-  {name:'Hoodie Gris',price:30000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Gris'},
-  {name:'Casquette Rouge',price:10000,category:'casquette',img:'https://via.placeholder.com/300x300?text=Casquette+Rouge'},
-  {name:'Casquette Noire',price:10000,category:'casquette',img:'https://via.placeholder.com/300x300?text=Casquette+Noire'},
-  {name:'Chaussettes Courtes',price:5000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Courtes'},
-  {name:'Chaussettes Longues',price:7000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Longues'},
-  {name:'Sac Bandoulière',price:12000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Sac+Bandoulière'},
-  {name:'Ceinture',price:8000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Ceinture'},
-  {name:'Porte-clés',price:3000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Porte-clés'},
-  {name:'Bonnet',price:9000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Bonnet'},
-  {name:'T-shirt Rouge',price:15000,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Rouge'},
-  {name:'T-shirt Bleu',price:15000,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Bleu'},
-  {name:'Hoodie Bleu',price:30000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Bleu'},
-  {name:'Hoodie Rouge',price:30000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Rouge'},
-  {name:'Casquette Bleue',price:10000,category:'casquette',img:'https://via.placeholder.com/300x300?text=Casquette+Bleue'},
-  {name:'Chaussettes Noires',price:5000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Noires'},
-  {name:'Chaussettes Blanches',price:5000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Blanches'},
-  {name:'Sac à dos',price:20000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Sac+à+dos'}
+{name:'T-shirt Blanc',price:15000,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Blanc',details:'Taille: S/M/L, 100% coton'},
+{name:'T-shirt Noir',price:15000,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Noir',details:'Taille: S/M/L, 100% coton'},
+{name:'Hoodie Noir',price:30000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Noir',details:'Taille: M/L, intérieur molletonné'},
+{name:'Hoodie Gris',price:30000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Gris',details:'Taille: M/L, intérieur molletonné'},
+{name:'Casquette Rouge',price:10000,category:'casquette',img:'https://via.placeholder.com/300x300?text=Casquette+Rouge',details:'Taille unique, ajustable'},
+{name:'Casquette Noire',price:10000,category:'casquette',img:'https://via.placeholder.com/300x300?text=Casquette+Noire',details:'Taille unique, ajustable'},
+{name:'Chaussettes Courtes',price:5000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Courtes',details:'Pack de 3 paires, coton'},
+{name:'Chaussettes Longues',price:7000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Longues',details:'Pack de 2 paires, coton'},
+{name:'Sac Bandoulière',price:12000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Sac+Bandoulière',details:'Polyester, 25cm x 30cm'},
+{name:'Ceinture',price:8000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Ceinture',details:'Cuir synthétique, réglable'},
+{name:'Porte-clés',price:3000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Porte-clés',details:'Métal, avec logo J'},
+{name:'Bonnet',price:9000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Bonnet',details:'Laine, taille unique'},
+{name:'T-shirt Rouge',price:15000,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Rouge',details:'S/M/L, coton premium'},
+{name:'T-shirt Bleu',price:15000,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Bleu',details:'S/M/L, coton premium'},
+{name:'Hoodie Bleu',price:30000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Bleu',details:'Taille M/L, molleton'},
+{name:'Hoodie Rouge',price:30000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Rouge',details:'Taille M/L, molleton'},
+{name:'Casquette Bleue',price:10000,category:'casquette',img:'https://via.placeholder.com/300x300?text=Casquette+Bleue',details:'Ajustable, tissu respirant'},
+{name:'Chaussettes Noires',price:5000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Noires',details:'Pack de 3 paires, coton'},
+{name:'Chaussettes Blanches',price:5000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Blanches',details:'Pack de 3 paires, coton'},
+{name:'Sac à dos',price:20000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Sac+à+dos',details:'Polyester, 40cm x 30cm'}
 ];
 
 let cart=[];
-
 function displayProducts(category='all'){
   const list=document.getElementById('product-list');
   list.innerHTML='';
@@ -108,6 +120,7 @@ function displayProducts(category='all'){
       div.className='product';
       div.innerHTML=`<img src="${p.img}" alt="${p.name}">
         <h3>${p.name}</h3>
+        <div class="details">${p.details}</div>
         <p>FCFA ${p.price}</p>
         <button class="add" onclick="addToCart('${p.name}',${p.price})">Ajouter au panier</button>`;
       list.appendChild(div);
@@ -139,7 +152,7 @@ function payOM(){
   if(cart.length===0){alert('Votre panier est vide'); return;}
   let total=cart.reduce((s,i)=>s+i.price,0);
   let products=cart.map(i=>i.name).join(',');
-  // LIEN FACTICE OM → à remplacer par ton lien officiel marchand OM
+  // LIEN FACTICE OM → à remplacer par ton lien marchand officiel
   window.location.href=`https://om-payment.com/pay?amount=${total}&products=${encodeURIComponent(products)}`;
 }
 </script>
@@ -149,7 +162,7 @@ function payOM(){
 
 
 
-    
+ 
   
   
 
