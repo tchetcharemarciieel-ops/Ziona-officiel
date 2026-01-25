@@ -1,3 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>ZIONA — Entreprise multifonction</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; background: #f5f5f5; color: #333; }
+
+    /* HEADER ZIONA */
+    header { background: #000; color: #fff; padding: 40px 20px; text-align: center; }
+    header h1 { margin: 0; font-size: 48px; letter-spacing: 6px; }
+    header p { font-size: 18px; max-width: 600px; margin: 10px auto 0; }
+
+    /* SECTION BOUTIQUE */
+    h2 { text-align: center; margin: 40px 0 20px 0; font-size: 32px; }
+    .products { display: flex; flex-wrap: wrap; justify-content: center; padding: 0 20px 20px 20px; gap: 20px; }
+    .product { background: #fff; padding: 15px; border-radius: 10px; width: 220px; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: transform 0.2s; }
+    .product:hover { transform: translateY(-5px); }
+    .product img { width: 100%; border-radius: 8px; }
+    .product h3 { margin: 10px 0 5px 0; }
+    .product p { margin: 5px 0; font-weight: bold; }
+    .product button { margin-top: 10px; padding: 10px 15px; background: #000; color: #fff; border: none; cursor: pointer; border-radius: 5px; transition: background 0.2s; }
+    .product button:hover { background: #444; }
+
+    /* PANIER */
+    #cart { position: fixed; top: 20px; right: 20px; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); width: 280px; max-height: 80vh; overflow-y: auto; }
+    #cart h2 { margin-top: 0; font-size: 22px; text-align: center; }
+    .cart-item { display: flex; justify-content: space-between; margin-bottom: 10px; }
+    .cart-item button { background: red; border: none; color: #fff; cursor: pointer; padding: 2px 6px; border-radius: 3px; }
+    #cart p { font-weight: bold; text-align: center; margin-top: 10px; }
+
+    /* FOOTER */
+    footer { text-align: center; padding: 20px; background: #000; color: #fff; margin-top: 50px; }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      .products { flex-direction: column; align-items: center; }
+      #cart { width: 90%; right: 5%; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>ZIONA</h1>
+  <p>ZIONA est une entreprise multifonction qui développe des marques modernes dans différents domaines : mode, digital et création.</p>
+</header>
+
 <h2>Boutique J</h2>
 <div class="products">
   <div class="product">
@@ -18,6 +67,18 @@
     <p>€15</p>
     <button onclick="addToCart('Casquette', 15)">Ajouter au panier</button>
   </div>
+  <div class="product">
+    <img src="images/hoodie.png" alt="Hoodie">
+    <h3>Hoodie</h3>
+    <p>€40</p>
+    <button onclick="addToCart('Hoodie', 40)">Ajouter au panier</button>
+  </div>
+  <div class="product">
+    <img src="images/socks.png" alt="Chaussettes">
+    <h3>Chaussettes</h3>
+    <p>€10</p>
+    <button onclick="addToCart('Chaussettes', 10)">Ajouter au panier</button>
+  </div>
 </div>
 
 <div id="cart">
@@ -26,10 +87,20 @@
   <p>Total : €<span id="cart-total">0</span></p>
 </div>
 
+<footer>
+  ZIONA © 2026 — Tous droits réservés
+</footer>
+
 <script>
   let cart = [];
-  function addToCart(name, price) { cart.push({name, price}); updateCart(); }
-  function removeFromCart(index) { cart.splice(index,1); updateCart(); }
+  function addToCart(name, price) {
+    cart.push({name, price});
+    updateCart();
+  }
+  function removeFromCart(index) {
+    cart.splice(index,1);
+    updateCart();
+  }
   function updateCart() {
     const cartItems = document.getElementById('cart-items');
     const cartTotal = document.getElementById('cart-total');
@@ -45,3 +116,6 @@
     cartTotal.innerText=total;
   }
 </script>
+
+</body>
+</html>
