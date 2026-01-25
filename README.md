@@ -1,29 +1,16 @@
 
 # ZIONA
+# ZIONA — Entreprise multifonction
 
-ZIONA est une entreprise multifonction qui développe plusieurs marques et projets
-dans des domaines créatifs et modernes.
+ZIONA est une entreprise multifonction qui développe des marques modernes dans différents domaines : mode, digital et création.
 
-Notre objectif est de construire des identités fortes, simples et durables,
-adaptées à une nouvelle génération.
+## Boutique J
 
----
+La boutique J propose des vêtements minimalistes et modernes : t-shirts, hoodies, casquettes, chaussettes, etc.  
+Tous les produits sont visibles sur le site officiel ZIONA.
 
-## Branches de ZIONA
-
-### J — Clothing
-**J** est une marque de vêtements issue de ZIONA.  
-Elle incarne le minimalisme, le style urbain et l’identité personnelle.
-
-Des pièces sobres, modernes et intemporelles, pensées pour s’exprimer sans excès.
-
-👉 Site : https://tonpseudo.github.io/ZIONA/j
-
----
-
-## Vision
-Créer des marques qui vont à l’essentiel :
-moins de bruit, plus de sens, plus d’impact.
+**Lien vers le site :**  
+https://tchetcharemarciieel-ops.github.io/tchetcharemarciieel-ops
 
 ---<a href="j/index.html">Visiter la boutique J</a>
 
@@ -32,3 +19,4 @@ moins de bruit, plus de sens, plus d’impact.
 📩 Email : tchetcharemarciieel@gmail.com  
 WhatsAPP : 72947165
 © 2026 ZIONA — All rights reserved
+
