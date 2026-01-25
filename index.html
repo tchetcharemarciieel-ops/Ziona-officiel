@@ -140,19 +140,20 @@ button{cursor:pointer;}
 <footer>
 © 2026 ZIONA — Boutique J
 </footer>
-
 <script>
 // ----------------- CLIENT -----------------
 let client = JSON.parse(localStorage.getItem("clientZIONA"));
+let pendingClient;
 let codeGenerated;
 let orders = JSON.parse(localStorage.getItem("ordersZIONA")) || [];
 
 // Si client déjà connecté, on masque le modal
 if(client){
     document.getElementById("authModal").style.display="none";
-    alert("Bienvenue de retour, "+client.name);
+    console.log("Bienvenue de retour, "+client.name);
 }
 
+// Envoi code simulé
 function sendCode(){
     const name = document.getElementById("clientName").value.trim();
     const phone = document.getElementById("clientPhone").value.trim();
@@ -161,68 +162,64 @@ function sendCode(){
         alert("Remplissez tous les champs");
         return;
     }
-    // Génération d'un code aléatoire 6 chiffres
+    // Génération code aléatoire 6 chiffres
     codeGenerated = Math.floor(100000 + Math.random()*900000);
-    alert("Code envoyé sur WhatsApp : " + codeGenerated);
+    pendingClient = {name, phone, city};
     
-    // Stockage temporaire avant vérification
-    localStorage.setItem("pendingClient", JSON.stringify({name,phone,city}));
+    // Affiche le code comme si envoyé par SMS
+    alert(`✅ Code envoyé sur votre numéro ${phone}\n(Code pour test : ${codeGenerated})`);
     
-    // Affichage modal vérification
+    // Masque modal création compte, ouvre modal vérification
     document.getElementById("authModal").style.display="none";
     document.getElementById("verifyModal").style.display="flex";
 }
 
+// Vérification code
 function verifyCode(){
     const code = document.getElementById("smsCode").value.trim();
     if(code == codeGenerated){
-        client = JSON.parse(localStorage.getItem("pendingClient"));
-        // Stockage permanent pour garder le client actif
-        localStorage.setItem("clientZIONA", JSON.stringify(client));
+        client = pendingClient;
+        localStorage.setItem("clientZIONA", JSON.stringify(client)); // garde actif
         document.getElementById("verifyModal").style.display="none";
-        alert("Compte validé ✅ Bienvenue "+client.name);
+        alert("✅ Compte validé ! Bienvenue "+client.name);
     } else {
-        alert("Code incorrect, réessayez");
+        alert("❌ Code incorrect, réessayez");
     }
 }
 
+// ----------------- ESPACE CLIENT -----------------
 function openAccount(){
-    if(!client){
-        alert("Veuillez créer un compte");
-        return;
-    }
+    if(!client){alert("Veuillez créer un compte"); return;}
     document.getElementById("accountModal").style.display="flex";
     document.getElementById("accName").innerText = client.name;
     document.getElementById("accPhone").innerText = client.phone;
     document.getElementById("accCity").innerText = client.city;
     updateOrdersList();
 }
-
 function closeAccount(){document.getElementById("accountModal").style.display="none";}
-function logout(){localStorage.removeItem("clientZIONA");client=null;alert("Vous êtes déconnecté");location.reload();}
+function logout(){localStorage.removeItem("clientZIONA"); client=null; alert("Vous êtes déconnecté"); location.reload();}
 
 // ----------------- PRODUITS -----------------
 const products=[
 {name:'T-shirt Blanc',price:15000,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Blanc',details:'Taille: S/M/L, 100% coton'},
 {name:'T-shirt Noir',price:16000,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Noir',details:'Taille: S/M/L, 100% coton'},
-{name:'T-shirt Rouge',price:15500,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Rouge',details:'Taille: S/M/L, 100% coton'},
-{name:'T-shirt Bleu',price:15500,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Bleu',details:'Taille: S/M/L, 100% coton'},
 {name:'Hoodie Noir',price:30000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Noir',details:'Taille: M/L, molleton'},
 {name:'Hoodie Gris',price:29000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Gris',details:'Taille: M/L, molleton'},
-{name:'Hoodie Rouge',price:31000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Rouge',details:'Taille: M/L, molleton'},
-{name:'Hoodie Bleu',price:32000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Bleu',details:'Taille: M/L, molleton'},
 {name:'Casquette Noire',price:10000,category:'casquette',img:'https://via.placeholder.com/300x300?text=Casquette+Noire',details:'Taille unique'},
 {name:'Casquette Blanche',price:10500,category:'casquette',img:'https://via.placeholder.com/300x300?text=Casquette+Blanche',details:'Taille unique'},
-{name:'Casquette Rouge',price:11000,category:'casquette',img:'https://via.placeholder.com/300x300?text=Casquette+Rouge',details:'Taille unique'},
-{name:'Casquette Bleue',price:11500,category:'casquette',img:'https://via.placeholder.com/300x300?text=Casquette+Bleue',details:'Taille unique'},
-{name:'Chaussettes Courtes',price:5000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Courtes',details:'Pack de 3 paires'},
-{name:'Chaussettes Longues',price:6000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Longues',details:'Pack de 3 paires'},
-{name:'Chaussettes Colorées',price:7000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Colorées',details:'Pack de 3 paires'},
-{name:'Chaussettes Noires',price:5000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Noires',details:'Pack de 3 paires'},
-{name:'Casque Audio',price:20000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Casque+Audio',details:'Couleur noire'},
+{name:'Chaussettes Courtes',price:5000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Courtes',details:'Pack de 3'},
+{name:'Chaussettes Longues',price:6000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Longues',details:'Pack de 3'},
 {name:'Sac à dos',price:25000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Sac+à+dos',details:'20L, noir'},
 {name:'Montre Sport',price:18000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Montre+Sport',details:'Résistante à l’eau'},
-{name:'Lunettes Soleil',price:15000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Lunettes+Soleil',details:'UV400 protection')}
+{name:'Lunettes Soleil',price:15000,category:'accessoire',img:'https://via.placeholder.com/300x300?text=Lunettes+Soleil',details:'UV400 protection'},
+{name:'T-shirt Rouge',price:15500,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Rouge',details:'Taille: S/M/L'},
+{name:'T-shirt Bleu',price:15500,category:'tshirt',img:'https://via.placeholder.com/300x300?text=T-shirt+Bleu',details:'Taille: S/M/L'},
+{name:'Hoodie Rouge',price:31000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Rouge',details:'Taille: M/L'},
+{name:'Hoodie Bleu',price:32000,category:'hoodie',img:'https://via.placeholder.com/300x300?text=Hoodie+Bleu',details:'Taille: M/L'},
+{name:'Casquette Rouge',price:11000,category:'casquette',img:'https://via.placeholder.com/300x300?text=Casquette+Rouge',details:'Taille unique'},
+{name:'Casquette Bleue',price:11500,category:'casquette',img:'https://via.placeholder.com/300x300?text=Casquette+Bleue',details:'Taille unique'},
+{name:'Chaussettes Colorées',price:7000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Colorées',details:'Pack de 3'},
+{name:'Chaussettes Noires',price:5000,category:'chaussettes',img:'https://via.placeholder.com/300x300?text=Chaussettes+Noires',details:'Pack de 3'}
 ];
 
 let cart=[];
@@ -276,7 +273,7 @@ function payOM(){
   let total = cart.reduce((s,i)=>s+i.price,0);
   if(delivery==="express") total+=2000;
   let productsList = cart.map(i=>i.name).join(", ");
-  alert(`Paiement Orange Money simulé ✅\nMontant : FCFA ${total}\nProduits : ${productsList}\nClient : ${client.name}`);
+  alert(`✅ Paiement Orange Money simulé\nMontant : FCFA ${total}\nProduits : ${productsList}\nClient : ${client.name}`);
   // Sauvegarde commande
   orders.push({products:productsList,total,delivery});
   localStorage.setItem("ordersZIONA",JSON.stringify(orders));
@@ -294,5 +291,6 @@ function updateOrdersList(){
   });}
 }
 </script>
+
 </body>
 </html>
