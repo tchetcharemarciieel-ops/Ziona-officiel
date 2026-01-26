@@ -1,139 +1,205 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Boutique J — Official</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:#fff;
-    color:#000;
-}
-header{
-    padding:20px;
-    border-bottom:1px solid #ddd;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-header h1{
-    margin:0;
-    font-size:22px;
-}
-nav a{
-    margin-left:15px;
-    text-decoration:none;
-    color:#000;
-    font-weight:bold;
-}
-section{
-    padding:40px 20px;
-}
-h2{
-    margin-bottom:20px;
-}
-.products{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    gap:25px;
-}
-.product{
-    text-align:center;
-}
-.product img{
-    width:100%;
-    border-radius:8px;
-}
-.product button{
-    margin-top:8px;
-    padding:8px 15px;
-    background:#000;
-    color:#fff;
-    border:none;
-    cursor:pointer;
-}
-footer{
-    margin-top:60px;
-    padding:20px;
-    border-top:1px solid #ddd;
-    text-align:center;
-}
-</style>
+  <meta charset="UTF-8" />
+  <title>Boutique J Officiel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #fff;
+      color: #000;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      border-bottom: 1px solid #000;
+    }
+
+    .logo h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .logo p {
+      margin: 0;
+      font-size: 12px;
+    }
+
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #000;
+      font-weight: bold;
+    }
+
+    .top-actions a {
+      margin-left: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    section {
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    input {
+      padding: 12px;
+      width: 260px;
+      font-size: 16px;
+      margin-top: 10px;
+      border: 1px solid #000;
+    }
+
+    button {
+      padding: 12px 25px;
+      background: #000;
+      color: #fff;
+      border: none;
+      margin-top: 15px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .category {
+      border: 1px solid #000;
+      padding: 40px 20px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    footer {
+      border-top: 1px solid #000;
+      padding: 20px;
+      text-align: center;
+      font-size: 14px;
+    }
+  </style>
 </head>
+
 <body>
 
 <header>
-<h1>Boutique J — Official | Never Stop Your Dreams</h1>
-<nav>
-<a href="mon-compte.html">Mon compte</a>
-</nav>
+  <div class="logo">
+    <h1>BOUTIQUE J OFFICIEL</h1>
+    <p>Never give up on your dreams</p>
+  </div>
+
+  <nav>
+    <a href="#">Accueil</a>
+    <a href="#">Catégories</a>
+    <a href="#">Tendances</a>
+    <a href="#">Horaires</a>
+    <a href="#">Contact</a>
+  </nav>
+
+  <div class="top-actions">
+    <a onclick="openAccount()">Mon compte</a>
+    <a onclick="openCart()">Panier</a>
+  </div>
 </header>
 
-<section>
-<h2>T-Shirts</h2>
-<div class="products">
-<div class="product">
-<img src="https://via.placeholder.com/300x350?text=T-shirt+Noir">
-<p>T-Shirt Noir</p>
-<p>15 000 FCFA</p>
-<button>Ajouter</button>
-</div>
-<div class="product">
-<img src="https://via.placeholder.com/300x350?text=T-shirt+Blanc">
-<p>T-Shirt Blanc</p>
-<p>15 000 FCFA</p>
-<button>Ajouter</button>
-</div>
-</div>
+<!-- INSCRIPTION -->
+<section id="register">
+  <h2>Accès Boutique J</h2>
+  <p>Inscription rapide</p>
+
+  <input type="tel" id="phone" placeholder="+236 XXXXXXXX" />
+  <br />
+  <button onclick="enterShop()">Entrer dans la boutique</button>
 </section>
 
-<section>
-<h2>Pulls & Hoodies</h2>
-<div class="products">
-<div class="product">
-<img src="https://via.placeholder.com/300x350?text=Hoodie+Noir">
-<p>Hoodie Noir</p>
-<p>30 000 FCFA</p>
-<button>Ajouter</button>
-</div>
-<div class="product">
-<img src="https://via.placeholder.com/300x350?text=Hoodie+Gris">
-<p>Hoodie Gris</p>
-<p>29 000 FCFA</p>
-<button>Ajouter</button>
-</div>
-</div>
+<!-- BOUTIQUE -->
+<section id="shop" class="hidden">
+  <h2>Catégories</h2>
+
+  <div class="categories">
+    <div class="category" onclick="addToCart('T-Shirts')">T-Shirts</div>
+    <div class="category" onclick="addToCart('Pulls')">Pulls</div>
+    <div class="category" onclick="addToCart('Chaussettes')">Chaussettes</div>
+  </div>
 </section>
 
+<!-- TENDANCES -->
 <section>
-<h2>Chaussettes</h2>
-<div class="products">
-<div class="product">
-<img src="https://via.placeholder.com/300x350?text=Chaussettes+Noires">
-<p>Chaussettes Noires</p>
-<p>5 000 FCFA</p>
-<button>Ajouter</button>
-</div>
-<div class="product">
-<img src="https://via.placeholder.com/300x350?text=Chaussettes+Blanches">
-<p>Chaussettes Blanches</p>
-<p>5 000 FCFA</p>
-<button>Ajouter</button>
-</div>
-</div>
+  <h2>Tendances</h2>
+  <p>Nouveautés · Meilleures ventes · Styles populaires</p>
+</section>
+
+<!-- HORAIRES -->
+<section>
+  <h2>Horaires</h2>
+  <p>Lundi – Samedi : 9h00 – 19h00</p>
+  <p>Dimanche : Fermé</p>
 </section>
 
 <footer>
-<p>Commandes WhatsApp : <b>+236 72947165</b></p>
-<p>© 2026 J — ZIONA</p>
+  © Boutique J Officiel — Bangui · Yaoundé · Douala
 </footer>
+
+<script>
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  function enterShop() {
+    const phone = document.getElementById("phone").value.trim();
+    if (phone.length < 8) {
+      alert("Veuillez entrer un numéro valide.");
+      return;
+    }
+
+    localStorage.setItem("userPhone", phone);
+    document.getElementById("register").classList.add("hidden");
+    document.getElementById("shop").classList.remove("hidden");
+  }
+
+  function addToCart(item) {
+    cart.push(item);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert(item + " ajouté au panier");
+  }
+
+  function openCart() {
+    if (cart.length === 0) {
+      alert("Votre panier est vide");
+      return;
+    }
+
+    const message =
+      "Bonjour Boutique J,%0AJe souhaite commander :%0A- " +
+      cart.join("%0A- ") +
+      "%0A%0AMerci";
+
+    window.open(
+      "https://wa.me/23672947165?text=" + message,
+      "_blank"
+    );
+  }
+
+  function openAccount() {
+    window.open("https://example.com/mon-compte", "_blank");
+  }
+</script>
 
 </body>
 </html>
-
-
-
-
 
