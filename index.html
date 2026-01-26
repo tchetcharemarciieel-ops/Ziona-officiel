@@ -35,7 +35,6 @@ iframe{width:100%;height:700px;border:none}
 <button onclick="show('categories')">Catégories</button>
 <button onclick="show('compte')">Mon compte</button>
 <button onclick="show('contact')">Contact</button>
-<button onclick="window.open('https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID','_blank')">Admin</button>
 </nav>
 
 <!-- Home -->
@@ -81,7 +80,7 @@ iframe{width:100%;height:700px;border:none}
 <div class="section" id="contact">
 <h2>Contact</h2>
 <p>📍 Bangui<br>
-📞 74370369 / 72947165 / 74648074<br>
+📞 72947165<br>
 🕘 Lundi-Samedi : 09h00 – 19h00<br>Dimanche : Fermé</p>
 </div>
 
@@ -127,15 +126,13 @@ cart.forEach(p=>msg+=p.name+" - "+p.price+" FCFA\n");
 msg+="TOTAL: "+total+" FCFA";
 alert("Merci pour votre commande 🙏");
 
-let choix=prompt("Choisissez un numéro WhatsApp:\n1-74370369 2-72947165 3-74648074");
-let phone=choix==2?"23672947165":choix==3?"23674648074":"23674370369";
-
-// Ouvrir WhatsApp
-window.open("https://wa.me/"+phone+"?text="+encodeURIComponent(msg),"_blank");
+// Ouvrir WhatsApp sur le numéro principal
+window.open("https://wa.me/23672947165?text="+encodeURIComponent(msg),"_blank");
 }
 </script>
 
 </body>
 </html>
+
 
 
