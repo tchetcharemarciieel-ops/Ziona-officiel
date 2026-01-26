@@ -2,144 +2,116 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<title>BOUTIQUE J OFFICIEL</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Boutique J Officiel</title>
 
 <style>
-*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
-body{margin:0;background:#fff;color:#000}
-
-/* HEADER */
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#fff;
+  color:#000;
+}
 header{
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:15px 20px;
-border-bottom:1px solid #000;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:15px 20px;
+  border-bottom:1px solid #ddd;
 }
 .logo{
-font-weight:bold;
-font-size:18px;
+  font-weight:bold;
+  letter-spacing:3px;
 }
 .slogan{
-font-size:12px;
-opacity:.7;
+  font-size:12px;
+  color:#555;
 }
-.icons{
-display:flex;
-gap:15px;
-align-items:center;
-cursor:pointer;
+.right{
+  display:flex;
+  align-items:center;
+  gap:15px;
 }
 .cart{
-position:relative;
-font-size:22px;
+  cursor:pointer;
+  font-size:18px;
 }
 .cart span{
-position:absolute;
-top:-8px;
-right:-10px;
-background:#000;
-color:#fff;
-font-size:12px;
-padding:2px 6px;
-border-radius:50%;
+  background:#000;
+  color:#fff;
+  border-radius:50%;
+  padding:2px 6px;
+  font-size:12px;
+  margin-left:5px;
 }
-
-/* MENU */
 .menu-btn{
-font-size:22px;
-cursor:pointer;
+  font-size:22px;
+  cursor:pointer;
 }
-.menu{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:#fff;
-padding:30px;
-z-index:10;
+nav{
+  display:none;
+  padding:20px;
+  border-bottom:1px solid #ddd;
 }
-.menu h2{margin-top:0}
-.menu button{
-width:100%;
-padding:15px;
-margin:10px 0;
-font-size:16px;
-border:1px solid #000;
-background:#000;
-color:#fff;
-cursor:pointer;
+nav button{
+  display:block;
+  margin:10px 0;
+  padding:10px;
+  width:100%;
+  background:#000;
+  color:#fff;
+  border:none;
+  cursor:pointer;
 }
+section{
+  padding:25px;
+}
+.hidden{display:none}
 
-/* SECTIONS */
-section{padding:20px;display:none}
-.active{display:block}
-
-/* INSCRIPTION */
-input{
-width:100%;
-padding:15px;
-margin:10px 0;
-font-size:16px;
-border:1px solid #000;
-}
-.btn{
-padding:15px;
-width:100%;
-background:#000;
-color:#fff;
-border:none;
-font-size:16px;
-cursor:pointer;
-}
-
-/* CATEGORIES */
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
-gap:15px;
+.categories, .products{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:20px;
 }
 .card{
-border:1px solid #000;
-padding:15px;
-cursor:pointer;
-text-align:center;
+  border:1px solid #ddd;
+  padding:15px;
+  text-align:center;
 }
-
-/* PRODUITS */
-.product{
-border:1px solid #000;
-padding:15px;
+.card img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  background:#eee;
 }
-.product button{
-margin-top:10px;
-width:100%;
+.card button{
+  margin-top:10px;
+  padding:8px 12px;
+  border:none;
+  background:#000;
+  color:#fff;
+  cursor:pointer;
 }
-
-/* AVIS */
-.reviews{
-font-size:12px;
-margin-top:5px;
-opacity:.8;
-}
-
-/* PANIER */
-.cart-item{
-display:flex;
-justify-content:space-between;
-margin:10px 0;
-}
-
-/* FOOTER */
 footer{
-padding:20px;
-text-align:center;
-font-size:12px;
-border-top:1px solid #000;
-margin-top:30px;
+  padding:20px;
+  text-align:center;
+  font-size:13px;
+  color:#555;
+  border-top:1px solid #ddd;
+}
+input,select{
+  width:100%;
+  padding:10px;
+  margin:10px 0;
+}
+.whatsapp-btn{
+  background:#000;
+  color:#fff;
+  padding:12px;
+  border:none;
+  width:100%;
+  cursor:pointer;
 }
 </style>
 </head>
@@ -147,130 +119,149 @@ margin-top:30px;
 <body>
 
 <header>
-<div class="menu-btn" onclick="openMenu()">☰</div>
-<div>
-<div class="logo">BOUTIQUE J OFFICIEL</div>
-<div class="slogan">Never give up on your dreams</div>
-</div>
-<div class="icons">
-<div onclick="showSection('account')">Mon compte</div>
-<div class="cart" onclick="showSection('cart')">🛒<span id="cartCount">0</span></div>
-</div>
+  <div>
+    <div class="logo">BOUTIQUE J OFFICIEL</div>
+    <div class="slogan">Never give up on your dreams</div>
+  </div>
+  <div class="right">
+    <div onclick="openAccount()">Mon compte</div>
+    <div class="cart" onclick="openCart()">🛒 <span id="cartCount">0</span></div>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  </div>
 </header>
 
-<!-- MENU -->
-<div class="menu" id="menu">
-<h2>Menu</h2>
-<button onclick="startShopping()">Commencer mon achat</button>
-<button onclick="showSection('categories')">Catégories</button>
-<button onclick="showSection('contact')">Contact</button>
-<button onclick="closeMenu()">Fermer</button>
-</div>
+<nav id="menu">
+  <button onclick="showSection('home')">Commencer mon achat</button>
+  <button onclick="showSection('categories')">Catégories</button>
+  <button onclick="showSection('contact')">Contact</button>
+</nav>
 
 <!-- INSCRIPTION -->
-<section id="signup" class="active">
-<h2>Inscription rapide</h2>
-<input id="phone" placeholder="+236 XXXXXXXX">
-<button class="btn" onclick="register()">Entrer dans la boutique</button>
+<section id="login">
+  <h2>Inscription rapide</h2>
+  <p>Entrer votre numéro pour accéder à la boutique</p>
+  <input id="phone" placeholder="+236XXXXXXXX">
+  <button class="whatsapp-btn" onclick="login()">Entrer dans la boutique</button>
+</section>
+
+<!-- ACCUEIL -->
+<section id="home" class="hidden">
+  <h2>Bienvenue dans Boutique J</h2>
+  <p>Choisissez une catégorie pour commencer</p>
 </section>
 
 <!-- CATEGORIES -->
-<section id="categories">
-<h2>Catégories</h2>
-<div class="grid">
-<div class="card" onclick="openCategory('T-Shirts')">T-Shirts</div>
-<div class="card" onclick="openCategory('Pulls')">Pulls</div>
-<div class="card" onclick="openCategory('Chaussettes')">Chaussettes</div>
-</div>
+<section id="categories" class="hidden">
+  <h2>Catégories</h2>
+  <div class="categories">
+    <div class="card"><button onclick="loadProducts('T-Shirts')">T-Shirts</button></div>
+    <div class="card"><button onclick="loadProducts('Pulls')">Pulls</button></div>
+    <div class="card"><button onclick="loadProducts('Chaussettes')">Chaussettes</button></div>
+  </div>
 </section>
 
 <!-- PRODUITS -->
-<section id="products">
-<h2 id="catTitle"></h2>
-<div class="grid" id="productList"></div>
+<section id="products" class="hidden">
+  <h2 id="productTitle"></h2>
+  <div class="products" id="productList"></div>
 </section>
 
 <!-- PANIER -->
-<section id="cart">
-<h2>Panier</h2>
-<div id="cartItems"></div>
-<button class="btn" onclick="checkout()">Payer via WhatsApp</button>
+<section id="cartSection" class="hidden">
+  <h2>Votre panier</h2>
+  <div id="cartItems"></div>
+  <select id="waNumber">
+    <option value="23674370369">+236 74370369</option>
+    <option value="23672947165">+236 72947165</option>
+    <option value="23674648074">+236 74648074</option>
+  </select>
+  <button class="whatsapp-btn" onclick="checkout()">Payer via WhatsApp</button>
 </section>
 
-<!-- COMPTE -->
-<section id="account">
-<h2>Mon compte</h2>
-<p>Numéro : <span id="userPhone"></span></p>
-<p>Commandes : <span id="orders">0</span></p>
-<button class="btn" onclick="showSection('cart')">Voir mon panier</button>
+<!-- MON COMPTE -->
+<section id="account" class="hidden">
+  <h2>Mon compte</h2>
+  <p>Numéro : <span id="userPhone"></span></p>
+  <p>Commandes : <span id="orders">0</span></p>
 </section>
 
 <!-- CONTACT -->
-<section id="contact">
-<h2>Contact</h2>
-<p>📍 Bangui</p>
-<p>🕘 Lun–Sam : 9h00 – 19h00</p>
-<p>📞 +236 74370369<br>+236 72947165<br>+236 74648074</p>
+<section id="contact" class="hidden">
+  <h2>Contact</h2>
+  <p>📍 Bangui</p>
+  <p>🕘 Lun–Sam : 9h00 – 19h00</p>
+  <p>📞 +236 74370369<br>+236 72947165<br>+236 74648074</p>
 </section>
 
 <footer>
-© 2026 Boutique J
+  © 2026 Boutique J — Tous droits réservés
 </footer>
 
 <script>
 let cart=[];
-let products={
-"T-Shirts":["T-Shirt Classic","T-Shirt Premium","T-Shirt Street","T-Shirt Black","T-Shirt White"],
-"Pulls":["Pull Basic","Pull Luxe","Pull Oversize","Pull Noir","Pull Blanc"],
-"Chaussettes":["Chaussettes Classic","Chaussettes Sport","Chaussettes Luxe","Chaussettes Black","Chaussettes White"]
-};
+let orders=0;
 
-function openMenu(){document.getElementById("menu").style.display="block"}
-function closeMenu(){document.getElementById("menu").style.display="none"}
+function toggleMenu(){
+  document.getElementById("menu").style.display =
+  document.getElementById("menu").style.display==="block"?"none":"block";
+}
 
 function showSection(id){
-document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
-document.getElementById(id).classList.add("active");
-closeMenu();
+  document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
+  document.getElementById("menu").style.display="none";
 }
 
-function startShopping(){
-showSection("categories");
+function login(){
+  let phone=document.getElementById("phone").value;
+  if(phone.length<9){alert("Entrer un numéro valide");return;}
+  localStorage.setItem("phone",phone);
+  showSection("home");
 }
 
-function register(){
-let phone=document.getElementById("phone").value;
-if(phone.length<8){alert("Entrer un numéro valide");return;}
-localStorage.setItem("user",phone);
-document.getElementById("userPhone").innerText=phone;
-showSection("categories");
+function openAccount(){
+  document.getElementById("userPhone").innerText=localStorage.getItem("phone");
+  document.getElementById("orders").innerText=orders;
+  showSection("account");
 }
 
-function openCategory(cat){
-document.getElementById("catTitle").innerText=cat;
-let list=document.getElementById("productList");
-list.innerHTML="";
-products[cat].forEach(p=>{
-list.innerHTML+=`
-<div class="product">
-<b>${p}</b>
-<div class="reviews">⭐⭐⭐⭐⭐ (avis clients)</div>
-<button class="btn" onclick="addCart('${p}')">Ajouter au panier</button>
-</div>`;
-});
-showSection("products");
+function loadProducts(cat){
+  document.getElementById("productTitle").innerText=cat;
+  let list=document.getElementById("productList");
+  list.innerHTML="";
+  for(let i=1;i<=5;i++){
+    list.innerHTML+=`
+    <div class="card">
+      <img>
+      <h4>${cat} ${i}</h4>
+      <p>⭐⭐⭐⭐⭐</p>
+      <p>${cat==="Chaussettes"?3000:cat==="T-Shirts"?9000:20000} FCFA</p>
+      <button onclick="addToCart('${cat} ${i}')">Ajouter au panier</button>
+    </div>`;
+  }
+  showSection("products");
 }
 
-function addCart(p){
-cart.push(p);
-document.getElementById("cartCount").innerText=cart.length;
+function addToCart(p){
+  cart.push(p);
+  document.getElementById("cartCount").innerText=cart.length;
+}
+
+function openCart(){
+  let c=document.getElementById("cartItems");
+  c.innerHTML="";
+  cart.forEach(p=>c.innerHTML+=`<p>${p}</p>`);
+  showSection("cartSection");
 }
 
 function checkout(){
-if(cart.length===0){alert("Panier vide");return;}
-alert("Merci de votre commande 🤍");
-let msg="Commande Boutique J:%0A"+cart.join("%0A");
-window.location.href="https://wa.me/23674370369?text="+msg;
+  alert("Merci pour votre commande 🤍");
+  let num=document.getElementById("waNumber").value;
+  let msg=encodeURIComponent("Commande Boutique J : "+cart.join(", "));
+  window.location.href=`https://wa.me/${num}?text=${msg}`;
+  orders++;
+  cart=[];
+  document.getElementById("cartCount").innerText=0;
 }
 </script>
 
