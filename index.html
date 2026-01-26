@@ -2,268 +2,141 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>BOUTIQUE J OFFICIEL</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boutique J Officiel</title>
 
 <style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:#fff;
-  color:#000;
-}
-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:15px 20px;
-  border-bottom:1px solid #ddd;
-}
-.logo{
-  font-weight:bold;
-  letter-spacing:3px;
-}
-.slogan{
-  font-size:12px;
-  color:#555;
-}
-.right{
-  display:flex;
-  align-items:center;
-  gap:15px;
-}
-.cart{
-  cursor:pointer;
-  font-size:18px;
-}
-.cart span{
-  background:#000;
-  color:#fff;
-  border-radius:50%;
-  padding:2px 6px;
-  font-size:12px;
-  margin-left:5px;
-}
-.menu-btn{
-  font-size:22px;
-  cursor:pointer;
-}
-nav{
-  display:none;
-  padding:20px;
-  border-bottom:1px solid #ddd;
-}
-nav button{
-  display:block;
-  margin:10px 0;
-  padding:10px;
-  width:100%;
-  background:#000;
-  color:#fff;
-  border:none;
-  cursor:pointer;
-}
-section{
-  padding:25px;
-}
-.hidden{display:none}
-
-.categories, .products{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:20px;
-}
-.card{
-  border:1px solid #ddd;
-  padding:15px;
-  text-align:center;
-}
-.card img{
-  width:100%;
-  height:180px;
-  object-fit:cover;
-  background:#eee;
-}
-.card button{
-  margin-top:10px;
-  padding:8px 12px;
-  border:none;
-  background:#000;
-  color:#fff;
-  cursor:pointer;
-}
-footer{
-  padding:20px;
-  text-align:center;
-  font-size:13px;
-  color:#555;
-  border-top:1px solid #ddd;
-}
-input,select{
-  width:100%;
-  padding:10px;
-  margin:10px 0;
-}
-.whatsapp-btn{
-  background:#000;
-  color:#fff;
-  padding:12px;
-  border:none;
-  width:100%;
-  cursor:pointer;
-}
+body{margin:0;font-family:Arial;background:#fff;color:#000}
+header{display:flex;justify-content:space-between;align-items:center;padding:15px;border-bottom:2px solid #000}
+.menu-btn{font-size:26px;cursor:pointer}
+.cart{font-size:22px;cursor:pointer}
+.cart span{background:#000;color:#fff;border-radius:50%;padding:2px 7px;font-size:14px}
+nav{display:none;border-bottom:2px solid #000;padding:10px}
+nav button{display:block;width:100%;padding:12px;border:1px solid #000;margin:5px 0;background:#fff}
+.section{padding:20px;display:none}
+.section.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px}
+.card{border:1px solid #000;padding:15px;text-align:center}
+.card button{margin-top:10px;padding:8px;background:#000;color:#fff;border:none;cursor:pointer}
+input{width:100%;padding:10px;margin:8px 0;border:1px solid #000}
+footer{border-top:2px solid #000;padding:15px;text-align:center}
 </style>
 </head>
 
 <body>
 
 <header>
-  <div>
-    <div class="logo">BOUTIQUE J OFFICIEL</div>
-    <div class="slogan">Never give up on your dreams</div>
-  </div>
-  <div class="right">
-    <div onclick="openAccount()">Mon compte</div>
-    <div class="cart" onclick="openCart()">🛒 <span id="cartCount">0</span></div>
-    <div class="menu-btn" onclick="toggleMenu()">☰</div>
-  </div>
+<div class="menu-btn" onclick="toggleMenu()">☰</div>
+<strong>BOUTIQUE J</strong>
+<div class="cart" onclick="show('panier')">🛒 <span id="count">0</span></div>
 </header>
 
 <nav id="menu">
-  <button onclick="showSection('home')">Commencer mon achat</button>
-  <button onclick="showSection('categories')">Catégories</button>
-  <button onclick="showSection('contact')">Contact</button>
+<button onclick="show('home')">Menu</button>
+<button onclick="show('categories')">Catégories</button>
+<button onclick="show('compte')">Mon compte</button>
+<button onclick="show('contact')">Contact</button>
+<button onclick="show('admin')">Admin</button>
 </nav>
 
-<!-- INSCRIPTION -->
-<section id="login">
-  <h2>Inscription rapide</h2>
-  <p>Entrer votre numéro pour accéder à la boutique</p>
-  <input id="phone" placeholder="+236XXXXXXXX">
-  <button class="whatsapp-btn" onclick="login()">Entrer dans la boutique</button>
-</section>
+<div class="section active" id="home">
+<h2>Commencer mon achat 🛒</h2>
+</div>
 
-<!-- ACCUEIL -->
-<section id="home" class="hidden">
-  <h2>Bienvenue dans Boutique J</h2>
-  <p>Choisissez une catégorie pour commencer</p>
-</section>
+<div class="section" id="categories">
+<h2>Catégories</h2>
+<div class="grid">
+<div class="card" onclick="load('T-shirt',5000)">T-shirts</div>
+<div class="card" onclick="load('Pull',10000)">Pulls</div>
+<div class="card" onclick="load('Chaussette',2000)">Chaussettes</div>
+</div>
+</div>
 
-<!-- CATEGORIES -->
-<section id="categories" class="hidden">
-  <h2>Catégories</h2>
-  <div class="categories">
-    <div class="card"><button onclick="loadProducts('T-Shirts')">T-Shirts</button></div>
-    <div class="card"><button onclick="loadProducts('Pulls')">Pulls</button></div>
-    <div class="card"><button onclick="loadProducts('Chaussettes')">Chaussettes</button></div>
-  </div>
-</section>
+<div class="section" id="products">
+<h2 id="title"></h2>
+<div class="grid" id="list"></div>
+</div>
 
-<!-- PRODUITS -->
-<section id="products" class="hidden">
-  <h2 id="productTitle"></h2>
-  <div class="products" id="productList"></div>
-</section>
+<div class="section" id="panier">
+<h2>Panier</h2>
+<div id="panierList"></div>
+<h3>Total : <span id="total">0</span> FCFA</h3>
+<p>🚚 Livraison : frais + 3–4 jours</p>
+<button onclick="payer()">Payer via WhatsApp</button>
+</div>
 
-<!-- PANIER -->
-<section id="cartSection" class="hidden">
-  <h2>Votre panier</h2>
-  <div id="cartItems"></div>
-  <select id="waNumber">
-    <option value="23674370369">+236 74370369</option>
-    <option value="23672947165">+236 72947165</option>
-    <option value="23674648074">+236 74648074</option>
-  </select>
-  <button class="whatsapp-btn" onclick="checkout()">Payer via WhatsApp</button>
-</section>
+<div class="section" id="compte">
+<h2>Créer un compte</h2>
+<input id="clientNum" placeholder="Numéro (+236)">
+<button onclick="alert('Compte créé')">Valider</button>
+</div>
 
-<!-- MON COMPTE -->
-<section id="account" class="hidden">
-  <h2>Mon compte</h2>
-  <p>Numéro : <span id="userPhone"></span></p>
-  <p>Commandes : <span id="orders">0</span></p>
-</section>
+<div class="section" id="contact">
+<h2>Contact</h2>
+<p>📍 Bangui<br>
+📞 74370369 / 72947165 / 74648074<br>
+🕘 08h – 18h</p>
+</div>
 
-<!-- CONTACT -->
-<section id="contact" class="hidden">
-  <h2>Contact</h2>
-  <p>📍 Bangui</p>
-  <p>🕘 Lun–Sam : 9h00 – 19h00</p>
-  <p>📞 +236 74370369<br>+236 72947165<br>+236 74648074</p>
-</section>
+<!-- ADMIN -->
+<div class="section" id="admin">
+<h2>Espace Admin</h2>
+<input id="adminPass" placeholder="Mot de passe admin">
+<button onclick="adminLogin()">Connexion</button>
+<div id="orders"></div>
+</div>
 
-<footer>
-  © 2026 Boutique J — Tous droits réservés
-</footer>
+<footer>© Boutique J</footer>
 
 <script>
-let cart=[];
-let orders=0;
+let cart=[],total=0,orders=[];
+function toggleMenu(){menu.style.display=menu.style.display=="block"?"none":"block"}
+function show(id){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');menu.style.display="none"}
 
-function toggleMenu(){
-  document.getElementById("menu").style.display =
-  document.getElementById("menu").style.display==="block"?"none":"block";
+function load(cat,price){
+show('products');
+title.innerText=cat;
+list.innerHTML="";
+for(let i=1;i<=5;i++){
+list.innerHTML+=`
+<div class="card">
+${cat} ${i}<br>${price} FCFA
+<button onclick="add('${cat} ${i}',${price})">Ajouter</button>
+</div>`;
+}}
+
+function add(name,price){
+cart.push({name,price});
+total+=price;
+count.innerText=cart.length;
+updatePanier();
 }
 
-function showSection(id){
-  document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));
-  document.getElementById(id).classList.remove("hidden");
-  document.getElementById("menu").style.display="none";
+function updatePanier(){
+panierList.innerHTML="";
+cart.forEach(p=>panierList.innerHTML+=`<p>${p.name} - ${p.price} FCFA</p>`);
+total.innerText=total;
 }
 
-function login(){
-  let phone=document.getElementById("phone").value;
-  if(phone.length<9){alert("Entrer un numéro valide");return;}
-  localStorage.setItem("phone",phone);
-  showSection("home");
+function payer(){
+let num=clientNum.value||"Non renseigné";
+let msg="🛒 NOUVELLE COMMANDE%0AClient: "+num+"%0A";
+cart.forEach(p=>msg+=p.name+" - "+p.price+" FCFA%0A");
+msg+="TOTAL: "+total+" FCFA";
+orders.push(msg);
+alert("Merci pour votre commande 🙏");
+let choix=prompt("1-74370369  2-72947165  3-74648074");
+let phone=choix==2?"23672947165":choix==3?"23674648074":"23674370369";
+window.location.href="https://wa.me/"+phone+"?text="+msg;
 }
 
-function openAccount(){
-  document.getElementById("userPhone").innerText=localStorage.getItem("phone");
-  document.getElementById("orders").innerText=orders;
-  showSection("account");
-}
-
-function loadProducts(cat){
-  document.getElementById("productTitle").innerText=cat;
-  let list=document.getElementById("productList");
-  list.innerHTML="";
-  for(let i=1;i<=5;i++){
-    list.innerHTML+=`
-    <div class="card">
-      <img>
-      <h4>${cat} ${i}</h4>
-      <p>⭐⭐⭐⭐⭐</p>
-      <p>${cat==="Chaussettes"?3000:cat==="T-Shirts"?9000:20000} FCFA</p>
-      <button onclick="addToCart('${cat} ${i}')">Ajouter au panier</button>
-    </div>`;
-  }
-  showSection("products");
-}
-
-function addToCart(p){
-  cart.push(p);
-  document.getElementById("cartCount").innerText=cart.length;
-}
-
-function openCart(){
-  let c=document.getElementById("cartItems");
-  c.innerHTML="";
-  cart.forEach(p=>c.innerHTML+=`<p>${p}</p>`);
-  showSection("cartSection");
-}
-
-function checkout(){
-  alert("Merci pour votre commande 🤍");
-  let num=document.getElementById("waNumber").value;
-  let msg=encodeURIComponent("Commande Boutique J : "+cart.join(", "));
-  window.location.href=`https://wa.me/${num}?text=${msg}`;
-  orders++;
-  cart=[];
-  document.getElementById("cartCount").innerText=0;
+function adminLogin(){
+if(adminPass.value=="admin123"){
+orders.forEach(o=>ordersDiv.innerHTML+=`<p>${decodeURIComponent(o)}</p>`);
+}else alert("Accès refusé");
 }
 </script>
 
 </body>
 </html>
+
