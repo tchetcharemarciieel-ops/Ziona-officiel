@@ -1,20 +1,19 @@
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Boutique J — ZIONA</title>
+<title>Boutique J — Official</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body{
     margin:0;
     font-family:Arial, sans-serif;
-    background:#fff; /* blanc */
+    background:#fff;
     color:#000;
 }
 header{
-    background:#000;
-    color:#fff;
-    padding:15px 20px;
+    padding:20px;
+    border-bottom:1px solid #ddd;
     display:flex;
     justify-content:space-between;
     align-items:center;
@@ -23,74 +22,43 @@ header h1{
     margin:0;
     font-size:22px;
 }
-nav{
-    display:flex;
-    gap:15px;
-}
-nav div{
-    background:#ff7900;
-    padding:8px 15px;
-    border-radius:6px;
-    cursor:pointer;
+nav a{
+    margin-left:15px;
+    text-decoration:none;
+    color:#000;
+    font-weight:bold;
 }
 section{
-    padding:20px;
+    padding:40px 20px;
+}
+h2{
+    margin-bottom:20px;
 }
 .products{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-    gap:20px;
-    justify-items:center;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:25px;
 }
 .product{
-    background:#f8f8f8;
-    border-radius:10px;
-    padding:10px;
     text-align:center;
-    width:100%;
-    box-shadow:0 3px 5px rgba(0,0,0,0.2);
 }
 .product img{
     width:100%;
-    border-radius:6px;
+    border-radius:8px;
 }
-button{
-    background:#ff7900;
-    color:#fff;
-    border:none;
-    padding:8px 12px;
-    margin-top:6px;
-    cursor:pointer;
-    border-radius:6px;
-}
-.account{
-    position:absolute;
-    top:70px;
-    right:20px;
-    width:300px;
-    background:#fff;
-    color:#000;
-    border-radius:10px;
-    padding:15px;
-    box-shadow:0 4px 6px rgba(0,0,0,0.3);
-    display:none;
-    z-index:100;
-}
-.account h3{
-    margin-top:0;
-}
-.account div{
-    margin:6px 0;
-}
-.account button{
-    width:100%;
-}
-footer{
-    text-align:center;
+.product button{
+    margin-top:8px;
+    padding:8px 15px;
     background:#000;
     color:#fff;
-    padding:15px;
-    margin-top:20px;
+    border:none;
+    cursor:pointer;
+}
+footer{
+    margin-top:60px;
+    padding:20px;
+    border-top:1px solid #ddd;
+    text-align:center;
 }
 </style>
 </head>
@@ -99,155 +67,73 @@ footer{
 <header>
 <h1>Boutique J — Official | Never Stop Your Dreams</h1>
 <nav>
-<div id="accountBtn">Mon compte</div>
-<div id="cartBtn">Panier (<span id="cartCount">0</span>)</div>
+<a href="mon-compte.html">Mon compte</a>
 </nav>
 </header>
 
-<!-- INSCRIPTION RAPIDE -->
-<section id="register">
-<div class="card">
-<h3>Inscription rapide</h3>
-<select id="code">
-<option value="+236">🇨🇫 +236</option>
-<option value="+237">🇨🇲 +237</option>
-</select>
-<input type="tel" id="phone" placeholder="Numéro Orange Money">
-<button onclick="login()">Entrer dans la boutique</button>
-<p style="font-size:13px;color:#555">Aucun mot de passe • Inscription instantanée</p>
-</div>
-</section>
-
-<!-- PRODUITS -->
 <section>
-<h3>Produits populaires</h3>
-<div class="products" id="products"></div>
+<h2>T-Shirts</h2>
+<div class="products">
+<div class="product">
+<img src="https://via.placeholder.com/300x350?text=T-shirt+Noir">
+<p>T-Shirt Noir</p>
+<p>15 000 FCFA</p>
+<button>Ajouter</button>
+</div>
+<div class="product">
+<img src="https://via.placeholder.com/300x350?text=T-shirt+Blanc">
+<p>T-Shirt Blanc</p>
+<p>15 000 FCFA</p>
+<button>Ajouter</button>
+</div>
+</div>
 </section>
 
-<!-- ACCOUNT PANEL -->
-<div class="account" id="accountPanel">
-<h3>Mon compte</h3>
-<div>Numéro : <b id="clientNum"></b></div>
-<div>Nombre de commandes : <b id="orderCount">0</b></div>
-<div id="cartItems"></div>
-<p>Total : <b><span id="total">0</span> FCFA</b></p>
-<button onclick="pay()">Payer via WhatsApp</button>
+<section>
+<h2>Pulls & Hoodies</h2>
+<div class="products">
+<div class="product">
+<img src="https://via.placeholder.com/300x350?text=Hoodie+Noir">
+<p>Hoodie Noir</p>
+<p>30 000 FCFA</p>
+<button>Ajouter</button>
 </div>
+<div class="product">
+<img src="https://via.placeholder.com/300x350?text=Hoodie+Gris">
+<p>Hoodie Gris</p>
+<p>29 000 FCFA</p>
+<button>Ajouter</button>
+</div>
+</div>
+</section>
+
+<section>
+<h2>Chaussettes</h2>
+<div class="products">
+<div class="product">
+<img src="https://via.placeholder.com/300x350?text=Chaussettes+Noires">
+<p>Chaussettes Noires</p>
+<p>5 000 FCFA</p>
+<button>Ajouter</button>
+</div>
+<div class="product">
+<img src="https://via.placeholder.com/300x350?text=Chaussettes+Blanches">
+<p>Chaussettes Blanches</p>
+<p>5 000 FCFA</p>
+<button>Ajouter</button>
+</div>
+</div>
+</section>
 
 <footer>
-<p>📲 WhatsApp commande : <b>+236 72947165</b></p>
+<p>Commandes WhatsApp : <b>+236 72947165</b></p>
 <p>© 2026 J — ZIONA</p>
 </footer>
 
-<script>
-let client = localStorage.getItem("client") || "";
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-let orderCount = parseInt(localStorage.getItem("orderCount")) || 0;
-
-const products = [
-{name:"T-shirt Noir",price:15000},
-{name:"T-shirt Blanc",price:15000},
-{name:"T-shirt Rouge",price:15500},
-{name:"T-shirt Bleu",price:15500},
-{name:"Hoodie Noir",price:30000},
-{name:"Hoodie Gris",price:29000},
-{name:"Hoodie Rouge",price:31000},
-{name:"Hoodie Bleu",price:32000},
-{name:"Casquette Noire",price:10000},
-{name:"Casquette Blanche",price:10500},
-{name:"Casquette Rouge",price:11000},
-{name:"Casquette Bleue",price:11500},
-{name:"Chaussettes Noires",price:5000},
-{name:"Chaussettes Blanches",price:5000},
-{name:"Chaussettes Longues",price:6000},
-{name:"Chaussettes Colorées",price:7000},
-{name:"Pack T-shirt J",price:28000},
-{name:"Pack Hoodie J",price:58000},
-{name:"Casquette Premium",price:15000},
-{name:"Pack Chaussettes J",price:12000},
-];
-
-const productsDiv = document.getElementById("products");
-function showProducts(){
-    productsDiv.innerHTML="";
-    products.forEach((p,index)=>{
-        productsDiv.innerHTML+=`
-        <div class="product">
-            <img src="https://via.placeholder.com/160?text=${encodeURIComponent(p.name)}">
-            <p><b>${p.name}</b></p>
-            <p>${p.price} FCFA</p>
-            <button onclick="addToCart(${index})">Ajouter</button>
-        </div>`;
-    });
-}
-showProducts();
-
-// LOGIN SIMPLE
-function login(){
-    const code=document.getElementById("code").value;
-    const phone=document.getElementById("phone").value;
-    if(phone.length<6){alert("Numéro invalide"); return;}
-    client=code+phone;
-    localStorage.setItem("client",client);
-    document.getElementById("clientNum").innerText=client;
-    document.getElementById("register").style.display="none";
-    updateCart();
-}
-
-// PANIER
-function addToCart(index){
-    const p=products[index];
-    cart.push({name:p.name,price:p.price});
-    localStorage.setItem("cart",JSON.stringify(cart));
-    updateCart();
-}
-function removeFromCart(index){
-    cart.splice(index,1);
-    localStorage.setItem("cart",JSON.stringify(cart));
-    updateCart();
-}
-function updateCart(){
-    const cartItems=document.getElementById("cartItems");
-    cartItems.innerHTML="";
-    let total=0;
-    cart.forEach((item,i)=>{
-        total+=item.price;
-        cartItems.innerHTML+=`<p>${item.name} - ${item.price} FCFA <button onclick="removeFromCart(${i})">Supprimer</button></p>`;
-    });
-    document.getElementById("total").innerText=total;
-    document.getElementById("cartCount").innerText=cart.length;
-    document.getElementById("orderCount").innerText=orderCount;
-}
-
-// COMMANDER WHATSAPP
-function pay(){
-    if(cart.length===0){alert("Panier vide");return;}
-    orderCount++;
-    localStorage.setItem("orderCount",orderCount);
-    alert("Merci pour votre commande !");
-    let msg=`Bonjour, je souhaite commander :%0A`;
-    cart.forEach(i=>msg+=`- ${i.name} (${i.price} FCFA)%0A`);
-    msg+=`Total : ${document.getElementById("total").innerText} FCFA%0AClient : ${client}`;
-    window.location.href=`https://wa.me/23672947165?text=${msg}`;
-    cart=[];
-    localStorage.setItem("cart",JSON.stringify(cart));
-    updateCart();
-}
-
-// TOGGLE ACCOUNT PANEL
-const accountBtn=document.getElementById("accountBtn");
-const accountPanel=document.getElementById("accountPanel");
-accountBtn.onclick=()=>accountPanel.style.display=accountPanel.style.display==="none"?"block":"none";
-
-// RESTAURATION PANIER ET CLIENT
-window.onload=()=>{
-    if(client){
-        document.getElementById("clientNum").innerText=client;
-        document.getElementById("register").style.display="none";
-    }
-    updateCart();
-}
-</script>
-
 </body>
 </html>
+
+
+
+
+
