@@ -6,15 +6,14 @@
   <title>Boutique J Officiel</title>
   <style>
     body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#fff;color:#000}
-    header{display:flex;justify-content:space-between;align-items:center;padding:15px 30px;border-bottom:1px solid #eee}
+    header{display:flex;justify-content:space-between;align-items:center;padding:15px 30px;border-bottom:1px solid #eee;flex-wrap:wrap}
     header h1{margin:0;font-size:22px;letter-spacing:3px}
-    nav a{margin:0 10px;text-decoration:none;color:#000;font-size:14px}
-    .top-right a{margin-left:15px;font-size:14px;text-decoration:none;color:#000}
+    nav a{margin:0 8px;text-decoration:none;color:#000;font-size:14px}
+    .top-right a{margin-left:12px;font-size:14px;text-decoration:none;color:#000}
     .hero{text-align:center;padding:50px 20px;background:#000;color:#fff}
-    .hero h2{margin-bottom:10px}
     .container{max-width:1100px;margin:auto;padding:30px 20px}
-    .categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
-    .cat{border:1px solid #eee;padding:40px;text-align:center;cursor:pointer;transition:.3s}
+    .categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px}
+    .cat{border:1px solid #eee;padding:35px;text-align:center;cursor:pointer;transition:.3s}
     .cat:hover{background:#000;color:#fff}
     .products{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-top:30px}
     .product{border:1px solid #eee;padding:15px}
@@ -22,10 +21,13 @@
     .product h4{margin:10px 0 5px}
     .price{font-weight:bold}
     button{width:100%;padding:10px;border:none;background:#000;color:#fff;cursor:pointer}
-    .reviews,.recommend{margin-top:50px}
-    .review{border-top:1px solid #eee;padding:10px 0;font-size:14px}
+    .cart{position:fixed;right:20px;bottom:20px;background:#000;color:#fff;padding:15px;width:280px;max-height:80vh;overflow:auto}
+    .cart h3{margin-top:0}
+    .cart-item{font-size:14px;border-bottom:1px solid #333;padding:5px 0}
+    .cart button{margin-top:10px}
     footer{margin-top:60px;padding:30px;text-align:center;font-size:13px;color:#777;border-top:1px solid #eee}
     .hidden{display:none}
+    @media(max-width:768px){header{justify-content:center;text-align:center}.top-right{margin-top:10px}}
   </style>
 </head>
 <body>
@@ -35,90 +37,77 @@
   <nav>
     <a href="#">Accueil</a>
     <a href="#categories">Catégories</a>
-    <a href="#tendances">Tendances</a>
     <a href="#horaires">Horaires</a>
     <a href="#contact">Contact</a>
   </nav>
   <div class="top-right">
-    <a href="compte.html">Mon compte</a>
-    <a href="#">Panier (0)</a>
+    <a href="#">Mon compte</a>
+    <a href="#">Panier</a>
   </div>
 </header>
 
 <section class="hero">
   <h2>Never give up on your dreams</h2>
-  <p>Mode minimaliste · Livraison Bangui / Douala / Yaoundé</p>
+  <p>Livraison : Bangui · Douala · Yaoundé</p>
 </section>
 
 <div class="container" id="categories">
   <h3>Catégories</h3>
   <div class="categories">
-    <div class="cat" onclick="showProducts('tshirt')">T‑Shirts</div>
+    <div class="cat" onclick="showProducts('tshirt')">T-Shirts</div>
     <div class="cat" onclick="showProducts('pull')">Pulls</div>
     <div class="cat" onclick="showProducts('chaussette')">Chaussettes</div>
   </div>
 
-  <!-- PRODUITS TSHIRTS -->
   <div id="tshirt" class="products hidden">
-    <div class="product"><img src="images/tshirt1.jpg"><h4>T‑Shirt J Classic</h4><p class="price">12 000 FCFA</p><button>Ajouter au panier</button></div>
-    <div class="product"><img src="images/tshirt2.jpg"><h4>T‑Shirt Minimal</h4><p class="price">13 000 FCFA</p><button>Ajouter au panier</button></div>
-    <div class="product"><img src="images/tshirt3.jpg"><h4>T‑Shirt Urban</h4><p class="price">14 000 FCFA</p><button>Ajouter au panier</button></div>
-    <div class="product"><img src="images/tshirt4.jpg"><h4>T‑Shirt Street</h4><p class="price">12 500 FCFA</p><button>Ajouter au panier</button></div>
-    <div class="product"><img src="images/tshirt5.jpg"><h4>T‑Shirt Limited</h4><p class="price">15 000 FCFA</p><button>Ajouter au panier</button></div>
+    <div class="product"><img src="images/tshirt1.jpg"><h4>T-Shirt J Classic</h4><p class="price">12 000 FCFA</p><button onclick="addToCart('T-Shirt J Classic')">Ajouter au panier</button></div>
+    <div class="product"><img src="images/tshirt2.jpg"><h4>T-Shirt Minimal</h4><p class="price">13 000 FCFA</p><button onclick="addToCart('T-Shirt Minimal')">Ajouter au panier</button></div>
+    <div class="product"><img src="images/tshirt3.jpg"><h4>T-Shirt Urban</h4><p class="price">14 000 FCFA</p><button onclick="addToCart('T-Shirt Urban')">Ajouter au panier</button></div>
+    <div class="product"><img src="images/tshirt4.jpg"><h4>T-Shirt Street</h4><p class="price">12 500 FCFA</p><button onclick="addToCart('T-Shirt Street')">Ajouter au panier</button></div>
+    <div class="product"><img src="images/tshirt5.jpg"><h4>T-Shirt Limited</h4><p class="price">15 000 FCFA</p><button onclick="addToCart('T-Shirt Limited')">Ajouter au panier</button></div>
   </div>
 
-  <!-- PRODUITS PULLS -->
   <div id="pull" class="products hidden">
-    <div class="product"><img src="images/pull1.jpg"><h4>Pull J Noir</h4><p class="price">25 000 FCFA</p><button>Ajouter au panier</button></div>
-    <div class="product"><img src="images/pull2.jpg"><h4>Pull Oversize</h4><p class="price">27 000 FCFA</p><button>Ajouter au panier</button></div>
-    <div class="product"><img src="images/pull3.jpg"><h4>Pull Street</h4><p class="price">26 000 FCFA</p><button>Ajouter au panier</button></div>
-    <div class="product"><img src="images/pull4.jpg"><h4>Pull Minimal</h4><p class="price">24 000 FCFA</p><button>Ajouter au panier</button></div>
-    <div class="product"><img src="images/pull5.jpg"><h4>Pull Premium</h4><p class="price">28 000 FCFA</p><button>Ajouter au panier</button></div>
+    <div class="product"><img src="images/pull1.jpg"><h4>Pull J Noir</h4><p class="price">25 000 FCFA</p><button onclick="addToCart('Pull J Noir')">Ajouter au panier</button></div>
+    <div class="product"><img src="images/pull2.jpg"><h4>Pull Oversize</h4><p class="price">27 000 FCFA</p><button onclick="addToCart('Pull Oversize')">Ajouter au panier</button></div>
+    <div class="product"><img src="images/pull3.jpg"><h4>Pull Street</h4><p class="price">26 000 FCFA</p><button onclick="addToCart('Pull Street')">Ajouter au panier</button></div>
+    <div class="product"><img src="images/pull4.jpg"><h4>Pull Minimal</h4><p class="price">24 000 FCFA</p><button onclick="addToCart('Pull Minimal')">Ajouter au panier</button></div>
+    <div class="product"><img src="images/pull5.jpg"><h4>Pull Premium</h4><p class="price">28 000 FCFA</p><button onclick="addToCart('Pull Premium')">Ajouter au panier</button></div>
   </div>
 
-  <!-- PRODUITS CHAUSSETTES -->
   <div id="chaussette" class="products hidden">
-    <div class="product"><img src="images/chaussette1.jpg"><h4>Chaussettes J Blanc</h4><p class="price">3 000 FCFA</p><button>Ajouter au panier</button></div>
-    <div class="product"><img src="images/chaussette2.jpg"><h4>Chaussettes Noires</h4><p class="price">3 500 FCFA</p><button>Ajouter au panier</button></div>
-    <div class="product"><img src="images/chaussette3.jpg"><h4>Pack Chaussettes</h4><p class="price">9 000 FCFA</p><button>Ajouter au panier</button></div>
-    <div class="product"><img src="images/chaussette4.jpg"><h4>Chaussettes Sport</h4><p class="price">4 000 FCFA</p><button>Ajouter au panier</button></div>
-    <div class="product"><img src="images/chaussette5.jpg"><h4>Chaussettes Premium</h4><p class="price">5 000 FCFA</p><button>Ajouter au panier</button></div>
+    <div class="product"><img src="images/chaussette1.jpg"><h4>Chaussettes J Blanc</h4><p class="price">3 000 FCFA</p><button onclick="addToCart('Chaussettes J Blanc')">Ajouter au panier</button></div>
+    <div class="product"><img src="images/chaussette2.jpg"><h4>Chaussettes Noires</h4><p class="price">3 500 FCFA</p><button onclick="addToCart('Chaussettes Noires')">Ajouter au panier</button></div>
+    <div class="product"><img src="images/chaussette3.jpg"><h4>Pack Chaussettes</h4><p class="price">9 000 FCFA</p><button onclick="addToCart('Pack Chaussettes')">Ajouter au panier</button></div>
+    <div class="product"><img src="images/chaussette4.jpg"><h4>Chaussettes Sport</h4><p class="price">4 000 FCFA</p><button onclick="addToCart('Chaussettes Sport')">Ajouter au panier</button></div>
+    <div class="product"><img src="images/chaussette5.jpg"><h4>Chaussettes Premium</h4><p class="price">5 000 FCFA</p><button onclick="addToCart('Chaussettes Premium')">Ajouter au panier</button></div>
   </div>
+</div>
 
-  <!-- RECOMMANDATIONS -->
-  <div class="recommend">
-    <h3>Recommandé pour vous</h3>
-    <p>Les clients qui ont aimé J Classic achètent aussi nos pulls minimalistes.</p>
-  </div>
-
-  <!-- AVIS -->
-  <div class="reviews">
-    <h3>Avis clients</h3>
-    <div class="review">⭐⭐⭐⭐⭐ — Très bonne qualité, livraison rapide à Bangui.</div>
-    <div class="review">⭐⭐⭐⭐⭐ — Style propre, exactement comme sur les photos.</div>
-    <div class="review">⭐⭐⭐⭐ — Service client réactif sur WhatsApp.</div>
-  </div>
+<div class="cart" id="cart">
+  <h3>Votre panier</h3>
+  <div id="cartItems"></div>
+  <button onclick="checkout()">Payer via WhatsApp</button>
 </div>
 
 <footer id="horaires">
   <p><strong>Horaires :</strong> Lundi – Samedi : 9h00 – 19h00 · Dimanche : Fermé</p>
-  <p id="contact">Commande & assistance WhatsApp : +236 72947165</p>
+  <p id="contact">Commande WhatsApp : +236 72947165 / 74370369 / 74648074</p>
   <p>© 2026 Boutique J — A ZIONA Brand</p>
 </footer>
 
 <script>
-  function showProducts(cat){
-    document.querySelectorAll('.products').forEach(p=>p.classList.add('hidden'));
-    document.getElementById(cat).classList.remove('hidden');
-  }
+  let cart=[];
+  function showProducts(cat){document.querySelectorAll('.products').forEach(p=>p.classList.add('hidden'));document.getElementById(cat).classList.remove('hidden');}
+  function addToCart(item){cart.push(item);renderCart();}
+  function renderCart(){const c=document.getElementById('cartItems');c.innerHTML='';cart.forEach(i=>{const d=document.createElement('div');d.className='cart-item';d.textContent=i;c.appendChild(d);});}
+  function checkout(){const msg=encodeURIComponent('Bonjour, je souhaite commander : '+cart.join(', '));window.open('https://wa.me/23672947165?text='+msg,'_blank');}
 </script>
 
 </body>
 </html>
 
-      
-   
 
-
+ 
 
     
