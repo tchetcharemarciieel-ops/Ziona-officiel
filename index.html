@@ -3,97 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Boutique J</title>
+<title>Boutique J Officiel</title>
 
 <style>
-body {
-  margin:0;
-  font-family: Arial, sans-serif;
-  background:#f5f5f5;
-}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f4f4;color:#111}
+header{background:#000;color:#fff;padding:15px;display:flex;align-items:center;justify-content:space-between}
+header h1{margin:0;font-size:18px}
+header .right{display:flex;gap:15px;align-items:center}
+header span{cursor:pointer}
 
-header {
-  background:#000;
-  color:#fff;
-  padding:15px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
+.menu{display:none;background:#000;color:#fff;padding:15px}
+.menu p{margin:0;font-weight:bold}
 
-header span {
-  cursor:pointer;
-}
+.container{padding:20px}
 
-.cart-icon {
-  font-size:20px;
-}
+/* Categories */
+.categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
+.cat{background:#fff;padding:25px;text-align:center;border-radius:10px;cursor:pointer;
+box-shadow:0 5px 15px rgba(0,0,0,.1)}
+.cat:hover{transform:scale(1.03)}
 
-.container {
-  padding:20px;
-}
+/* Products */
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.product{background:#fff;border-radius:10px;padding:15px;box-shadow:0 5px 15px rgba(0,0,0,.1);cursor:pointer}
+.product img{width:100%;height:200px;object-fit:cover;border-radius:8px}
+.price{font-weight:bold;margin-top:5px}
 
-.products {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:20px;
-}
+/* Buttons */
+button{background:#000;color:#fff;border:none;padding:10px;width:100%;border-radius:5px;margin-top:10px;cursor:pointer}
+button.green{background:#25D366}
 
-.product {
-  background:#fff;
-  border-radius:10px;
-  padding:15px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.1);
-  cursor:pointer;
-}
+/* Cart */
+.cart{position:fixed;bottom:15px;right:15px;background:#000;color:#fff;padding:10px 15px;border-radius:30px;font-size:16px}
+.cart span{font-weight:bold}
 
-.product img {
-  width:100%;
-  height:180px;
-  object-fit:cover;
-  border-radius:8px;
-}
+.panel{background:#fff;border-radius:10px;padding:20px;margin-top:20px}
+.row{display:flex;justify-content:space-between;margin:8px 0}
+.total{font-size:18px;font-weight:bold}
 
-.price {
-  font-weight:bold;
-}
+.hidden{display:none}
 
-button {
-  margin-top:10px;
-  padding:10px;
-  width:100%;
-  border:none;
-  background:#000;
-  color:#fff;
-  cursor:pointer;
-  border-radius:5px;
-}
-
-.cart {
-  background:#fff;
-  padding:15px;
-  margin-top:25px;
-  border-radius:10px;
-}
-
-.cart-item {
-  display:flex;
-  justify-content:space-between;
-  margin:8px 0;
-}
-
-.total {
-  font-size:18px;
-  font-weight:bold;
-}
-
-.whatsapp {
-  background:#25D366;
-  margin-top:10px;
-}
-
-.hidden {
-  display:none;
+/* Responsive */
+@media(max-width:600px){
+header h1{font-size:16px}
 }
 </style>
 </head>
@@ -101,128 +54,181 @@ button {
 <body>
 
 <header>
-  <span onclick="showHome()">☰ Menu</span>
-  <strong>Boutique J</strong>
-  <span class="cart-icon">🛒 <span id="count">0</span></span>
+  <span onclick="toggleMenu()">☰</span>
+  <h1>BOUTIQUE J OFFICIEL</h1>
+  <div class="right">
+    <span onclick="openAccount()">Mon compte</span>
+  </div>
 </header>
+
+<div id="menu" class="menu">
+  <p>Commencer mon achat</p>
+</div>
 
 <div class="container">
 
-<!-- PAGE ACCUEIL -->
-<div id="home">
-  <div class="products">
-    <div class="product" onclick="openProduct(0)">
-      <img src="https://via.placeholder.com/400">
-      <h3>Casque Bluetooth</h3>
-      <p class="price">15 000 XAF</p>
-    </div>
+<!-- INSCRIPTION -->
+<div id="register" class="panel">
+  <h3>Inscription rapide</h3>
+  <p>Entrez votre numéro pour accéder à la boutique</p>
+  <input id="phone" placeholder="+236 XXXXXXXX" style="width:100%;padding:10px">
+  <button onclick="enterShop()">Entrer dans la boutique</button>
+</div>
 
-    <div class="product" onclick="openProduct(1)">
-      <img src="https://via.placeholder.com/400">
-      <h3>Montre Connectée</h3>
-      <p class="price">20 000 XAF</p>
-    </div>
-
-    <div class="product" onclick="openProduct(2)">
-      <img src="https://via.placeholder.com/400">
-      <h3>Écouteurs Sans Fil</h3>
-      <p class="price">10 000 XAF</p>
-    </div>
+<!-- CATEGORIES -->
+<div id="categories" class="hidden">
+  <div class="categories">
+    <div class="cat" onclick="openCategory('tshirt')">👕 T-Shirts</div>
+    <div class="cat" onclick="openCategory('pull')">🧥 Pulls</div>
+    <div class="cat" onclick="openCategory('pants')">👖 Pantalons</div>
   </div>
 </div>
 
+<!-- PRODUITS -->
+<div id="products" class="hidden">
+  <h3 id="catTitle"></h3>
+  <div class="products" id="productList"></div>
+  <button onclick="backCategories()">⬅ Retour catégories</button>
+</div>
+
 <!-- PAGE PRODUIT -->
-<div id="productPage" class="hidden">
-  <h2 id="pname"></h2>
+<div id="productPage" class="hidden panel">
+  <h3 id="pname"></h3>
   <img id="pimg" style="width:100%;max-width:300px">
   <p id="pprice"></p>
-  <button onclick="add()">Ajouter au panier</button>
-  <button onclick="showHome()">⬅ Retour</button>
+  <label>Taille :
+    <select id="psize">
+      <option>S</option><option>M</option><option>L</option><option>XL</option>
+    </select>
+  </label>
+  <button onclick="addToCart()">Ajouter au panier</button>
+  <button onclick="backProducts()">⬅ Retour</button>
 </div>
 
 <!-- PANIER -->
-<div class="cart">
+<div id="cartPanel" class="panel hidden">
   <h3>Panier</h3>
-  <div id="cart"></div>
-  <p>📍 Ville :
-    <select id="city">
-      <option>Bangui</option>
-      <option>Bimbo</option>
-      <option>Autre</option>
-    </select>
-  </p>
+  <div id="cartItems"></div>
   <p>🚚 Livraison : 3–4 jours (frais possibles)</p>
   <div class="total">Total : <span id="total">0</span> XAF</div>
-  <button class="whatsapp" onclick="pay()">Payer via WhatsApp</button>
+  <button class="green" onclick="checkout()">Payer via WhatsApp</button>
 </div>
 
 </div>
+
+<div class="cart" onclick="openCart()">🛒 <span id="count">0</span></div>
 
 <script>
-const products = [
- {name:"Casque Bluetooth", price:15000, img:"https://via.placeholder.com/400"},
- {name:"Montre Connectée", price:20000, img:"https://via.placeholder.com/400"},
- {name:"Écouteurs Sans Fil", price:10000, img:"https://via.placeholder.com/400"}
-];
-
+let user=null;
 let cart=[];
-let current=null;
+let currentProduct=null;
 
-function openProduct(i){
-  current=i;
-  document.getElementById("home").classList.add("hidden");
-  document.getElementById("productPage").classList.remove("hidden");
-  document.getElementById("pname").textContent=products[i].name;
-  document.getElementById("pprice").textContent=products[i].price+" XAF";
-  document.getElementById("pimg").src=products[i].img;
+const data={
+tshirt:[
+{name:"T-Shirt Noir Classique",price:8000,img:"https://via.placeholder.com/400"},
+{name:"T-Shirt Blanc Premium",price:9000,img:"https://via.placeholder.com/400"},
+{name:"T-Shirt Oversize",price:10000,img:"https://via.placeholder.com/400"},
+{name:"T-Shirt Street",price:11000,img:"https://via.placeholder.com/400"},
+{name:"T-Shirt Limited",price:13000,img:"https://via.placeholder.com/400"}
+],
+pull:[
+{name:"Pull Noir",price:15000,img:"https://via.placeholder.com/400"},
+{name:"Pull Blanc",price:16000,img:"https://via.placeholder.com/400"},
+{name:"Hoodie Street",price:18000,img:"https://via.placeholder.com/400"},
+{name:"Pull Oversize",price:20000,img:"https://via.placeholder.com/400"},
+{name:"Hoodie Premium",price:22000,img:"https://via.placeholder.com/400"}
+],
+pants:[
+{name:"Jean Noir",price:18000,img:"https://via.placeholder.com/400"},
+{name:"Jean Slim",price:19000,img:"https://via.placeholder.com/400"},
+{name:"Pantalon Cargo",price:21000,img:"https://via.placeholder.com/400"},
+{name:"Jogging Street",price:17000,img:"https://via.placeholder.com/400"},
+{name:"Pantalon Premium",price:23000,img:"https://via.placeholder.com/400"}
+]
+};
+
+function toggleMenu(){
+document.getElementById("menu").style.display=
+document.getElementById("menu").style.display==="block"?"none":"block";
 }
 
-function showHome(){
-  document.getElementById("home").classList.remove("hidden");
-  document.getElementById("productPage").classList.add("hidden");
+function enterShop(){
+let p=document.getElementById("phone").value;
+if(!p){alert("Entrez votre numéro");return;}
+user=p;
+document.getElementById("register").classList.add("hidden");
+document.getElementById("categories").classList.remove("hidden");
 }
 
-function add(){
-  let p=products[current];
-  let item=cart.find(x=>x.name===p.name);
-  if(item){item.qty++;}
-  else{cart.push({name:p.name,price:p.price,qty:1});}
-  render();
+function openCategory(cat){
+document.getElementById("categories").classList.add("hidden");
+document.getElementById("products").classList.remove("hidden");
+document.getElementById("catTitle").textContent=cat.toUpperCase();
+let list=document.getElementById("productList");
+list.innerHTML="";
+data[cat].forEach((p,i)=>{
+list.innerHTML+=`
+<div class="product" onclick="openProduct('${cat}',${i})">
+<img src="${p.img}">
+<h4>${p.name}</h4>
+<p class="price">${p.price} XAF</p>
+</div>`;
+});
 }
 
-function render(){
-  let c=document.getElementById("cart");
-  c.innerHTML="";
-  let total=0;
-  let count=0;
-
-  cart.forEach(p=>{
-    total+=p.price*p.qty;
-    count+=p.qty;
-    c.innerHTML+=`<div class="cart-item">${p.name} x${p.qty}</div>`;
-  });
-
-  // Réduction LEVEL 1200
-  if(total>=30000){ total*=0.9; }
-
-  document.getElementById("total").textContent=Math.round(total);
-  document.getElementById("count").textContent=count;
+function openProduct(cat,i){
+currentProduct=data[cat][i];
+document.getElementById("products").classList.add("hidden");
+document.getElementById("productPage").classList.remove("hidden");
+document.getElementById("pname").textContent=currentProduct.name;
+document.getElementById("pprice").textContent=currentProduct.price+" XAF";
+document.getElementById("pimg").src=currentProduct.img;
 }
 
-function pay(){
-  if(cart.length===0){alert("Panier vide");return;}
-  let msg="Commande Boutique J:%0A";
-  let total=0;
-  cart.forEach(p=>{
-    msg+=`- ${p.name} x${p.qty}%0A`;
-    total+=p.price*p.qty;
-  });
-  if(total>=30000){
-    msg+="Réduction -10%% appliquée%0A";
-    total*=0.9;
-  }
-  msg+=`Total: ${Math.round(total)} XAF`;
-  window.open("https://wa.me/23672947165?text="+msg);
+function addToCart(){
+let size=document.getElementById("psize").value;
+cart.push({...currentProduct,size});
+updateCart();
+alert("Ajouté au panier");
+}
+
+function updateCart(){
+document.getElementById("count").textContent=cart.length;
+}
+
+function openCart(){
+document.getElementById("cartPanel").classList.remove("hidden");
+let box=document.getElementById("cartItems");
+box.innerHTML="";
+let total=0;
+cart.forEach(p=>{
+total+=p.price;
+box.innerHTML+=`<div class="row"><span>${p.name} (${p.size})</span><span>${p.price} XAF</span></div>`;
+});
+document.getElementById("total").textContent=total;
+}
+
+function checkout(){
+alert("Merci pour votre commande 🤍");
+let msg="Commande Boutique J%0A";
+let total=0;
+cart.forEach(p=>{msg+=`- ${p.name} (${p.size})%0A`; total+=p.price;});
+msg+=`Total: ${total} XAF`;
+window.open("https://wa.me/23672947165?text="+msg);
+}
+
+function backCategories(){
+document.getElementById("products").classList.add("hidden");
+document.getElementById("categories").classList.remove("hidden");
+}
+
+function backProducts(){
+document.getElementById("productPage").classList.add("hidden");
+document.getElementById("products").classList.remove("hidden");
+}
+
+function openAccount(){
+alert("Mon compte\nNuméro : "+(user||"Non connecté")+"\nCommandes : "+cart.length);
 }
 </script>
 
