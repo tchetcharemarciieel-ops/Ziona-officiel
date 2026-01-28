@@ -15,6 +15,9 @@ header .nav span{cursor:pointer;font-weight:500;}
 .menu{display:none;background:#222;color:#fff;padding:15px;font-weight:500;}
 .container{max-width:1200px;margin:auto;padding:25px;}
 
+/* BANNIERE PROMO */
+.banner{background:#000;color:#fff;text-align:center;padding:15px;font-weight:700;font-size:16px;margin-bottom:20px;}
+
 /* CATEGORIES */
 .categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:25px;margin-top:20px;}
 .cat{background:#fff;padding:30px;text-align:center;border-radius:12px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.1);transition:transform .3s,box-shadow .3s;}
@@ -27,6 +30,7 @@ header .nav span{cursor:pointer;font-weight:500;}
 .product img{width:100%;height:220px;object-fit:cover;border-radius:10px;margin-bottom:10px;}
 .product h4{font-weight:500;margin-bottom:5px;}
 .product .price{font-weight:700;font-size:16px;color:#111;}
+.product .badge{background:#111;color:#fff;padding:3px 8px;border-radius:5px;font-size:12px;margin-bottom:5px;display:inline-block;}
 
 /* BUTTONS */
 button{background:#111;color:#fff;border:none;padding:12px;border-radius:10px;width:100%;cursor:pointer;font-weight:600;margin-top:10px;transition:all .3s;}
@@ -43,6 +47,10 @@ button:hover{opacity:0.9;}
 .total{font-size:18px;font-weight:700;}
 .hidden{display:none;}
 input,select{width:100%;padding:10px;margin-top:10px;border-radius:8px;border:1px solid #ccc;font-size:16px;}
+
+/* AVIS */
+.review{background:#f1f1f1;padding:10px;margin-top:10px;border-radius:8px;font-size:14px;}
+.recommended{margin-top:20px;font-weight:700;}
 
 /* RESPONSIVE */
 @media(max-width:600px){
@@ -65,6 +73,8 @@ header h1{font-size:18px;}
 <div id="menu" class="menu">
   <p>Commencer mon achat</p>
 </div>
+
+<div class="banner">🔥 PROMO DU JOUR : Livraison rapide 3-4 jours + Stocks limités ! 🔥</div>
 
 <div class="container">
 
@@ -97,11 +107,13 @@ header h1{font-size:18px;}
   <h3 id="pname"></h3>
   <img id="pimg" style="width:100%;max-width:300px;border-radius:12px;">
   <p id="pprice"></p>
+  <span class="badge" id="badge"></span>
   <label>Taille :
     <select id="psize">
       <option>S</option><option>M</option><option>L</option><option>XL</option>
     </select>
   </label>
+  <div class="review">⭐⭐⭐⭐⭐ Très bon produit !</div>
   <button onclick="addToCart()">Ajouter au panier</button>
   <button onclick="backProducts()">⬅ Retour</button>
 </div>
@@ -126,25 +138,25 @@ let currentProduct=null;
 
 const data={
 tshirt:[
-{name:"T-Shirt Noir Classique",price:8000,img:"https://via.placeholder.com/400"},
-{name:"T-Shirt Blanc Premium",price:9000,img:"https://via.placeholder.com/400"},
-{name:"T-Shirt Oversize",price:10000,img:"https://via.placeholder.com/400"},
-{name:"T-Shirt Street",price:11000,img:"https://via.placeholder.com/400"},
-{name:"T-Shirt Limited",price:13000,img:"https://via.placeholder.com/400"}
+{name:"T-Shirt Noir Classique",price:8000,img:"https://via.placeholder.com/400",badge:"En stock limité !"},
+{name:"T-Shirt Blanc Premium",price:9000,img:"https://via.placeholder.com/400",badge:"Tendance"},
+{name:"T-Shirt Oversize",price:10000,img:"https://via.placeholder.com/400",badge:"Nouveau"},
+{name:"T-Shirt Street",price:11000,img:"https://via.placeholder.com/400",badge:"En stock limité !"},
+{name:"T-Shirt Limited",price:13000,img:"https://via.placeholder.com/400",badge:"Tendance"}
 ],
 pull:[
-{name:"Pull Noir",price:15000,img:"https://via.placeholder.com/400"},
-{name:"Pull Blanc",price:16000,img:"https://via.placeholder.com/400"},
-{name:"Hoodie Street",price:18000,img:"https://via.placeholder.com/400"},
-{name:"Pull Oversize",price:20000,img:"https://via.placeholder.com/400"},
-{name:"Hoodie Premium",price:22000,img:"https://via.placeholder.com/400"}
+{name:"Pull Noir",price:15000,img:"https://via.placeholder.com/400",badge:"En stock limité !"},
+{name:"Pull Blanc",price:16000,img:"https://via.placeholder.com/400",badge:"Tendance"},
+{name:"Hoodie Street",price:18000,img:"https://via.placeholder.com/400",badge:"Nouveau"},
+{name:"Pull Oversize",price:20000,img:"https://via.placeholder.com/400",badge:"Tendance"},
+{name:"Hoodie Premium",price:22000,img:"https://via.placeholder.com/400",badge:"En stock limité !"}
 ],
 pants:[
-{name:"Jean Noir",price:18000,img:"https://via.placeholder.com/400"},
-{name:"Jean Slim",price:19000,img:"https://via.placeholder.com/400"},
-{name:"Pantalon Cargo",price:21000,img:"https://via.placeholder.com/400"},
-{name:"Jogging Street",price:17000,img:"https://via.placeholder.com/400"},
-{name:"Pantalon Premium",price:23000,img:"https://via.placeholder.com/400"}
+{name:"Jean Noir",price:18000,img:"https://via.placeholder.com/400",badge:"Tendance"},
+{name:"Jean Slim",price:19000,img:"https://via.placeholder.com/400",badge:"En stock limité !"},
+{name:"Pantalon Cargo",price:21000,img:"https://via.placeholder.com/400",badge:"Nouveau"},
+{name:"Jogging Street",price:17000,img:"https://via.placeholder.com/400",badge:"Tendance"},
+{name:"Pantalon Premium",price:23000,img:"https://via.placeholder.com/400",badge:"En stock limité !"}
 ]
 };
 
@@ -173,6 +185,8 @@ list.innerHTML+=`
 <img src="${p.img}">
 <h4>${p.name}</h4>
 <p class="price">${p.price} XAF</p>
+<span class="badge">${p.badge}</span>
+<div class="review">⭐⭐⭐⭐⭐ Avis clients</div>
 </div>`;
 });
 }
@@ -184,6 +198,7 @@ document.getElementById("productPage").classList.remove("hidden");
 document.getElementById("pname").textContent=currentProduct.name;
 document.getElementById("pprice").textContent=currentProduct.price+" XAF";
 document.getElementById("pimg").src=currentProduct.img;
+document.getElementById("badge").textContent=currentProduct.badge;
 }
 
 function addToCart(){
@@ -235,5 +250,3 @@ alert("Mon compte\nNuméro : "+(user||"Non connecté")+"\nCommandes : "+cart.len
 
 </body>
 </html>
-
-
