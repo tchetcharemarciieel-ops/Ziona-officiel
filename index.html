@@ -4,53 +4,53 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Boutique J Officiel</title>
-
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f4f4;color:#111}
-header{background:#000;color:#fff;padding:15px;display:flex;align-items:center;justify-content:space-between}
-header h1{margin:0;font-size:18px}
-header .right{display:flex;gap:15px;align-items:center}
-header span{cursor:pointer}
-
-.menu{display:none;background:#000;color:#fff;padding:15px}
-.menu p{margin:0;font-weight:bold}
-
-.container{padding:20px}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',sans-serif;}
+body{background:#f2f2f5;color:#222;}
+header{background:#111;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:15px 20px;position:sticky;top:0;z-index:1000;}
+header h1{font-weight:700;font-size:20px;letter-spacing:1px;}
+header .right{display:flex;gap:20px;align-items:center;}
+header span{cursor:pointer;font-weight:600;}
+.menu{display:none;background:#222;color:#fff;padding:15px;}
+.menu p{margin:0;font-weight:bold;}
+.container{padding:25px;max-width:1200px;margin:auto;}
 
 /* Categories */
-.categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
-.cat{background:#fff;padding:25px;text-align:center;border-radius:10px;cursor:pointer;
-box-shadow:0 5px 15px rgba(0,0,0,.1)}
-.cat:hover{transform:scale(1.03)}
+.categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:25px;margin-top:20px;}
+.cat{background:#fff;padding:30px;text-align:center;border-radius:15px;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.1);transition:transform .3s;}
+.cat:hover{transform:scale(1.05);}
 
 /* Products */
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
-.product{background:#fff;border-radius:10px;padding:15px;box-shadow:0 5px 15px rgba(0,0,0,.1);cursor:pointer}
-.product img{width:100%;height:200px;object-fit:cover;border-radius:8px}
-.price{font-weight:bold;margin-top:5px}
-
-/* Buttons */
-button{background:#000;color:#fff;border:none;padding:10px;width:100%;border-radius:5px;margin-top:10px;cursor:pointer}
-button.green{background:#25D366}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:25px;margin-top:20px;}
+.product{background:#fff;border-radius:15px;padding:15px;box-shadow:0 8px 20px rgba(0,0,0,.1);cursor:pointer;transition:transform .3s;}
+.product:hover{transform:scale(1.03);}
+.product img{width:100%;height:220px;object-fit:cover;border-radius:10px;margin-bottom:10px;}
+.price{font-weight:700;color:#111;margin-top:5px;font-size:16px;}
+button{background:#111;color:#fff;border:none;padding:10px;border-radius:8px;width:100%;cursor:pointer;font-weight:600;margin-top:10px;transition:background .3s;}
+button.green{background:#25D366;}
+button:hover{opacity:0.9;}
 
 /* Cart */
-.cart{position:fixed;bottom:15px;right:15px;background:#000;color:#fff;padding:10px 15px;border-radius:30px;font-size:16px}
-.cart span{font-weight:bold}
+.cart{position:fixed;bottom:20px;right:20px;background:#111;color:#fff;padding:12px 20px;border-radius:50px;font-size:16px;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.2);}
+.cart span{font-weight:bold;}
 
-.panel{background:#fff;border-radius:10px;padding:20px;margin-top:20px}
-.row{display:flex;justify-content:space-between;margin:8px 0}
-.total{font-size:18px;font-weight:bold}
+/* Panels */
+.panel{background:#fff;border-radius:15px;padding:25px;margin-top:20px;box-shadow:0 8px 20px rgba(0,0,0,.1);}
+.row{display:flex;justify-content:space-between;margin:10px 0;}
+.total{font-size:18px;font-weight:700;}
+.hidden{display:none;}
 
-.hidden{display:none}
+/* Inputs */
+input, select{width:100%;padding:10px;margin-top:10px;border-radius:8px;border:1px solid #ccc;font-size:16px;}
 
 /* Responsive */
 @media(max-width:600px){
-header h1{font-size:16px}
+header h1{font-size:16px;}
+.products .product img{height:180px;}
 }
 </style>
 </head>
-
 <body>
 
 <header>
@@ -70,8 +70,8 @@ header h1{font-size:16px}
 <!-- INSCRIPTION -->
 <div id="register" class="panel">
   <h3>Inscription rapide</h3>
-  <p>Entrez votre numéro pour accéder à la boutique</p>
-  <input id="phone" placeholder="+236 XXXXXXXX" style="width:100%;padding:10px">
+  <p>Entrez votre numéro pour accéder à la boutique :</p>
+  <input id="phone" placeholder="+236 XXXXXXXX">
   <button onclick="enterShop()">Entrer dans la boutique</button>
 </div>
 
@@ -94,7 +94,7 @@ header h1{font-size:16px}
 <!-- PAGE PRODUIT -->
 <div id="productPage" class="hidden panel">
   <h3 id="pname"></h3>
-  <img id="pimg" style="width:100%;max-width:300px">
+  <img id="pimg" style="width:100%;max-width:300px;">
   <p id="pprice"></p>
   <label>Taille :
     <select id="psize">
@@ -209,7 +209,7 @@ document.getElementById("total").textContent=total;
 }
 
 function checkout(){
-alert("Merci pour votre commande 🤍");
+alert("Merci pour votre commande 🤍\nVous serez redirigé vers WhatsApp");
 let msg="Commande Boutique J%0A";
 let total=0;
 cart.forEach(p=>{msg+=`- ${p.name} (${p.size})%0A`; total+=p.price;});
