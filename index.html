@@ -4,135 +4,287 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Boutique J Officiel</title>
+
 <style>
-body{margin:0;font-family:Arial;background:#fff;color:#000}
-header{display:flex;justify-content:space-between;align-items:center;padding:15px;border-bottom:2px solid #000}
-.menu-btn{font-size:26px;cursor:pointer}
-.cart{font-size:22px;cursor:pointer}
-.cart span{background:#000;color:#fff;border-radius:50%;padding:2px 7px;font-size:14px}
-nav{display:none;border-bottom:2px solid #000;padding:10px}
-nav button{display:block;width:100%;padding:12px;border:1px solid #000;margin:5px 0;background:#fff;cursor:pointer}
-.section{padding:20px;display:none}
-.section.active{display:block}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px}
-.card{border:1px solid #000;padding:15px;text-align:center}
-.card button{margin-top:10px;padding:8px;background:#000;color:#fff;border:none;cursor:pointer}
-input{width:100%;padding:10px;margin:8px 0;border:1px solid #000}
-footer{border-top:2px solid #000;padding:15px;text-align:center}
-iframe{width:100%;height:700px;border:none}
+:root{
+  --black:#000;
+  --white:#fff;
+  --gray:#f5f5f5;
+}
+
+*{
+  margin:0;padding:0;box-sizing:border-box;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+}
+
+body{background:var(--white);color:var(--black);}
+
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;border:none}
+
+header{
+  position:sticky;top:0;z-index:100;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px 22px;
+  background:#fff;border-bottom:1px solid #eee;
+}
+
+.logo{font-weight:800;font-size:18px}
+.slogan{font-size:12px;opacity:.6}
+
+.right{display:flex;gap:18px;align-items:center}
+.cart{
+  position:relative;font-size:20px;
+}
+.cart span{
+  position:absolute;top:-6px;right:-8px;
+  background:#000;color:#fff;
+  font-size:11px;border-radius:50%;
+  padding:2px 6px;
+}
+
+.menu-btn{font-size:22px}
+
+nav{
+  display:none;
+  flex-direction:column;
+  padding:20px;
+  background:#fff;border-bottom:1px solid #eee;
+}
+nav a{padding:12px 0;font-weight:600}
+
+.hero{
+  padding:70px 20px;
+  text-align:center;
+  background:linear-gradient(#fff,#f6f6f6);
+}
+.hero h1{font-size:32px;margin-bottom:10px}
+.hero p{opacity:.7}
+.hero button{
+  margin-top:25px;
+  padding:14px 28px;
+  background:#000;color:#fff;
+  font-size:15px;
+}
+
+main{padding:30px}
+section{display:none}
+section.active{display:block}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:22px;
+}
+
+.card{
+  border:1px solid #eee;
+  padding:18px;
+  text-align:center;
+  transition:.3s;
+}
+.card:hover{
+  background:#000;color:#fff;
+  transform:translateY(-4px);
+}
+
+.product img{
+  width:100%;height:160px;
+  background:#eaeaea;margin-bottom:12px;
+}
+
+.product button{
+  width:100%;
+  padding:10px;
+  background:#000;color:#fff;
+  margin-top:10px;
+}
+
+.review{font-size:13px;opacity:.8;margin-top:8px}
+
+input{
+  width:100%;
+  padding:12px;margin:10px 0;
+  border:1px solid #ccc;
+}
+
+.submit{
+  width:100%;
+  padding:14px;
+  background:#000;color:#fff;
+}
+
+footer{
+  margin-top:50px;
+  padding:25px;
+  border-top:1px solid #eee;
+  text-align:center;font-size:13px;
+}
+
+@media(min-width:768px){
+  nav{flex-direction:row;gap:25px}
+  .hero h1{font-size:40px}
+}
 </style>
 </head>
+
 <body>
 
 <header>
-<div class="menu-btn" onclick="toggleMenu()">☰</div>
-<strong>BOUTIQUE J OFFICIEL</strong>
-<div class="cart" onclick="show('panier')">🛒 <span id="count">0</span></div>
+  <div>
+    <div class="logo">BOUTIQUE J OFFICIEL</div>
+    <div class="slogan">Never give up on your dreams</div>
+  </div>
+  <div class="right">
+    <span onclick="openSection('account')">Mon compte</span>
+    <div class="cart" onclick="openSection('cart')">🛒<span id="count">0</span></div>
+    <span class="menu-btn" onclick="toggleMenu()">☰</span>
+  </div>
 </header>
 
 <nav id="menu">
-<button onclick="show('home')">Menu</button>
-<button onclick="show('categories')">Catégories</button>
-<button onclick="show('compte')">Mon compte</button>
-<button onclick="show('contact')">Contact</button>
+  <a onclick="openSection('home')">Menu</a>
+  <a onclick="openSection('categories')">Catégories</a>
+  <a onclick="openSection('contact')">Contact</a>
 </nav>
 
-<!-- Home -->
-<div class="section active" id="home">
-<h2>Commencer mon achat 🛒</h2>
-</div>
+<section id="home" class="hero active">
+  <h1>Boutique J</h1>
+  <p>Mode premium · Livraison 3–4 jours · Bangui</p>
+  <button onclick="openSection('categories')">Commencer mon achat</button>
+</section>
 
-<!-- Catégories -->
-<div class="section" id="categories">
-<h2>Catégories</h2>
-<div class="grid">
-<div class="card" onclick="load('T-shirt')">T-shirts</div>
-<div class="card" onclick="load('Pull')">Pulls</div>
-<div class="card" onclick="load('Chaussette')">Chaussettes</div>
-</div>
-</div>
+<main>
 
-<!-- Produits -->
-<div class="section" id="products">
-<h2 id="title"></h2>
-<div class="grid" id="list"></div>
-</div>
+<section id="categories">
+  <h2>Catégories</h2><br>
+  <div class="grid">
+    <div class="card" onclick="showProducts('T-Shirts')">T-Shirts</div>
+    <div class="card" onclick="showProducts('Pulls')">Pulls</div>
+    <div class="card" onclick="showProducts('Chaussettes')">Chaussettes</div>
+  </div>
+</section>
 
-<!-- Panier -->
-<div class="section" id="panier">
-<h2>Panier</h2>
-<div id="panierList"></div>
-<h3>Total : <span id="total">0</span> FCFA</h3>
-<p>🚚 Livraison : frais + 3–4 jours</p>
-<button onclick="payer()">Payer via WhatsApp</button>
-</div>
+<section id="products">
+  <h2 id="cat"></h2><br>
+  <div class="grid" id="list"></div>
+</section>
 
-<!-- Mon compte -->
-<div class="section" id="compte">
-<h2>Créer un compte</h2>
-<input id="clientNum" placeholder="Numéro (+236)">
-<button onclick="alert('Compte créé avec succès !')">Valider</button>
-<h3>Formulaire commande :</h3>
-<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd1oDVXIW2XeunaBYHiJ60wb7TMip8dRdHzTxrJyW_WiVJLVA/viewform?embedded=true">Chargement…</iframe>
-</div>
+<section id="cart">
+  <h2>Panier</h2><br>
+  <div id="items"></div>
+  <p><strong>Total :</strong> <span id="total">0</span> FCFA</p><br>
+  <button class="submit" onclick="pay()">Payer via WhatsApp</button>
+</section>
 
-<!-- Contact -->
-<div class="section" id="contact">
-<h2>Contact</h2>
-<p>📍 Bangui<br>
-📞 72947165<br>
-🕘 Lundi-Samedi : 09h00 – 19h00<br>Dimanche : Fermé</p>
-</div>
+<section id="account">
+  <h2>Accès Boutique J</h2>
+  <p>Inscription rapide</p>
+  <input placeholder="+236 Numéro de téléphone">
+  <button class="submit" onclick="openSection('categories')">Entrer</button>
+</section>
 
-<footer>© Boutique J</footer>
+<section id="contact">
+  <h2>Contact</h2><br>
+  <p>📍 Bangui</p>
+  <p>🕘 Lundi–Samedi : 9h–19h</p>
+  <p>🚚 Livraison : 3–4 jours (frais possibles)</p><br>
+  <p>WhatsApp :</p>
+  <p>+236 74370369</p>
+  <p>+236 72947165</p>
+  <p>+236 74648074</p>
+</section>
+
+</main>
+
+<footer>
+© 2026 Boutique J — All rights reserved
+</footer>
 
 <script>
-let cart=[],total=0;
+const products={
+"T-Shirts":[
+["T-Shirt Classic",5000],
+["T-Shirt Premium",7000],
+["T-Shirt Noir",6000],
+["T-Shirt Blanc",6000],
+["T-Shirt Street",8000]
+],
+"Pulls":[
+["Pull Urban",12000],
+["Pull Oversize",14000],
+["Pull Minimal",13000],
+["Pull Noir",12500],
+["Pull Blanc",12500]
+],
+"Chaussettes":[
+["Chaussettes Logo",3000],
+["Chaussettes Sport",3500],
+["Chaussettes Premium",4000],
+["Chaussettes Noires",3000],
+["Chaussettes Blanches",3000]
+]
+};
 
-function toggleMenu(){menu.style.display=menu.style.display=="block"?"none":"block"}
-function show(id){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');menu.style.display="none"}
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
+update();
 
-function load(cat){
-show('products');
-title.innerText=cat;
-list.innerHTML="";
-for(let i=1;i<=5;i++){
-list.innerHTML+=`
-<div class="card">
-${cat} ${i}<br>${(cat=="T-shirt"?5000:cat=="Pull"?10000:2000)} FCFA
-<button onclick="add('${cat} ${i}',${cat=="T-shirt"?5000:cat=="Pull"?10000:2000})">Ajouter</button>
-<div><small>Avis: ⭐⭐⭐⭐☆</small></div>
-<div><small>Recommandation: Essayez ce produit !</small></div>
-</div>`;
-}}
-
-function add(name,price){
-cart.push({name,price});
-total+=price;
-count.innerText=cart.length;
-updatePanier();
+function toggleMenu(){
+  menu.style.display=menu.style.display==="flex"?"none":"flex";
 }
 
-function updatePanier(){
-panierList.innerHTML="";
-cart.forEach(p=>panierList.innerHTML+=`<p>${p.name} - ${p.price} FCFA</p>`);
-total.innerText=total;
+function openSection(id){
+  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  menu.style.display="none";
 }
 
-function payer(){
-let num=clientNum.value||"Non renseigné";
-let msg="🛒 NOUVELLE COMMANDE\nClient: "+num+"\n";
-cart.forEach(p=>msg+=p.name+" - "+p.price+" FCFA\n");
-msg+="TOTAL: "+total+" FCFA";
-alert("Merci pour votre commande 🙏");
+function showProducts(c){
+  openSection("products");
+  cat.innerText=c;
+  list.innerHTML="";
+  products[c].forEach(p=>{
+    list.innerHTML+=`
+    <div class="card product">
+      <img>
+      <strong>${p[0]}</strong>
+      <p>${p[1]} FCFA</p>
+      <div class="review">★★★★★ Clients satisfaits</div>
+      <button onclick="add('${p[0]}',${p[1]})">Ajouter au panier</button>
+    </div>`;
+  });
+}
 
-// Ouvrir WhatsApp sur le numéro principal
-window.open("https://wa.me/23672947165?text="+encodeURIComponent(msg),"_blank");
+function add(n,p){
+  cart.push({n,p});
+  localStorage.setItem("cart",JSON.stringify(cart));
+  update();
+}
+
+function update(){
+  count.innerText=cart.length;
+  items.innerHTML="";
+  let t=0;
+  cart.forEach(i=>{
+    items.innerHTML+=`<div>${i.n} - ${i.p} FCFA</div>`;
+    t+=i.p;
+  });
+  total.innerText=t;
+}
+
+function pay(){
+  if(cart.length==0){alert("Panier vide");return;}
+  alert("Merci pour votre commande 🤍");
+  let msg="Bonjour, je souhaite commander:%0A";
+  cart.forEach(i=>msg+=`- ${i.n} (${i.p} FCFA)%0A`);
+  msg+=`Total : ${total.innerText} FCFA`;
+  window.location.href="https://wa.me/23672947165?text="+msg;
 }
 </script>
 
 </body>
 </html>
+
 
 
 
