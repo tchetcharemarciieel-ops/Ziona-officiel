@@ -4,50 +4,51 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Boutique J Officiel</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',sans-serif;}
-body{background:#f2f2f5;color:#222;}
-header{background:#111;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:15px 20px;position:sticky;top:0;z-index:1000;}
-header h1{font-weight:700;font-size:20px;letter-spacing:1px;}
-header .right{display:flex;gap:20px;align-items:center;}
-header span{cursor:pointer;font-weight:600;}
-.menu{display:none;background:#222;color:#fff;padding:15px;}
-.menu p{margin:0;font-weight:bold;}
-.container{padding:25px;max-width:1200px;margin:auto;}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Roboto',sans-serif;}
+body{background:#f9f9f9;color:#222;}
+header{position:sticky;top:0;background:#111;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:15px 25px;z-index:1000;}
+header h1{font-weight:700;font-size:22px;}
+header .nav{display:flex;gap:25px;align-items:center;}
+header .nav span{cursor:pointer;font-weight:500;}
+.menu{display:none;background:#222;color:#fff;padding:15px;font-weight:500;}
+.container{max-width:1200px;margin:auto;padding:25px;}
 
-/* Categories */
-.categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:25px;margin-top:20px;}
-.cat{background:#fff;padding:30px;text-align:center;border-radius:15px;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.1);transition:transform .3s;}
-.cat:hover{transform:scale(1.05);}
+/* CATEGORIES */
+.categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:25px;margin-top:20px;}
+.cat{background:#fff;padding:30px;text-align:center;border-radius:12px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.1);transition:transform .3s,box-shadow .3s;}
+.cat:hover{transform:scale(1.05);box-shadow:0 12px 25px rgba(0,0,0,.15);font-weight:600;}
 
-/* Products */
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:25px;margin-top:20px;}
-.product{background:#fff;border-radius:15px;padding:15px;box-shadow:0 8px 20px rgba(0,0,0,.1);cursor:pointer;transition:transform .3s;}
-.product:hover{transform:scale(1.03);}
+/* PRODUCTS */
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px;margin-top:20px;}
+.product{background:#fff;border-radius:12px;padding:15px;box-shadow:0 6px 18px rgba(0,0,0,.1);cursor:pointer;transition:transform .3s;}
+.product:hover{transform:scale(1.03);box-shadow:0 12px 25px rgba(0,0,0,.15);}
 .product img{width:100%;height:220px;object-fit:cover;border-radius:10px;margin-bottom:10px;}
-.price{font-weight:700;color:#111;margin-top:5px;font-size:16px;}
-button{background:#111;color:#fff;border:none;padding:10px;border-radius:8px;width:100%;cursor:pointer;font-weight:600;margin-top:10px;transition:background .3s;}
+.product h4{font-weight:500;margin-bottom:5px;}
+.product .price{font-weight:700;font-size:16px;color:#111;}
+
+/* BUTTONS */
+button{background:#111;color:#fff;border:none;padding:12px;border-radius:10px;width:100%;cursor:pointer;font-weight:600;margin-top:10px;transition:all .3s;}
 button.green{background:#25D366;}
 button:hover{opacity:0.9;}
 
-/* Cart */
-.cart{position:fixed;bottom:20px;right:20px;background:#111;color:#fff;padding:12px 20px;border-radius:50px;font-size:16px;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.2);}
+/* CART */
+.cart{position:fixed;bottom:20px;right:20px;background:#111;color:#fff;padding:14px 20px;border-radius:50px;font-size:16px;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.25);}
 .cart span{font-weight:bold;}
 
-/* Panels */
-.panel{background:#fff;border-radius:15px;padding:25px;margin-top:20px;box-shadow:0 8px 20px rgba(0,0,0,.1);}
-.row{display:flex;justify-content:space-between;margin:10px 0;}
+/* PANELS */
+.panel{background:#fff;border-radius:15px;padding:25px;margin-top:25px;box-shadow:0 6px 18px rgba(0,0,0,.1);}
+.row{display:flex;justify-content:space-between;margin:12px 0;}
 .total{font-size:18px;font-weight:700;}
 .hidden{display:none;}
+input,select{width:100%;padding:10px;margin-top:10px;border-radius:8px;border:1px solid #ccc;font-size:16px;}
 
-/* Inputs */
-input, select{width:100%;padding:10px;margin-top:10px;border-radius:8px;border:1px solid #ccc;font-size:16px;}
-
-/* Responsive */
+/* RESPONSIVE */
 @media(max-width:600px){
-header h1{font-size:16px;}
+header h1{font-size:18px;}
 .products .product img{height:180px;}
+.categories .cat{padding:20px;}
 }
 </style>
 </head>
@@ -56,7 +57,7 @@ header h1{font-size:16px;}
 <header>
   <span onclick="toggleMenu()">☰</span>
   <h1>BOUTIQUE J OFFICIEL</h1>
-  <div class="right">
+  <div class="nav">
     <span onclick="openAccount()">Mon compte</span>
   </div>
 </header>
@@ -94,7 +95,7 @@ header h1{font-size:16px;}
 <!-- PAGE PRODUIT -->
 <div id="productPage" class="hidden panel">
   <h3 id="pname"></h3>
-  <img id="pimg" style="width:100%;max-width:300px;">
+  <img id="pimg" style="width:100%;max-width:300px;border-radius:12px;">
   <p id="pprice"></p>
   <label>Taille :
     <select id="psize">
@@ -234,3 +235,5 @@ alert("Mon compte\nNuméro : "+(user||"Non connecté")+"\nCommandes : "+cart.len
 
 </body>
 </html>
+
+
